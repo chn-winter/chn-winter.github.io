@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>杰克姜 · 产品经理简历</title>
+    <!-- 引入 Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { background: linear-gradient(145deg, #e9f3e3 0%, #d9e8cf 100%); font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif; line-height: 1.5; color: #2c3e2f; padding: 2rem 1.5rem; }
+        
+        /* 主容器：清新柔和网格布局 */
+        .resume-container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2.1fr; gap: 1.8rem; align-items: start; }
+        
+        /* 左侧列：粘性定位，滚动时始终可见 */
+        .left-col { position: sticky; top: 2rem; align-self: start; }
+        
+        /* 通用卡片样式 */
+        .card { background: #ffffff; border-radius: 0.9rem; padding: 1.6rem 1.8rem; box-shadow: 0 12px 28px -8px rgba(60, 80, 40, 0.12), 0 2px 4px -2px rgba(0, 0, 0, 0.02); transition: transform 0.2s ease, box-shadow 0.2s ease; margin-bottom: 1.8rem; border: 1px solid rgba(130, 170, 100, 0.2); }
+        
+        .card:hover { transform: translateY(-3px); box-shadow: 0 20px 32px -12px rgba(70, 100, 50, 0.18); border-color: rgba(100, 150, 70, 0.3); }
+        
+        .left-col .card:last-child, .right-col .card:last-child { margin-bottom: 0; }
+        
+        /* 个人信息区域：头像与右侧文字完美水平居中 */
+        .avatar-section { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+        .avatar { width: 80px; height: 80px; background: linear-gradient(135deg, #8fbc6e, #5e8d48); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.2rem; font-weight: 600; box-shadow: 0 8px 14px rgba(70, 110, 40, 0.2); flex-shrink: 0; }
+        .name-title { display: flex; flex-direction: column; justify-content: center; line-height: 1.3; }
+        .name-title h1 { font-size: 1.8rem; font-weight: 700; color: #2b4b1e; letter-spacing: -0.3px; margin-bottom: 0.3rem; }
+        .name-title .tagline { font-size: 0.8rem; font-weight: 500; color: #5f7c4a; background: #eef5e6; display: inline-block; padding: 0.4rem 1rem; border-radius: 40px; width: fit-content; }
+        
+        /* 联系方式列表 */
+        .contact-info { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; border-top: 1px solid #e2efd8; padding-top: 1.2rem; }
+        .contact-item { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; color: #3d5a2c; }
+        .contact-item i { width: 1.6rem; font-size: 1.1rem; color: #6d9e4b; }
+        .contact-item a { text-decoration: none; color: #3d5a2c; transition: color 0.2s; }
+        .contact-item a:hover { color: #3f7842; text-decoration: underline; }
+        
+        /* 章节标题装饰 */
+        .section-title { display: flex; align-items: center; gap: 0.65rem; font-size: 1.2rem; font-weight: 600; color: #2c5e2a; margin-bottom: 1.2rem; border-left: 4px solid #88b868; padding-left: 0.8rem; }
+        .section-title i { font-size: 1.2rem; color: #6f9e4b; }
+        
+        /* 自我评价文字 */
+        .self-text { color: #2f4427; line-height: 1.6; font-size: 0.95rem; }
+        .self-text p { margin-bottom: 0.5rem; }
+        .self-text p:last-child { margin-bottom: 0; }
+        
+        /* 教育经历 */
+        .edu-item { margin-bottom: 1.2rem; }
+        .edu-item:last-child { margin-bottom: 0; }
+        .edu-degree { font-weight: 700; font-size: 1rem; color: #1e3a14; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; }
+        .edu-major { font-weight: 500; color: #486e36; font-size: 0.9rem; margin: 0.2rem 0 0.3rem; }
+        .edu-date { font-size: 0.8rem; font-weight: 400; color: #7d9a66; }
+        .edu-desc { font-size: 0.85rem; color: #4e6940; margin-top: 0.3rem; line-height: 1.4; }
+        
+        /* 技能标签 */
+        .skills-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.6rem; }
+        .skill-tag { background: #eff7e8; padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.8rem; font-weight: 500; color: #426d2c; transition: all 0.2s; border: 1px solid #d2e6c2; }
+        .skill-tag:hover { background: #e2f0d6; transform: scale(1.02); }
+        
+        /* 工作经历 & 项目经历 */
+        .exp-item, .project-item { margin-bottom: 1.7rem; border-bottom: 1px dashed #e2efd6; padding-bottom: 1.3rem; }
+        .exp-item:last-child, .project-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .exp-header, .project-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem; }
+        .exp-title { font-weight: 700; font-size: 1rem; color: #2b5722; }
+        .exp-company, .project-org { font-weight: 500; color: #658c48; font-size: 0.9rem; }
+        .exp-date, .project-date { font-size: 0.75rem; color: #8eae76; background: #f2f9ec; padding: 0.2rem 0.6rem; border-radius: 30px; }
+        .exp-desc, .project-desc { margin-top: 0.5rem; padding-left: 0.2rem; }
+        .exp-desc ul, .project-desc ul { list-style: none; }
+        .exp-desc li, .project-desc li { font-size: 0.88rem; color: #3b5532; margin-bottom: 0.5rem; display: flex; align-items: flex-start;/* gap: 0.6rem; */ }
+        .exp-desc li i, .project-desc li i { color: #88b868; font-size: 0.75rem; margin-top: 0.38rem; min-width: 1rem; }
+        .project-tech { margin-top: 0.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem;  margin-left: 1.2rem;}
+        .tech-badge { background: #ecf6e4; border-radius: 20px; font-size: 0.7rem; padding: 0.2rem 0.7rem; color: #557e3a; }
+        
+        /* 右侧卡片内小点缀 */
+        .right-col .card { background: #ffffff; }
+        
+        /* 移动端适配：左侧取消粘性，恢复自然流 */
+        @media (max-width: 880px) { body { padding: 1.2rem; } 
+		.resume-container { grid-template-columns: 1fr; gap: 1.5rem; } 
+		.left-col { position: static; } 
+		.card { padding: 1.3rem 1.4rem; } 
+		.avatar { width: 70px; height: 70px; font-size: 1.8rem; } 
+		.name-title h1 { font-size: 1.6rem; } }
+        .mt-1 { margin-top: 0.5rem; }
+        .text-small { font-size: 0.8rem; }
+        footer { text-align: center; margin-top: 2.5rem; font-size: 0.75rem; color: #6d8e58; }
+        
+        /* 二维码图片样式 */
+        .qrcode-img {
+            width: 120px; height: 120px; object-fit: contain; border-radius: 12px; display: block; margin: 0 auto; background: #f0f7ea; padding: 4px; border: 1px solid #cde2bc; }
+    </style>
+</head>
+<body>
+<div class="resume-container">
+    <!-- 左侧：个人信息 + 专业技能 + 二维码，滚动时始终固定 -->
+    <div class="left-col">
+        <div class="card">
+            <div class="avatar-section">
+                <div class="avatar">
+                    <span>D</span>
+                </div>
+                <div class="name-title">
+                    <h1>姜伟东</h1>
+                    <span class="tagline"><i class="fas fa-seedling"></i> 产品经理</span>
+                </div>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <a href="tel:+8617633162962">+86 176 3316 2962</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:jwd1996@qq.com">jwd1996@qq.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>中国 · 北京</span>
+                </div>
+                <!-- <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <a href="#">linkedin.com/in/qingya</a>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- 专业技能 -->
+        <div class="card">
+            <div class="section-title">
+                <i class="fas fa-code-branch"></i>
+                <span>我的标签</span>
+            </div>
+            <div class="skills-list">
+                <span class="skill-tag">Axure RP</span>
+                <span class="skill-tag">Figma</span>
+				<span class="skill-tag">AI</span>
+				<span class="skill-tag">Calicat</span>
+				<span class="skill-tag">Modao</span>
+                <span class="skill-tag">XMind</span>
+                <span class="skill-tag">Word</span>
+                <span class="skill-tag">Excel</span>
+                <span class="skill-tag">PPT</span>
+				<span class="skill-tag">PRD</span>
+                <span class="skill-tag">Photoshop</span>
+                <span class="skill-tag">产品设计</span>
+<!--                <span class="skill-tag">A/B测试</span>
+ -->            </div>
+        </div>
+
+        <!-- 二维码板块：使用 image 标签引用本地图片 -->
+        <div class="card">
+            <div class="section-title">
+                <i class="fas fa-qrcode"></i>
+                <span>扫码联系</span>
+            </div>
+            <div style="text-align: center;">
+                <img class="qrcode-img" src="https://axhub.im/ax9/13b27556bbd86b4a/images/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86_%E2%80%A2_jwd/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81_u1.svg" alt="微信二维码">
+                <p style="font-size: 0.75rem; color: #6d8e58; margin-top: 0.8rem;">扫一扫，添加好友</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧列：项目经历 → 工作经历 → 教育经历 → 自我评价（顺序已交换） -->
+    <div class="right-col">
+        <!-- 项目经历 -->
+        <div class="card">
+            <div class="section-title">
+                <i class="fas fa-rocket"></i>
+                <span>项目经历</span>
+            </div>
+            <!-- 项目1：华堂管理系统 -->
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <span class="exp-title">华堂健康管理系统平台</span>
+                        <span class="project-org"> · 普济华堂</span>
+                    </div>
+                    <div class="project-date">2025.03 – 2026.04</div>
+                </div>
+                <div class="project-desc">
+                    <ul>
+                        <li>
+							<i class="fas fa-angle-right"></i>
+							 项目介绍：专注人工智能健康领域的研究，通过生活方式管理从根源解决慢病、实现疾病预防，降低慢病过早死亡率并控制医保支出，配套打造结合中医整体观与现代科技的华堂健康管理体系，构建全方位健康生态。
+						</li>
+                        <li><i class="fas fa-angle-right"></i> 岗位职责：<br>
+							• 主导商城系统的功能迭代升级与体验优化，提升系统运行效能；<br>
+							• 跟进项目研发进度，动态适配业务发展需求，保障产品与业务协同适配；
+						</li>
+                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-badge">人工智能</span>
+                        <span class="tech-badge">商城系统</span>
+                        <span class="tech-badge">AI健康</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 项目2：华堂官网 -->
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <span class="exp-title">华堂企业官网</span>
+                        <span class="project-org"> · 普济华堂</span>
+                    </div>
+                    <div class="project-date">2025.08 – 2026.01</div>
+                </div>
+                <div class="project-desc">
+                    <ul>
+                        <li>
+							<i class="fas fa-angle-right"></i>
+							 项目介绍：业务涵盖智能监测、健康管理、产业赋能等领域，线上展示企业业务转化平台，传递公司核心优势、产品服务及合作价值，触达潜在客户、合作伙伴，支撑品牌建设与市场拓展。
+						</li>
+                        <li><i class="fas fa-angle-right"></i> 岗位职责：<br>
+							• 对接各部门梳理需求，明确官网核心功能及体验重点；<br>
+							• 主导网站整体规划与设计，确定整体架构，贴合企业品牌调性；
+						</li>                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-badge">品牌宣传</span>
+                        <span class="tech-badge">设计分析</span>
+                        <span class="tech-badge">策略引擎</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 项目3：铭万营销平台 -->
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <span class="exp-title">智慧矩阵营销平台</span>
+                        <span class="project-org"> · 铭万智达</span>
+                    </div>
+                    <div class="project-date">2024.03 – 2025.01</div>
+                </div>
+                <div class="project-desc">
+                    <ul>
+                        <li>
+							<i class="fas fa-angle-right"></i>
+							 项目介绍：面向中小企业的全域媒体资源整合平台，聚合快手、抖音、B站、小红书、西瓜、百度等渠道，提供一站式跨平台内容分发与流量运营服务。助力用户构建私域流量，获取更多流量询盘。
+						 </li>
+                        <li>
+							<i class="fas fa-angle-right"></i>
+							 岗位职责：<br>
+							• 负责新产品功能的开发及现有功能的优化，明确开发需求，并按需执行项目测试与验收；<br>
+							• 建立需求评估体系，高效协调研发团队与运营团队，确保各方工作紧密衔接、协同推进；
+						</li>
+                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-badge">智能营销</span>
+                        <span class="tech-badge">业务升级</span>
+                        <span class="tech-badge">私域引流</span>
+                    </div>
+                </div>
+            </div>
+			<!-- 项目4：铭万外贸推广平台 -->
+			<div class="project-item">
+			    <div class="project-header">
+			        <div>
+			            <span class="exp-title">外贸赢家推广平台</span>
+			            <span class="project-org"> · 铭万智达</span>
+			        </div>
+			        <div class="project-date">2024.08 – 2025.01</div>
+			    </div>
+			    <div class="project-desc">
+			        <ul>
+			            <li>
+							<i class="fas fa-angle-right"></i>
+							项目介绍：面向中小外贸企业的全球化营销解决方案，通过多语言智能建站技术，实现“建站-推广-转化”全链路闭环。结合Google SEO、SEM和SNS社交媒体等实现智能策略投放，助力客户实现海外精准询盘。
+						</li>
+			            <li>
+							<i class="fas fa-angle-right"></i>
+							 岗位职责：<br>
+							• 负责需求文档的撰写与架构设计，深入挖掘潜在需求，精准确定产品定位;<br>
+							• 协调对接设计、研发与运营团队，构建高效协同机制，确保项目推进;
+						</li>
+			        </ul>
+			        <div class="project-tech">
+			            <span class="tech-badge">智能营销</span>
+			            <span class="tech-badge">品牌建设</span>
+			            <span class="tech-badge">私域规划</span>
+			        </div>
+			    </div>
+			</div>
+			
+            <!-- 项目5：阿米巴资讯平台 -->
+            <div class="project-item">
+                <div class="project-header">
+                    <div>
+                        <span class="exp-title">物联网资讯平台</span>
+                        <span class="project-org"> · 阿米巴物联</span>
+                    </div>
+                    <div class="project-date">2020.12 – 2023.06</div>
+                </div>
+                <div class="project-desc">
+                    <ul>
+                        <li>
+							<i class="fas fa-angle-right"></i> 
+							项目介绍：面向物联网用户与企业决策者的垂直生态平台，聚合海量行业解决方案（智能家居、智慧城市等），提供方案-评测-资源全链路服务。
+						</li>
+                        <li>
+                        	<i class="fas fa-angle-right"></i>
+                        	 岗位职责：<br>
+                        	• 深入市场调研和用户分析，根据业务需求撰写需求文档和绘制项目原型；<br>
+                        	• 统计分析平台运营数据和用户数据，不断改善产品架构，提升用户体验和粘性；
+                        </li>
+                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-badge">资讯平台</span>
+                        <span class="tech-badge">物联网</span>
+						<span class="tech-badge">解决方案</span>
+                    </div>
+                </div>
+            </div>
+			<!-- 项目6：中启网站运营 -->
+			<div class="project-item">
+			    <div class="project-header">
+			        <div>
+			            <span class="exp-title">网站运营管理</span>
+			            <span class="project-org"> · 中启百年</span>
+			        </div>
+			        <div class="project-date">2018.08 – 2020.11</div>
+			    </div>
+			    <div class="project-desc">
+			        <ul>
+			            <li>
+							<i class="fas fa-angle-right"></i> 
+							项目介绍：专注于为中小型企业提供网站建设及营销服务，核心围绕互联网、移动通信产品的市场营销，助力企业业绩增长、提升产品销量。
+						</li>
+			            <li>
+			            	<i class="fas fa-angle-right"></i>
+			            	 岗位职责：<br>
+			            	• 结合客户业务分析优化关键词并对网站进行分期布局，制定网站优化运营方案<br>
+			            	• 负责网站流量推广方案的执行与跟踪，并对网站流量和排名进行监测和数据统计；
+			            </li>
+			        </ul>
+			        <div class="project-tech">
+			            <span class="tech-badge">网站运营</span>
+			            <span class="tech-badge">品牌建设</span>
+						<span class="tech-badge">私域营销</span>
+			        </div>
+			    </div>
+			</div>
+        </div>
+
+        <!-- 工作经历 -->
+        <div class="card">
+            <div class="section-title">
+                <i class="fas fa-briefcase"></i>
+                <span>工作经历</span>
+            </div>
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div>
+                        <span class="exp-title">北京普济华堂健康科技有限公司</span>
+                        <span class="exp-company"> · 产品</span>
+                    </div>
+                    <div class="exp-date">2025.03 – 2026.04</div>
+                </div>
+                <div class="exp-desc">
+                    <ul>
+                        <li><i class="fas fa-angle-right"></i> 负责商城系统的功能升级与迭代优化；</li>
+                        <li><i class="fas fa-angle-right"></i> 开展手表项目的调研、性能测试及选品调研工作；</li>
+                        <li><i class="fas fa-angle-right"></i> 负责产品上线后的问题收集与梳理，完成数据测试与分析工作；</li>
+						<li><i class="fas fa-angle-right"></i> 依据产品规划，完成项目调研、需求分析、功能交互设计及相关文档整理；</li>
+						<li><i class="fas fa-angle-right"></i> 持续完善系统产品功能，不断适配并满足业务发展需求；</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div>
+                        <span class="exp-title">北京铭万智达科技有限公司</span>
+                        <span class="exp-company"> · 产品</span>
+                    </div>
+                    <div class="exp-date">2024.03 – 2025.01</div>
+                </div>
+                <div class="exp-desc">
+                    <ul>
+                        <li><i class="fas fa-angle-right"></i> 采用敏捷开发模式推动产品迭代，增强产品核心模块功能，完成多次版本升级；</li>
+                        <li><i class="fas fa-angle-right"></i> 实施全流程测试管理方案，搭建测试用例库，统筹管理测试矩阵账号；</li>
+                        <li><i class="fas fa-angle-right"></i> 构建需求评估机制，处理分公司及用户需求300+项，建立结构化需求资源池；</li>
+						<li><i class="fas fa-angle-right"></i> 主导B端外贸平台体系建设，完成业务流程可视化设计和结构搭建，输出高保真交互原型；</li>
+						<li><i class="fas fa-angle-right"></i> 搭建部门协作机制，协调研发、设计和运营等团队资源，实现产品迭代周期标准化；</li>				
+                    </ul>
+                </div>
+            </div>
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div>
+                        <span class="exp-title">阿米巴物联(北京)智能科技有限公司</span>
+                        <span class="exp-company"> · 产品</span>
+                    </div>
+                    <div class="exp-date">2020.12 – 2023.06</div>
+                </div>
+                <div class="exp-desc">
+                    <ul>
+                        <li><i class="fas fa-angle-right"></i> 负责物联网行业资讯平台体系搭建，完成产品结构设计和内容搭建，输出高保真原型页面；</li>
+                        <li><i class="fas fa-angle-right"></i> 开展产品行业调研和竞品分析，提出产品改进意见，根据结果撰写相关需求文档；</li>
+						<li><i class="fas fa-angle-right"></i> 建立需求多级评估管理机制，处理优化问题建议500+项，形成结构化需求池；</li>
+						<li><i class="fas fa-angle-right"></i> 构建协作机制，与团队紧密合作，推动项目完成测试、验收和发布；</li>
+						<li><i class="fas fa-angle-right"></i> 撰写整理物联网垂直领域解决方案库，持续输出解决方案报告及案例库等内容；</li>
+						<li><i class="fas fa-angle-right"></i> 搭建网站运营数据监控体系，通过异常预警机制保障系统稳定性；</li>
+                    </ul>
+                </div>
+            </div>
+			<div class="exp-item">
+			    <div class="exp-header">
+			        <div>
+			            <span class="exp-title">北京中启百年信息技术有限公司</span>
+			            <span class="exp-company"> · 运营</span>
+			        </div>
+			        <div class="exp-date">2018.08 – 2020.11</div>
+			    </div>
+			    <div class="exp-desc">
+			        <ul>
+			            <li><i class="fas fa-angle-right"></i> 追踪网站核心数据指标， 制定数据驱动的运营策略，优化网站流量提升；</li>
+			            <li><i class="fas fa-angle-right"></i> 计划执行全渠道SEO推广方案，通过精准关键词匹配+外链布局提升网站自然流量；</li>
+						<li><i class="fas fa-angle-right"></i> 服务并管理100+新客户网站账户，深入调研客户需求，定制化优化方案，提高客户转化率；</li>
+						<li><i class="fas fa-angle-right"></i> 建立品牌内容矩阵，制定个性化内容更新计划，输出高质量营销文案+案例库；</li>
+			        </ul>
+			    </div>
+			</div>
+        </div>
+
+        <!-- 教育经历 -->
+        <div class="card">
+            <div class="section-title">
+                <i class="fas fa-graduation-cap"></i>
+                <span>教育经历</span>
+            </div>
+            <div class="edu-item">
+                <div class="edu-degree">
+                    <span>北京经济技术职业学院</span>
+                    <span class="edu-date">2015 – 2018</span>
+                </div>
+                <div class="edu-major">专业方向：计算机应用技术</div>
+            </div>
+        </div>
+
+        <!-- 自我评价（教育经历下方） -->
+        <div class="card">
+            <div class="section-title">
+                <i class="fas fa-leaf"></i>
+                <span>自我评价</span>
+            </div>
+            <div class="self-text">
+                <p>🎯 <b>个人优势：</b>具备从0到1产品项目规划与设计经验，掌握产品调研、设计、搭建流程，结合AI大数据开展数据分析；多年产品运营经验，擅长优化运营策略，精准捕捉市场趋势；注重团队协作，高效推进项目落地执行。</p>
+                <p>🏅 <b>专业技能：</b>熟悉Axure、Figma、XMind、Word、Excel、PPT、Photoshop、Illustrator等产品设计工具。</p>
+				<p>🏓 <b>兴趣爱好：</b>球类运动 与 视频剪辑。</p>
+            </div>
+        </div>
+
+        <!-- 清新小尾巴 -->
+        <div class="card" style="background:#f6fef0; text-align:center; padding:0.9rem; border-radius: 2rem">
+            <p style="color:#608a44; font-size:0.75rem;"><i class="fas fa-feather-alt"></i> 保持好奇 · 敏捷创造 · 以用户为中心</p>
+        </div>
+    </div>
+</div>
+<footer>
+</footer>
+</body>
+</html>
