@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>杰克姜 · 产品经理简历</title>
+    <title>姜 · 产品经理简历</title>
     <!-- 引入 Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
@@ -91,12 +90,14 @@
         .text-small { font-size: 0.8rem; }
         footer { text-align: center; margin-top: 2.5rem; font-size: 0.75rem; color: #6d8e58; }
         
-      
+        /* 二维码图片样式（已移除，保留空样式以防残留） */
+        .qrcode-img {
+            width: 120px; height: 120px; object-fit: contain; border-radius: 12px; display: block; margin: 0 auto; background: #f0f7ea; padding: 4px; border: 1px solid #cde2bc; }
     </style>
 </head>
 <body>
 <div class="resume-container">
-    <!-- 左侧：个人信息 + 专业技能 + 二维码，滚动时始终固定 -->
+    <!-- 左侧：个人信息 + 专业技能，滚动时始终固定（已移除二维码板块） -->
     <div class="left-col">
         <div class="card">
             <div class="avatar-section">
@@ -150,9 +151,7 @@
 <!--                <span class="skill-tag">A/B测试</span>
  -->            </div>
         </div>
-
-
-
+    </div>
 
     <!-- 右侧列：项目经历 → 工作经历 → 教育经历 → 自我评价（顺序已交换） -->
     <div class="right-col">
