@@ -2,101 +2,703 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>404 not found！</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>功德木鱼 · 禅心敲击</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
             box-sizing: border-box;
         }
 
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            background: #f8fafc;
+            margin: 0;
             min-height: 100vh;
+            background: linear-gradient(145deg, #2b2b1f 0%, #1f1e17 100%);
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 1.5rem;
-            color: #0f172a;
+            align-items: center;
+            font-family: 'Segoe UI', '华文楷书', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'STKaiti', serif;
+            padding: 20px;
         }
 
-        .container {
-            max-width: 560px;
-            width: 100%;
-            background: #ffffff;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
-            padding: 2.5rem 2rem;
+        /* 主卡片 */
+        .game-container {
+            background: rgba(235, 210, 165, 0.2);
+            backdrop-filter: blur(3px);
+            border-radius: 72px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), inset 0 1px 4px rgba(255, 245, 200, 0.6);
+            border: 1px solid rgba(230, 190, 120, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        /* 功德殿堂 */
+        .merit-shrine {
             text-align: center;
-            transition: box-shadow 0.2s ease;
+            background: #2c2418cc;
+            margin-bottom: 28px;
+            padding: 16px 12px;
+            border-radius: 80px;
+            backdrop-filter: blur(8px);
+            box-shadow: inset 0 1px 3px #dbb87a66, 0 8px 18px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #efcd91;
         }
 
-        .error-code {
-            font-size: 8rem;
-            font-weight: 700;
-            line-height: 1;
-            color: #1e293b;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.5rem;
+        .merit-label {
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            color: #ffe6b3;
+            text-shadow: 0 2px 3px #3f2a10;
+            font-weight: 300;
         }
 
-        .title {
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: #0f172a;
-            margin-bottom: 0.75rem;
+        .merit-value {
+            font-size: 4.2rem;
+            font-weight: 800;
+            color: #ffdd99;
+            text-shadow: 0 4px 12px #8b5a2b, 0 0 8px #ffcf7a;
+            line-height: 1.2;
+            font-family: monospace;
+            letter-spacing: 4px;
+            transition: 0.1s transform;
         }
 
-        .description {
+        .merit-unit {
+            font-size: 1.6rem;
+            margin-left: 6px;
+            font-weight: 400;
+            color: #fddfae;
+        }
+
+        /* 木鱼舞台 */
+        .mu-yu-stage {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0 15px;
+            cursor: pointer;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), inset 0 1px 6px rgba(255, 220, 140, 0.6);
+            transition: all 0.05s linear;
+            cursor: pointer;
+            background: #8b6946;
+            background: radial-gradient(circle at 35% 35%, #b87c48, #754c28);
+        }
+
+        /* 敲击动画 - 震动+缩小弹感 */
+        .yu-hit {
+            animation: knockShake 0.12s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+        }
+
+        @keyframes knockShake {
+            0% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            40% {
+                transform: scale(0.92);
+                filter: brightness(1.2);
+            }
+            100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+        }
+
+        /* 功德飘字容器 */
+        .float-text-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: visible;
+            z-index: 20;
+        }
+
+        .floating-merit {
+            position: absolute;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffecb3;
+            text-shadow: 0 0 8px #fcb43a, 0 2px 6px #a0522d;
+            white-space: nowrap;
+            pointer-events: none;
+            animation: floatUp 0.9s ease-out forwards;
+            font-family: 'KaiTi', '华文楷书', monospace;
+            z-index: 100;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, 0%) scale(0.8);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(-50%, -30%) scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -100%) scale(0.9);
+            }
+        }
+
+        /* 辅助功能区 */
+        .tool-bar {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 28px;
+            margin-bottom: 8px;
+        }
+
+        .btn-reset {
+            background: #e9d6af66;
+            backdrop-filter: blur(4px);
+            border: 1px solid #efcd91;
+            padding: 8px 26px;
+            border-radius: 48px;
             font-size: 1rem;
-            color: #475569;
-            line-height: 1.5;
-            margin-bottom: 2rem;
-            max-width: 380px;
+            font-weight: 500;
+            color: #fff3cf;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+        }
+
+        .btn-reset:active {
+            transform: scale(0.95);
+            background: #c2a16b;
+        }
+
+        .hint-text {
+            font-size: 0.8rem;
+            color: #ddc6a0;
+            text-align: center;
+            margin-top: 16px;
+            background: #2e271e80;
+            width: fit-content;
             margin-left: auto;
             margin-right: auto;
+            padding: 6px 18px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
         }
 
-        .divider {
-            width: 48px;
-            height: 2px;
-            background: #e2e8f0;
-            margin: 1.5rem auto 1rem;
-            border-radius: 2px;
+        /* 点击波纹扩展 (额外彩蛋效果) */
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,130,0.7) 0%, rgba(255,160,60,0) 80%);
+            transform: translate(-50%, -50%) scale(0);
+            animation: rippleAnim 0.5s ease-out;
+            pointer-events: none;
+            z-index: 15;
         }
 
-        .footer-note {
-            margin-top: 2rem;
-            font-size: 0.75rem;
-            color: #94a3b8;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 2rem 1.5rem;
+        @keyframes rippleAnim {
+            to {
+                transform: translate(-50%, -50%) scale(6);
+                opacity: 0;
             }
-            .error-code {
-                font-size: 6rem;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #ac9f7e;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 500px) {
+            .merit-value {
+                font-size: 3rem;
             }
-            .title {
+            canvas {
+                width: 220px;
+                height: 220px;
+            }
+            .floating-merit {
                 font-size: 1.5rem;
-            }
-            .description {
-                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="error-code">404</div>
-        <h1 class="title">页面未找到</h1>
-        <p class="description">
-            抱歉，您访问的页面不存在或已被移除。<br>
-            请检查链接地址，或从导航栏重新探索。
-        </p>
+
+<div class="game-container">
+    <div class="merit-shrine">
+        <div class="merit-label">✦ 累 积 功 德 ✦</div>
+        <div class="merit-value">
+            <span id="meritCount">0</span><span class="merit-unit">功德</span>
+        </div>
     </div>
+
+    <div class="mu-yu-stage" id="muYuStage">
+        <canvas id="muYuCanvas" width="300" height="300" style="width: 100%; max-width: 300px; height: auto; aspect-ratio: 1/1;"></canvas>
+        <div class="float-text-area" id="floatContainer"></div>
+    </div>
+
+    <div class="tool-bar">
+        <button class="btn-reset" id="resetBtn">🪷 重 置 功 德 🪷</button>
+    </div>
+    <div class="hint-text">
+        🥁 点击木鱼 · 敲击增功德 · 空格键亦可敲 🥁
+    </div>
+    <footer>一敲一菩提 · 功德无量</footer>
+</div>
+
+<script>
+    (function(){
+        // ---------- 功德计数器 ----------
+        let totalMerit = 0;
+        const meritSpan = document.getElementById('meritCount');
+        
+        // DOM 元素
+        const canvas = document.getElementById('muYuCanvas');
+        const ctx = canvas.getContext('2d');
+        const stage = document.getElementById('muYuStage');
+        const floatContainer = document.getElementById('floatContainer');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // 尺寸设置 (保证高清绘制)
+        function setCanvasSize() {
+            const size = 300;  // 固定逻辑像素300x300，通过css保持比例
+            canvas.width = 300;
+            canvas.height = 300;
+            drawMuyu();       // 重绘木鱼
+        }
+
+        // 绘制精致木鱼 (古典风格)
+        function drawMuyu() {
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+            
+            // 木鱼主体：上胖下收的椭圆+特殊造型
+            ctx.save();
+            // 主阴影
+            ctx.shadowColor = "rgba(0,0,0,0.5)";
+            ctx.shadowBlur = 8;
+            ctx.shadowOffsetX = 4;
+            ctx.shadowOffsetY = 4;
+            
+            // 身体渐变 (实心)
+            const gradient = ctx.createLinearGradient(w*0.3, h*0.2, w*0.7, h*0.8);
+            gradient.addColorStop(0, '#c9863b');
+            gradient.addColorStop(0.5, '#b5622a');
+            gradient.addColorStop(1, '#82441c');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            // 椭圆为主 像馒头
+            ctx.ellipse(w/2, h/2 + 8, w*0.38, h*0.4, 0, 0, Math.PI*2);
+            ctx.fill();
+            
+            // 木鱼嘴部 (弧形开光)
+            ctx.beginPath();
+            ctx.strokeStyle = '#e0b068';
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 2;
+            ctx.arc(w/2 - 10, h/2 + 20, 28, 0.15, Math.PI - 0.15);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(w/2 - 10, h/2 + 20, 24, 0.1, Math.PI - 0.1);
+            ctx.strokeStyle = '#ffdd99';
+            ctx.lineWidth = 2.2;
+            ctx.stroke();
+            
+            // 眼睛 (禅意小点)
+            ctx.fillStyle = '#fff3cf';
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.arc(w/2 - 38, h/2 - 5, 8, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#3a2819';
+            ctx.beginPath();
+            ctx.arc(w/2 - 38, h/2 - 7, 3.6, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(w/2 - 41, h/2 - 10, 1.5, 0, 2*Math.PI);
+            ctx.fill();
+            
+            // 木鱼柄 (头顶莲花台)
+            ctx.fillStyle = '#b47c48';
+            ctx.shadowBlur = 3;
+            ctx.beginPath();
+            ctx.rect(w/2 - 12, h/2 - 52, 24, 28);
+            ctx.fill();
+            ctx.fillStyle = '#e3a15f';
+            ctx.beginPath();
+            ctx.ellipse(w/2, h/2 - 52, 14, 8, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#f5c286';
+            ctx.beginPath();
+            ctx.ellipse(w/2, h/2 - 56, 8, 5, 0, 0, Math.PI*2);
+            ctx.fill();
+            
+            // 鱼身纹理 (祥云纹)
+            ctx.beginPath();
+            ctx.strokeStyle = '#dcb072';
+            ctx.lineWidth = 1.8;
+            ctx.shadowBlur = 0;
+            for(let i = 0; i < 3; i++) {
+                let offX = w/2 - 25 + i*22;
+                ctx.beginPath();
+                ctx.moveTo(offX, h/2 + 28);
+                ctx.quadraticCurveTo(offX+8, h/2+38, offX+18, h/2+26);
+                ctx.stroke();
+            }
+            // 底部祥云
+            ctx.beginPath();
+            ctx.moveTo(w/2-38, h/2+48);
+            ctx.quadraticCurveTo(w/2-20, h/2+62, w/2, h/2+48);
+            ctx.moveTo(w/2+8, h/2+48);
+            ctx.quadraticCurveTo(w/2+28, h/2+62, w/2+48, h/2+48);
+            ctx.stroke();
+            
+            // 高光亮点
+            ctx.fillStyle = '#ffefb9cc';
+            ctx.beginPath();
+            ctx.ellipse(w/2 - 15, h/2 - 20, 6, 4, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.restore();
+            
+            // 小木鱼嘴衔珠 (装饰)
+            ctx.beginPath();
+            ctx.fillStyle = '#f4bc6e';
+            ctx.arc(w/2 - 12, h/2 + 32, 6, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#aa6e32';
+            ctx.beginPath();
+            ctx.arc(w/2 - 12, h/2 + 32, 2.5, 0, Math.PI*2);
+            ctx.fill();
+        }
+        
+        // ---------- 🎵 声音合成模块 (纯Web Audio, 木鱼咚声) ----------
+        let audioCtx = null;
+        
+        // 初始化音频上下文 (惰性)
+        function initAudioContext() {
+            if (audioCtx) return audioCtx;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                // 挂起状态，等待用户首次交互后恢复
+                return audioCtx;
+            } catch(e) {
+                console.warn("Web Audio API 不支持", e);
+                return null;
+            }
+        }
+        
+        // 播放木鱼声音 (模拟清脆敲击感 + 余韵)
+        async function playMuyuSound() {
+            if (!audioCtx) {
+                initAudioContext();
+            }
+            if (!audioCtx) return;
+            
+            // 恢复音频上下文 (确保用户手势后播放)
+            if (audioCtx.state === 'suspended') {
+                await audioCtx.resume();
+            }
+            if (audioCtx.state !== 'running') return;
+            
+            const now = audioCtx.currentTime;
+            // 主音色: 短促中低频 + 泛音
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            const gainHarmonic = audioCtx.createGain();
+            
+            osc1.type = 'sine';
+            osc1.frequency.value = 320;  // 类似木鱼基频
+            
+            osc2.type = 'triangle';
+            osc2.frequency.value = 680;   // 清脆泛音
+            
+            gainNode.gain.value = 0.45;
+            gainHarmonic.gain.value = 0.22;
+            
+            osc1.connect(gainNode);
+            osc2.connect(gainHarmonic);
+            gainNode.connect(audioCtx.destination);
+            gainHarmonic.connect(audioCtx.destination);
+            
+            // 快速包络衰减 (木鱼瞬态)
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+            gainHarmonic.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+            
+            // 微弱的混响感: 添加一个短促delay? 简单加一点点时间偏移超短回声(内置不好加，直接包络自然)
+            // 额外增加一个极短噪声瞬态提高敲击质感 (白噪声刷)
+            const bufferSize = 4096;
+            const noiseNode = audioCtx.createScriptProcessor(bufferSize, 1, 1);
+            // 为了简洁且不引起性能，使用简单短时噪声包络 (更好木鱼感)
+            const noiseGain = audioCtx.createGain();
+            noiseGain.gain.value = 0.18;
+            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+            
+            // 创建短暂噪声振荡器 (白噪声用Buffer)
+            const sampleRate = audioCtx.sampleRate;
+            const noiseLength = 0.08; // 80ms噪声
+            const frameCount = sampleRate * noiseLength;
+            const noiseBuffer = audioCtx.createBuffer(1, frameCount, sampleRate);
+            const channelData = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < frameCount; i++) {
+                channelData[i] = (Math.random() * 2 - 1) * 0.7;
+            }
+            const noiseSource = audioCtx.createBufferSource();
+            noiseSource.buffer = noiseBuffer;
+            noiseSource.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            noiseSource.start();
+            noiseSource.stop(now + 0.12);
+            
+            osc1.start();
+            osc1.stop(now + 0.32);
+            osc2.start();
+            osc2.stop(now + 0.3);
+            
+            // 清理脚本处理器 (为了优雅，但无碍)
+            if (noiseNode) {
+                noiseNode.disconnect();
+            }
+        }
+        
+        // ---------- 功德增加核心逻辑 ----------
+        function incrementMerit(event, clientX, clientY) {
+            // 功德+1
+            totalMerit++;
+            meritSpan.innerText = totalMerit;
+            
+            // 播放木鱼音 (异步不影响体验)
+            playMuyuSound().catch(e => console.log("audio play skipped:", e));
+            
+            // 木鱼震动动画
+            const canvasElem = canvas;
+            canvasElem.classList.remove('yu-hit');
+            void canvasElem.offsetWidth; // 强制重绘
+            canvasElem.classList.add('yu-hit');
+            setTimeout(() => {
+                canvasElem.classList.remove('yu-hit');
+            }, 130);
+            
+            // 显示功德+1 飘字 (根据点击坐标生成，若没坐标则居中)
+            let posX, posY;
+            if (clientX && clientY && stage) {
+                const rect = stage.getBoundingClientRect();
+                const relativeX = clientX - rect.left;
+                const relativeY = clientY - rect.top;
+                // 限制范围避免溢出
+                posX = Math.min(Math.max(relativeX, 20), rect.width - 20);
+                posY = Math.min(Math.max(relativeY, 20), rect.height - 20);
+            } else {
+                // 默认中心区域
+                const rect = stage.getBoundingClientRect();
+                posX = rect.width / 2;
+                posY = rect.height / 2.5;
+            }
+            createFloatText(posX, posY);
+            
+            // 额外涟漪效果 (点击波纹)
+            addRippleEffect(clientX, clientY);
+        }
+        
+        // 创建飘浮功德文字
+        function createFloatText(x, y) {
+            const div = document.createElement('div');
+            div.className = 'floating-merit';
+            div.innerText = '功德 +1';
+            // 随机微偏移，更自然
+            const offsetX = (Math.random() - 0.5) * 16;
+            div.style.left = (x + offsetX) + 'px';
+            div.style.top = y + 'px';
+            div.style.transform = 'translate(-50%, -50%)';
+            floatContainer.appendChild(div);
+            // 动画结束后移除
+            div.addEventListener('animationend', () => {
+                if (div.parentNode) div.parentNode.removeChild(div);
+            });
+            // 保险1.2s后移除
+            setTimeout(() => {
+                if (div.parentNode) div.parentNode.removeChild(div);
+            }, 1000);
+        }
+        
+        // 波纹特效（随点击位置产生光圈）
+        function addRippleEffect(clientX, clientY) {
+            if (!clientX || !clientY) return;
+            const rect = stage.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple-effect');
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.position = 'absolute';
+            ripple.style.width = '12px';
+            ripple.style.height = '12px';
+            stage.style.position = 'relative';
+            stage.appendChild(ripple);
+            ripple.addEventListener('animationend', () => {
+                if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
+            });
+            setTimeout(() => {
+                if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
+            }, 550);
+        }
+        
+        // 敲击统一入口 (支持事件)
+        function knockHandler(event) {
+            // 获取点击坐标用于飘字和特效
+            let clientX, clientY;
+            if (event.touches) {
+                // 触摸事件
+                clientX = event.touches[0].clientX;
+                clientY = event.touches[0].clientY;
+                event.preventDefault();
+            } else if (event.clientX !== undefined) {
+                clientX = event.clientX;
+                clientY = event.clientY;
+            } else {
+                // 键盘触发无坐标，使用木鱼中心区域坐标
+                const rect = stage.getBoundingClientRect();
+                clientX = rect.left + rect.width/2;
+                clientY = rect.top + rect.height/2;
+            }
+            incrementMerit(event, clientX, clientY);
+        }
+        
+        // 重置功德
+        function resetMerit() {
+            if (totalMerit !== 0) {
+                totalMerit = 0;
+                meritSpan.innerText = "0";
+                // 轻微反馈：显示重置提示飘字
+                const rect = stage.getBoundingClientRect();
+                const resetMsg = document.createElement('div');
+                resetMsg.className = 'floating-merit';
+                resetMsg.innerText = '功德归零 · 心净';
+                resetMsg.style.left = (rect.width/2) + 'px';
+                resetMsg.style.top = (rect.height/2) + 'px';
+                resetMsg.style.fontSize = '1.2rem';
+                resetMsg.style.color = '#ffe3aa';
+                floatContainer.appendChild(resetMsg);
+                setTimeout(() => resetMsg.remove(), 900);
+                // 可选 不播放声音，仅仅视觉
+            }
+        }
+        
+        // ---------- 键盘支持 (空格敲木鱼) ----------
+        function onKeyPress(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                // 键盘触发的功德，没有真实点击坐标，取屏幕中央偏上
+                if (stage) {
+                    const rect = stage.getBoundingClientRect();
+                    const fakeX = rect.left + rect.width/2;
+                    const fakeY = rect.top + rect.height/2;
+                    incrementMerit(e, fakeX, fakeY);
+                } else {
+                    incrementMerit(e, null, null);
+                }
+            }
+        }
+        
+        // ---------- 触摸/鼠标事件绑定 保证PC与移动端 ----------
+        function bindEvents() {
+            const canvasWrap = stage; // 整个木鱼区域可点，canvas区域也是触发区
+            // 鼠标事件
+            canvas.addEventListener('click', (e) => {
+                e.stopPropagation();
+                knockHandler(e);
+            });
+            // 触摸事件移动端
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                knockHandler(e);
+            });
+            // 空格监听
+            window.addEventListener('keydown', onKeyPress);
+            // 重置按钮
+            resetBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                resetMerit();
+            });
+            // 避免canvas上的事件冒泡重复 (无碍)
+        }
+        
+        // 在页面加载时准备好音频上下文但不启动 (首次敲击自动启动声音)
+        // 优雅预初始化audioCtx但不播放, 以方便后续用户手势后及时出声
+        function preInitAudio() {
+            // 仅创建对象，但不resume (等待用户点击)
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx && audioCtx.state === 'running') {
+                    // 极少数浏览器自动运行，保持，但一般suspended
+                }
+            }
+        }
+        
+        // 为了增强iOS体验，在任意body首次触摸时提前激活音频上下文，但同时不影响游戏流程(可选)
+        let audioActivated = false;
+        function activeAudioOnFirstTouch() {
+            if (audioActivated) return;
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume().then(() => {
+                    audioActivated = true;
+                }).catch(e=>{});
+            } else if (!audioCtx) {
+                initAudioContext();
+                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+                audioActivated = true;
+            } else {
+                audioActivated = true;
+            }
+        }
+        // 当页面任意用户点击木鱼时会自动激活音频，但为了提前激活，绑定舞台的第一次触摸/鼠标down?但会影响到首次声音延迟略高，不过无伤大雅
+        // 最佳：首次点击木鱼时内部playSound会执行resume，确保可以。
+        // 但为了保险，全局温柔监听一次任何触摸点击就尝试激活音频（不干扰计数）
+        function warmAudio() {
+            const warmup = () => {
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume().catch(()=>{});
+                }
+                document.removeEventListener('touchstart', warmup);
+                document.removeEventListener('mousedown', warmup);
+            };
+            document.addEventListener('touchstart', warmup);
+            document.addEventListener('mousedown', warmup);
+        }
+        
+        // 初始化所有
+        function init() {
+            setCanvasSize();
+            bindEvents();
+            preInitAudio();
+            warmAudio();        // 轻唤醒音频，让第一次敲击声音更快
+            // 窗口尺寸调整无需重绘canvas内容 (固定分辨率)
+            window.addEventListener('resize', () => {
+                // canvas绘制不变，无需操作
+            });
+            // 附加额外点击canvas波纹优化
+        }
+        
+        init();
+    })();
+</script>
 </body>
 </html>
