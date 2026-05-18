@@ -10,10 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 20px; /* 移动端底部导航栏不影响，顶部无需预留过多空间 */
+        }
         body { background: linear-gradient(145deg, #e9f3e3 0%, #d9e8cf 100%); font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif; line-height: 1.5; color: #2c3e2f; padding: 2rem 1.5rem; }
         .resume-container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2.1fr; gap: 1.8rem; align-items: start; }
         .left-col { position: sticky; top: 2rem; align-self: start; }
-        .card { background: #ffffff; border-radius: 0.9rem; padding: 1.6rem 1.8rem; box-shadow: 0 12px 28px -8px rgba(60, 80, 40, 0.12), 0 2px 4px -2px rgba(0, 0, 0, 0.02); transition: transform 0.2s ease, box-shadow 0.2s ease; margin-bottom: 1.4rem; border: 1px solid rgba(130, 170, 100, 0.2); }
+        .card { background: #ffffff; border-radius: 0.9rem; padding: 1.6rem 1.8rem; box-shadow: 0 12px 28px -8px rgba(60, 80, 40, 0.12), 0 2px 4px -2px rgba(0, 0, 0, 0.02); transition: transform 0.2s ease, box-shadow 0.2s ease; margin-bottom: 1rem; border: 1px solid rgba(130, 170, 100, 0.2); }
         .card:hover { transform: translateY(-3px); box-shadow: 0 20px 32px -12px rgba(70, 100, 50, 0.18); border-color: rgba(100, 150, 70, 0.3); }
         .left-col .card:last-child, .right-col .card:last-child { margin-bottom: 0; }
         .avatar-section { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
@@ -71,12 +75,62 @@
         .project-tech { margin-top: 0.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem;  margin-left: 1.2rem;}
         .tech-badge { background: #ecf6e4; border-radius: 20px; font-size: 0.7rem; padding: 0.2rem 0.7rem; color: #557e3a; }
         .right-col .card { background: #ffffff; }
-        @media (max-width: 880px) { body { padding: 1.2rem; } 
-		.resume-container { grid-template-columns: 1fr; gap: 1.5rem; } 
-		.left-col { position: static; } 
-		.card { padding: 1.3rem 1.4rem; } 
-		.avatar { width: 70px; height: 70px; font-size: 1.8rem; } 
-		.name-title h1 { font-size: 1.6rem; } }
+        
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 20px;        
+            left: 0.4rem;         
+            right: 0.4rem;
+            width: auto;
+            background: rgba(255, 255, 255, 0%); 
+            backdrop-filter: blur(8px);           
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;                   
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 0.5rem 0.6rem;
+            z-index: 1000;
+            justify-content: space-around;
+            border: 1px solid rgb(231 231 231);
+        }
+        .mobile-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #557e3a;
+            transition: all 0.2s;
+            padding: 0.4rem 0;
+            border-radius: 30px;
+            flex: 1;
+            text-align: center;
+        }
+        .mobile-nav a i {
+            font-size: 1.2rem;
+            color: #6d9e4b;
+        }
+        .mobile-nav a:hover, .mobile-nav a:active {
+            /* background: rgba(238, 245, 230, 0.6); */
+            color: #2c5e2a;
+        }
+        
+        @media (max-width: 880px) { 
+            body { padding: 0.4rem 0.4rem 80px 0.4rem; }
+            .resume-container { grid-template-columns: 1fr; gap: 1rem; } 
+            .left-col { position: static; } 
+            .card { padding: 1.2rem 1rem; } 
+            .avatar { width: 70px; height: 70px; font-size: 1.8rem; } 
+            .name-title h1 { font-size: 1.6rem; }
+            .mobile-nav {
+                display: flex;
+            }
+            html {
+                scroll-padding-bottom: 80px;
+            }
+        }
         .mt-1 { margin-top: 0.5rem; }
         .text-small { font-size: 0.8rem; }
         footer { text-align: center; margin-top: 2.5rem; font-size: 0.75rem; color: #6d8e58; }
@@ -87,10 +141,20 @@
     </style>
 </head>
 <body>
+<div class="mobile-nav">
+    <a href="#personal-info"><i class="fas fa-user"></i><span>我的</span></a>
+    <a href="#skills-section"><i class="fas fa-tag"></i><span>标签</span></a>
+    <a href="#education"><i class="fas fa-graduation-cap"></i><span>教育</span></a>
+    <a href="#work"><i class="fas fa-briefcase"></i><span>工作</span></a>
+    <a href="#projects"><i class="fas fa-rocket"></i><span>项目</span></a>
+    <a href="#summary"><i class="fas fa-leaf"></i><span>总结</span></a>
+</div>
+
 <div class="resume-container">
     <!-- 左侧：个人信息 -->
     <div class="left-col">
-        <div class="card">
+        <!-- 个人信息模块添加id -->
+        <div class="card" id="personal-info">
             <div class="avatar-section">
                 <div class="avatar"> 
 					<span>D</span>
@@ -101,10 +165,9 @@
                 </div>
             </div>
             <div class="contact-info">
-
                 <div class="contact-item">
                     <i class="fas fa-phone-alt"></i>
-                    <a href="tel:17633162962">176-3316-2962</a>
+                    <a href="tel:17633162962">176-3326-2962</a>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
@@ -121,8 +184,8 @@
             </div>
         </div>
 
-        <!-- 技能标签 -->
-        <div class="card">
+        <!-- 技能标签模块添加id -->
+        <div class="card" id="skills-section">
             <div class="section-title">
                 <i class="fas fa-code-branch"></i>
                 <span>我的标签</span>
@@ -146,7 +209,7 @@
 
     <div class="right-col">
         <!-- 1. 教育经历 -->
-        <div class="card">
+        <div class="card" id="education">
             <div class="section-title">
                 <i class="fas fa-graduation-cap"></i>
                 <span>教育经历</span>
@@ -161,7 +224,7 @@
         </div>
 
         <!-- 2. 工作经历 -->
-        <div class="card">
+        <div class="card" id="work">
             <div class="section-title">
                 <i class="fas fa-briefcase"></i>
                 <span>工作经历</span>
@@ -240,8 +303,8 @@
 			</div>
         </div>
 
-        <!-- 3. 项目经历 (已修复第六个项目下边框不显示的问题) -->
-        <div class="card">
+        <!-- 3. 项目经历 -->
+        <div class="card" id="projects">
             <div class="section-title">
                 <i class="fas fa-rocket"></i>
                 <span>项目经历</span>
@@ -395,7 +458,7 @@
                     </div>
                 </div>
             </div>
-			<!-- 项目6：中启网站运营 - 已确保下边框正常显示 -->
+			<!-- 项目6：中启网站运营 -->
 			<div class="project-item">
 			    <div class="project-header">
 			        <div>
@@ -428,7 +491,7 @@
         </div>
 
         <!-- 4. 个人总结 -->
-        <div class="card">
+        <div class="card" id="summary">
             <div class="section-title">
                 <i class="fas fa-leaf"></i>
                 <span>个人总结</span>
