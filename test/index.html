@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人简历</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            color: #fff;
+        }
+        .wrap {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        .panel {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4%;
+            text-align: center;
+            overflow-y: auto;
+            padding-bottom: 100px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+        }
+        .panel > * {
+            position: relative;
+            z-index: 2;
+        }
+        .panel.active {
+            display: flex;
+        }
+        .panel h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+            font-weight: normal;
+        }
+        .panel .sub-title {
+            font-size: 18px;
+            margin-bottom: 28px;
+            opacity: 0.9;
+        }
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 16px;
+            border: 3px solid #fff;
+        }
+        .info-grid {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap:14px;
+            margin-top:20px;
+        }
+        .info-item {
+            width:100%;
+            background: rgba(255,255,255,0.12);
+            border-radius:12px;
+            padding:18px 24px;
+            display:flex;
+            align-items:center;
+            text-align:left;
+            backdrop-filter: blur(6px);
+        }
+        .info-item .icon {
+            color:#73b8ff;
+            font-size:22px;
+            margin-right:16px;
+            width:28px;
+            text-align:center;
+        }
+        .info-item .label {
+            font-size:18px;
+            color:#ccc;
+            width:80px;
+        }
+        .info-item .value {
+            font-size:20px;
+            color:#ffffff;
+        }
+        .resume-card {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+            text-align: left;
+            backdrop-filter: blur(6px);
+        }
+        /* 首页 */
+        .home-panel {
+            background-color: #111;
+            background-image: none;
+        }
+        .home-panel::before {
+            background: rgba(0,0,0,0.25);
+        }
+        .home-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border: 1px solid #73b8ff;
+            border-radius: 999px;
+            color: #73b8ff;
+            font-size: 14px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .home-title {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+        .home-job {
+            font-size: 20px;
+            color: #73b8ff;
+            margin-bottom: 24px;
+        }
+        .home-desc {
+            max-width: 760px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #ddd;
+            margin-bottom: 32px;
+        }
+        .home-buttons {
+            display: flex;
+            gap: 16px;
+        }
+        .btn-primary {
+            padding: 12px 28px;
+            background: #73b8ff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-primary:hover { background: #5a9feb; }
+        .btn-outline {
+            padding: 12px 28px;
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.08); }
+        /* 教育页：左图右文 */
+        .edu-layout {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 24px;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .edu-image {
+            width: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.25);
+        }
+        .edu-card {
+            background: rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: left;
+            backdrop-filter: blur(6px);
+        }
+        .edu-school {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        .edu-row {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        .edu-row .k { color: #ccc; margin-right: 6px; }
+
+        /* ===== 工作经历布局 ===== */
+        .work-stack-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            height: 480px;
+            margin-top: 20px;
+            overflow: hidden;
+            cursor: grab;
+        }
+        .work-stack-wrap:active {
+            cursor: grabbing;
+        }
+        .work-item {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 800px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 30px 36px;
+            text-align: left;
+            backdrop-filter: blur(6px);
+            transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        /* 当前卡片居中 */
+        .work-item.card-active {
+            transform: translateX(-50%);
+            z-index: 10;
+            opacity: 1;
+            filter: brightness(1);
+        }
+        /* 上一张：左侧露出 300px */
+        .work-item.card-prev {
+            transform: translateX(calc(-50% - 300px));
+            z-index: 5;
+            opacity: 0.75;
+            filter: brightness(0.75);
+        }
+        /* 下一张：右侧露出 300px */
+        .work-item.card-next {
+            transform: translateX(calc(-50% + 300px));
+            z-index: 5;
+            opacity: 0.75;
+            filter: brightness(0.75);
+        }
+        /* 其余卡片隐藏 */
+        .work-item.card-hide {
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .work-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .work-company {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .work-time {
+            color: #ccc;
+            font-size: 14px;
+            white-space: nowrap;
+            margin-left: 8px;
+        }
+        .work-position {
+            font-size: 15px;
+            color: #73b8ff;
+            margin-bottom: 16px;
+        }
+        .work-desc ul {
+            padding-left: 22px;
+        }
+        .work-desc li {
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            color: #eee;
+        }
+        /* 轮播指示点【移到wrap外面】 */
+        .work-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+            z-index: 10;
+        }
+        .work-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .work-dot.active {
+            background: #73b8ff;
+            width: 24px;
+            border-radius: 5px;
+        }
+        /* ===== 项目轮播 ===== */
+        .project-stack-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            height: 520px;
+            margin-top: 20px;
+            overflow: hidden;
+            cursor: grab;
+        }
+        .project-stack-wrap:active {
+            cursor: grabbing;
+        }
+        .project-item {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 800px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 30px 36px;
+            text-align: left;
+            backdrop-filter: blur(6px);
+            transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .project-item.card-active {
+            transform: translateX(-50%);
+            z-index: 10;
+            opacity: 1;
+            filter: brightness(1);
+        }
+        .project-item.card-prev {
+            transform: translateX(calc(-50% - 300px));
+            z-index: 5;
+            opacity: 0.75;
+            filter: brightness(0.75);
+        }
+        .project-item.card-next {
+            transform: translateX(calc(-50% + 300px));
+            z-index: 5;
+            opacity: 0.75;
+            filter: brightness(0.75);
+        }
+        .project-item.card-hide {
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .project-name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .project-time {
+            color: #ccc;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+        .project-tag-group {
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            margin-bottom:20px;
+        }
+        .project-tag {
+            background:rgba(115,184,255,0.2);
+            color:#73b8ff;
+            padding:4px 12px;
+            border-radius:999px;
+            font-size:14px;
+        }
+        .project-block-title{
+            font-size:16px;
+            color:#fff;
+            margin-bottom:6px;
+            font-weight:bold;
+        }
+        .project-text{
+            font-size:15px;
+            color:#eee;
+            line-height:1.7;
+        }
+        .project-item ul{
+            padding-left:20px;
+            margin:0;
+        }
+        .project-item li{
+            font-size:15px;
+            color:#eee;
+            line-height:1.7;
+            margin-bottom:8px;
+        }
+        .btn-case{
+            margin-top:18px;
+            padding:8px 18px;
+            border:1px solid #73b8ff;
+            color:#73b8ff;
+            background:transparent;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:14px;
+        }
+        .btn-case:hover{
+            background:rgba(115,184,255,0.15);
+        }
+        .project-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+            z-index: 10;
+        }
+        .project-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .project-dot.active {
+            background: #73b8ff;
+            width: 24px;
+            border-radius: 5px;
+        }
+        /* 弹窗 */
+        .modal-mask{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.75);
+            z-index:999;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            padding:16px;
+        }
+        .modal-box{
+            position:relative;
+            max-width:90vw;
+            max-height:85vh;
+        }
+        .modal-close{
+            position:absolute;
+            top:-12px;
+            right:-12px;
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            background:#fff;
+            color:#333;
+            border:none;
+            cursor:pointer;
+            font-size:18px;
+        }
+        .modal-img{
+            max-width:100%;
+            max-height:75vh;
+            border-radius:8px;
+        }
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(0,0,0,0.75);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            align-items: center;
+            z-index: 100;
+        }
+        .nav-item {
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+        }
+        .nav-item.active { color: #fff; }
+        .nav-item svg {
+            width:24px;
+            height:24px;
+            margin-bottom:4px;
+            fill:currentColor;
+        }
+        /* ===== 个人总结页面 新版布局 ===== */
+        .summary-card{
+            width:100%;
+            max-width:900px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 36px;
+            margin-top: 20px;
+            text-align: left;
+            backdrop-filter: blur(6px);
+        }
+        .summary-desc{
+            font-size:17px;
+            line-height:1.8;
+            color:#eee;
+            margin-bottom:32px;
+        }
+        .summary-title{
+            font-size:28px;
+            font-weight:bold;
+            margin-bottom:20px;
+            color:#fff;
+        }
+        .skill-tag-wrap{
+            display:flex;
+            flex-wrap:wrap;
+            gap:16px;
+        }
+        .skill-tag{
+            padding:10px 22px;
+            background:rgba(115,184,255,0.15);
+            border:1px solid rgba(115,184,255,0.35);
+            color:#73b8ff;
+            border-radius:999px;
+            font-size:18px;
+        }
+
+        /* ========== 移动端适配 媒体查询 ========== */
+        @media (max-width:768px) {
+            .panel {
+                padding:0 5%;
+                padding-bottom:90px;
+            }
+            .panel h1 {
+                font-size:28px;
+            }
+            .panel .sub-title {
+                font-size:15px;
+                margin-bottom:16px;
+            }
+            .avatar {
+                width:100px;
+                height:100px;
+            }
+            .info-grid {
+                grid-template-columns:1fr;
+            }
+            .info-item {
+                padding:12px 16px;
+            }
+            .info-item .label {
+                font-size:15px;
+                width:60px;
+            }
+            .info-item .value {
+                font-size:16px;
+            }
+            /* 首页 */
+            .home-title {
+                font-size:32px;
+            }
+            .home-job {
+                font-size:16px;
+            }
+            .home-desc {
+                font-size:14px;
+            }
+            .home-buttons {
+                flex-direction:column;
+                width:100%;
+            }
+            .btn-primary, .btn-outline {
+                width:100%;
+            }
+            /* 教育改成单列 */
+            .edu-layout {
+                grid-template-columns:1fr;
+            }
+            .edu-school {
+                font-size:20px;
+            }
+            .edu-row {
+                font-size:14px;
+            }
+            /* 工作轮播卡片 */
+            .work-stack-wrap {
+                height:auto;
+                min-height:420px;
+            }
+            .work-item {
+                width:calc(100vw - 40px);
+                padding:20px 18px;
+            }
+            .work-item.card-prev {
+                transform: translateX(calc(-50% - 100px));
+            }
+            .work-item.card-next {
+                transform: translateX(calc(-50% + 100px));
+            }
+            .work-header {
+                flex-direction:column;
+            }
+            .work-time {
+                margin-left:0;
+                margin-top:4px;
+            }
+            .work-company {
+                font-size:18px;
+            }
+            .work-desc li {
+                font-size:14px;
+            }
+            /* 项目轮播卡片 */
+            .project-stack-wrap {
+                height:auto;
+                min-height:460px;
+            }
+            .project-item {
+                width:calc(100vw - 40px);
+                padding:20px 18px;
+            }
+            .project-item.card-prev {
+                transform: translateX(calc(-50% - 100px));
+            }
+            .project-item.card-next {
+                transform: translateX(calc(-50% + 100px));
+            }
+            .project-header {
+                flex-direction:column;
+            }
+            .project-name {
+                font-size:18px;
+            }
+            .project-time {
+                margin-top:4px;
+            }
+            .project-tag {
+                font-size:12px;
+                padding:3px 8px;
+            }
+            .project-block-title {
+                font-size:15px;
+            }
+            .project-text, .project-item li {
+                font-size:14px;
+            }
+            /* 个人总结 */
+            .summary-card {
+                padding:20px 18px;
+            }
+            .summary-desc {
+                font-size:15px;
+            }
+            .summary-title {
+                font-size:22px;
+            }
+            .skill-tag-wrap {
+                gap:10px;
+            }
+            .skill-tag {
+                font-size:14px;
+                padding:7px 14px;
+            }
+            /* 底部导航 */
+            .nav-bar {
+                height:64px;
+                gap:16px;
+            }
+            .nav-item {
+                font-size:11px;
+            }
+            .nav-item svg {
+                width:20px;
+                height:20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+
+        <!-- 首页 -->
+        <div class="panel home-panel active" id="panel-home">
+            <div class="home-tag">OPEN TO WORK · B端 SaaS 产品方向</div>
+            <div class="home-title">你好，我是张明</div>
+            <div class="home-job">一名专注 B 端 SaaS 的高级产品经理</div>
+            <div class="home-desc">
+                5 年产品经验，从 0 到 1 负责过商家经营、智能客服、数据看板等多条产品线。<br>
+                相信好的产品来自对用户的真实理解，以及用数据说话的判断力。
+            </div>
+            <div class="home-buttons">
+                <button class="btn-primary" onclick="switchPanel('panel-about')">了解我 →</button>
+                <button class="btn-outline" onclick="switchPanel('panel-project')">看看我的项目</button>
+            </div>
+        </div>
+
+        <!-- 我的 -->
+        <div class="panel" id="panel-about" style="background-image: url('https://picsum.photos/id/180/1920/1080')">
+            <img class="avatar" src="avatar.jpg" alt="头像">
+            <h1>张明</h1>
+            <div class="sub-title">B端SaaS高级产品经理</div>
+            <div class="info-grid">
+                <div class="info-item"><span class="icon">📱</span><span class="label">手机</span><span class="value">138-0000-0000</span></div>
+                <div class="info-item"><span class="icon">✉️</span><span class="label">邮箱</span><span class="value">zhangming@example.com</span></div>
+                <div class="info-item"><span class="icon">📍</span><span class="label">城市</span><span class="value">北京·望京</span></div>
+                <div class="info-item"><span class="icon">🎂</span><span class="label">出生日期</span><span class="value">2000-01-01</span></div>
+                <div class="info-item"><span class="icon">💼</span><span class="label">求职</span><span class="value">B端SaaS产品经理</span></div>
+                <div class="info-item"><span class="icon">🔗</span><span class="label">微信</span><span class="value">zhangming_pm</span></div>
+            </div>
+        </div>
+
+        <!-- 教育 -->
+        <div class="panel" id="panel-edu" style="background-image: url('https://picsum.photos/id/24/1920/1080')">
+            <h1>教育经历</h1>
+            <div class="sub-title">夯实基础，持续学习</div>
+            <div class="edu-layout">
+                <img class="edu-image" src="school.jpg" alt="学校图片">
+                <div class="edu-card">
+                    <div class="edu-school">XX大学 <span style="color:#ccc; font-weight:normal;">| 本科</span></div>
+                    <div class="edu-row"><span class="k">专业：</span>计算机应用技术</div>
+                    <div class="edu-row"><span class="k">时间：</span>2018.09 - 2022.06</div>
+                    <div class="edu-row"><span class="k">主修课程：</span>Web前端、数据结构、计算机网络；在校参与前端兴趣小组。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工作 -->
+        <div class="panel" id="panel-work" style="background-image: url('https://picsum.photos/id/48/1920/1080')">
+            <h1>工作经历</h1>
+            <div class="sub-title">实践积累，持续产出</div>
+
+            <div class="work-stack-wrap" id="workWrap">
+                <!-- 公司1 -->
+                <div class="work-item" data-index="0">
+                    <div class="work-header">
+                        <div class="work-company">ABC科技有限公司</div>
+                        <div class="work-time">2022.07 - 至今</div>
+                    </div>
+                    <div class="work-position">高级产品经理</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责商家经营SaaS产品线从0到1规划与落地</li>
+                            <li>主导需求调研、PRD撰写与跨团队协作</li>
+                            <li>通过数据驱动优化核心转化率提升30%</li>
+                            <li>带领3人产品小组，建立需求评审机制</li>
+                            <li>搭建产品指标体系，持续跟进业务复盘</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 公司2 -->
+                <div class="work-item" data-index="1">
+                    <div class="work-header">
+                        <div class="work-company">XX网络公司</div>
+                        <div class="work-time">2020.06 - 2022.06</div>
+                    </div>
+                    <div class="work-position">产品经理</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责智能客服模块的产品设计与迭代</li>
+                            <li>对接研发、设计、测试，推动版本按时上线</li>
+                            <li>定期输出产品数据报告与用户反馈分析</li>
+                            <li>梳理客服工单流转流程，降低人工成本</li>
+                            <li>优化知识库检索逻辑，提升自助解决率</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 公司3 -->
+                <div class="work-item" data-index="2">
+                    <div class="work-header">
+                        <div class="work-company">云创信息科技</div>
+                        <div class="work-time">2019.03 - 2020.05</div>
+                    </div>
+                    <div class="work-position">产品助理</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>协助产品经理完成需求收集、原型绘制</li>
+                            <li>跟进项目进度，整理需求文档与会议纪要</li>
+                            <li>收集用户反馈，整理成迭代优化清单</li>
+                            <li>参与竞品分析，输出功能对比文档</li>
+                            <li>协助进行产品上线前的验收测试</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 公司4 -->
+                <div class="work-item" data-index="3">
+                    <div class="work-header">
+                        <div class="work-company">新途数字</div>
+                        <div class="work-time">2018.07 - 2019.02</div>
+                    </div>
+                    <div class="work-position">实习生</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>参与后台管理系统需求梳理与原型评审</li>
+                            <li>协助测试人员进行功能回归，记录bug</li>
+                            <li>整理竞品分析文档，输出对比报告</li>
+                            <li>协助整理产品手册，编写操作说明</li>
+                            <li>跟进简单需求，配合UI完成页面走查</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 公司5 -->
+                <div class="work-item" data-index="4">
+                    <div class="work-header">
+                        <div class="work-company">启航互联</div>
+                        <div class="work-time">2017.07 - 2018.06</div>
+                    </div>
+                    <div class="work-position">产品实习</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>协助业务侧收集客户需求，整理台账</li>
+                            <li>绘制简单原型，配合产品沟通方案</li>
+                            <li>跟进线上问题，同步给研发排查</li>
+                            <li>统计日常业务数据，制作简易报表</li>
+                            <li>参与需求评审会议，记录待办事项</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 指示器移到外面，不会被overflow裁剪 -->
+            <div class="work-dots">
+                <div class="work-dot active" data-dot="0"></div>
+                <div class="work-dot" data-dot="1"></div>
+                <div class="work-dot" data-dot="2"></div>
+                <div class="work-dot" data-dot="3"></div>
+                <div class="work-dot" data-dot="4"></div>
+            </div>
+        </div>
+
+        <!-- 项目 -->
+        <div class="panel" id="panel-project" style="background-image: url('https://picsum.photos/id/60/1920/1080')">
+            <h1>项目经历</h1>
+            <div class="sub-title">项目实战，落地交付</div>
+            <div class="project-stack-wrap" id="projectWrap">
+                <!-- 项目卡片1 -->
+                <div class="project-item" data-index="0" data-img="project1.jpg">
+                    <div class="project-header">
+                        <h3 class="project-name">商家经营分析看板</h3>
+                        <span class="project-time">2023.01 - 2023.06</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：产品负责人</span>
+                        <span class="project-tag">所属公司：云商科技</span>
+                        <span class="project-tag">项目周期：6个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">面向平台中小商家的可视化经营数据产品，整合交易、流量、用户、商品等多维度数据，帮助商家快速掌握经营状况，辅助决策。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>深度调研200+商家需求，梳理核心数据指标体系，输出产品规划方案</li>
+                            <li>负责看板全流程设计，包括首页概览、交易分析、流量分析、用户画像等模块</li>
+                            <li>协调数据、研发、设计团队，推动项目按期上线，后续持续迭代优化</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">覆盖商家数8000+，日均使用时长提升45%，商家付费转化率提升18%</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                </div>
+                <!-- 项目卡片2 -->
+                <div class="project-item" data-index="1" data-img="project2.jpg">
+                    <div class="project-header">
+                        <h3 class="project-name">电商活动H5页面</h3>
+                        <span class="project-time">2022.09 - 2022.11</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：前端开发</span>
+                        <span class="project-tag">所属公司：ABC科技</span>
+                        <span class="project-tag">项目周期：2个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">营销活动移动端页面，包含抽奖、表单提交；</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>页面开发、动画交互、移动端适配</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">活动页面稳定承载峰值流量，活动参与转化率达标</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                </div>
+            </div>
+            <div class="project-dots">
+                <div class="project-dot active" data-dot="0"></div>
+                <div class="project-dot" data-dot="1"></div>
+            </div>
+        </div>
+
+        <!-- 总结（新版布局） -->
+        <div class="panel" id="panel-summary" style="background-image: url('https://picsum.photos/id/106/1920/1080')">
+            <h1>个人总结</h1>
+            <div class="sub-title">持续精进，热爱产品</div>
+            <div class="summary-card">
+                <div class="summary-desc">
+拥有4年B端产品经理工作经验，完整经历过从0到1的产品搭建与成熟产品的迭代优化，熟悉SaaS产品的设计方法论与业务逻辑。具备优秀的需求洞察与逻辑分析能力，擅长通过数据发现问题并驱动产品优化。沟通协调能力强，能够高效推动跨部门协作，保障项目高质量交付。对企业服务领域有持续的热情与思考，追求产品价值与商业价值的统一。
+                </div>
+                <div class="summary-title">核心能力</div>
+                <div class="skill-tag-wrap">
+                    <span class="skill-tag">需求分析</span>
+                    <span class="skill-tag">产品规划</span>
+                    <span class="skill-tag">原型设计</span>
+                    <span class="skill-tag">项目管理</span>
+                    <span class="skill-tag">数据分析</span>
+                    <span class="skill-tag">用户研究</span>
+                    <span class="skill-tag">跨部门协作</span>
+                    <span class="skill-tag">B端SaaS</span>
+                    <span class="skill-tag">CRM系统</span>
+                    <span class="skill-tag">数据看板</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 弹窗 -->
+        <div class="modal-mask" id="modalMask">
+            <div class="modal-box">
+                <button class="modal-close" onclick="closeModal()">×</button>
+                <img class="modal-img" id="modalImg" src="" alt="案例截图">
+            </div>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="nav-bar">
+            <div class="nav-item active" data-target="panel-home">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" data-target="panel-about">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <span>我的</span>
+            </div>
+            <div class="nav-item" data-target="panel-edu">
+                <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                <span>教育</span>
+            </div>
+            <div class="nav-item" data-target="panel-work">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+                <span>工作</span>
+            </div>
+            <div class="nav-item" data-target="panel-project">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1z"/></svg>
+                <span>项目</span>
+            </div>
+            <div class="nav-item" data-target="panel-summary">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                <span>总结</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchPanel(targetId) {
+            const navItems = document.querySelectorAll('.nav-item');
+            const panels = document.querySelectorAll('.panel');
+            navItems.forEach(n => n.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            document.getElementById(targetId).classList.add('active');
+            const activeNav = document.querySelector('.nav-item[data-target="' + targetId + '"]');
+            if (activeNav) activeNav.classList.add('active');
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.onclick = function () {
+                switchPanel(this.dataset.target);
+            }
+        });
+
+        /* ===== 工作轮播 + 拖拽滑动 ===== */
+        const workWrap = document.getElementById('workWrap');
+        const workCards = document.querySelectorAll('.work-item');
+        const workDots = document.querySelectorAll('.work-dot');
+        let currentWork = 0;
+        const totalWork = workCards.length;
+
+        // 拖拽变量
+        let isDrag = false;
+        let startX = 0;
+        let moveX = 0;
+        const dragThreshold = 60; // 滑动阈值
+
+        function renderWork() {
+            workCards.forEach((card, i) => {
+                card.classList.remove('card-active','card-prev','card-next','card-hide');
+                if(i === currentWork){
+                    card.classList.add('card-active');
+                }else if(i === currentWork - 1){
+                    card.classList.add('card-prev');
+                }else if(i === currentWork + 1){
+                    card.classList.add('card-next');
+                }else{
+                    card.classList.add('card-hide');
+                }
+            });
+            workDots.forEach((d, i) => {
+                d.classList.toggle('active', i === currentWork);
+            });
+        }
+
+        workDots.forEach(dot => {
+            dot.onclick = function () {
+                currentWork = parseInt(this.dataset.dot);
+                renderWork();
+            }
+        });
+
+        // 点击左右露出卡片切换
+        workCards.forEach(card => {
+            card.onclick = function () {
+                if (this.classList.contains('card-prev') || this.classList.contains('card-next')) {
+                    currentWork = parseInt(this.dataset.index);
+                    renderWork();
+                }
+            };
+            card.style.cursor = 'pointer';
+        });
+
+        // 鼠标拖拽事件【第一张卡片允许拖拽】
+        workWrap.addEventListener('mousedown', (e) => {
+            isDrag = true;
+            startX = e.clientX;
+            moveX = 0;
+        })
+        document.addEventListener('mousemove', (e) => {
+            if (!isDrag) return;
+            moveX = e.clientX - startX;
+        })
+        document.addEventListener('mouseup', () => {
+            if (!isDrag) return;
+            isDrag = false;
+            if (moveX > dragThreshold) {
+                // 向右拖拽 → 上一张
+                if (currentWork > 0) currentWork--;
+            } else if (moveX < -dragThreshold) {
+                // 向左拖拽 → 下一张
+                if (currentWork < totalWork - 1) currentWork++;
+            }
+            renderWork();
+        })
+
+        // 移动端触摸滑动兼容
+        workWrap.addEventListener('touchstart', (e) => {
+            isDrag = true;
+            startX = e.touches[0].clientX;
+            moveX = 0;
+        })
+        workWrap.addEventListener('touchmove', (e) => {
+            if (!isDrag) return;
+            moveX = e.touches[0].clientX - startX;
+        })
+        workWrap.addEventListener('touchend', () => {
+            if (!isDrag) return;
+            isDrag = false;
+            if (moveX > dragThreshold) {
+                if (currentWork > 0) currentWork--;
+            } else if (moveX < -dragThreshold) {
+                if (currentWork < totalWork - 1) currentWork++;
+            }
+            renderWork();
+        })
+
+        renderWork();
+
+        /* ===== 项目轮播 ===== */
+        const projectWrap = document.getElementById('projectWrap');
+        const projectCards = document.querySelectorAll('.project-item');
+        const projectDots = document.querySelectorAll('.project-dot');
+        let currentProject = 0;
+        const totalProject = projectCards.length;
+        let projectDrag = false;
+        let projectStartX = 0;
+        let projectMoveX = 0;
+
+        function renderProject() {
+            projectCards.forEach((card, i) => {
+                card.classList.remove('card-active','card-prev','card-next','card-hide');
+                if(i === currentProject){
+                    card.classList.add('card-active');
+                }else if(i === currentProject - 1){
+                    card.classList.add('card-prev');
+                }else if(i === currentProject + 1){
+                    card.classList.add('card-next');
+                }else{
+                    card.classList.add('card-hide');
+                }
+            });
+            projectDots.forEach((d, i) => {
+                d.classList.toggle('active', i === currentProject);
+            });
+        }
+        projectDots.forEach(dot=>{
+            dot.onclick = ()=>{
+                currentProject = parseInt(dot.dataset.dot);
+                renderProject();
+            }
+        })
+        projectCards.forEach(card=>{
+            card.onclick = function(){
+                if(this.classList.contains('card-prev') || this.classList.contains('card-next')){
+                    currentProject = parseInt(this.dataset.index);
+                    renderProject();
+                }
+            }
+        })
+        projectWrap.addEventListener('mousedown',(e)=>{
+            projectDrag = true;
+            projectStartX = e.clientX;
+            projectMoveX = 0;
+        })
+        document.addEventListener('mousemove',(e)=>{
+            if(!projectDrag) return;
+            projectMoveX = e.clientX - projectStartX;
+        })
+        document.addEventListener('mouseup',()=>{
+            if(!projectDrag) return;
+            projectDrag = false;
+            if(projectMoveX>dragThreshold){
+                if(currentProject>0) currentProject--;
+            }else if(projectMoveX < -dragThreshold){
+                if(currentProject < totalProject-1) currentProject++;
+            }
+            renderProject();
+        })
+        projectWrap.addEventListener('touchstart',(e)=>{
+            projectDrag = true;
+            projectStartX = e.touches[0].clientX;
+            projectMoveX = 0;
+        })
+        projectWrap.addEventListener('touchmove',(e)=>{
+            if(!projectDrag) return;
+            projectMoveX = e.touches[0].clientX - projectStartX;
+        })
+        projectWrap.addEventListener('touchend',()=>{
+            if(!projectDrag) return;
+            projectDrag = false;
+            if(projectMoveX>dragThreshold){
+                if(currentProject>0) currentProject--;
+            }else if(projectMoveX < -dragThreshold){
+                if(currentProject < totalProject-1) currentProject++;
+            }
+            renderProject();
+        })
+        renderProject();
+
+        /* 弹窗 */
+        const modalMask = document.getElementById('modalMask');
+        const modalImg = document.getElementById('modalImg');
+        function openModal(imgSrc){
+            modalImg.src = imgSrc;
+            modalMask.style.display='flex';
+        }
+        function closeModal(){
+            modalMask.style.display='none';
+        }
+        modalMask.onclick = function(e){
+            if(e.target === modalMask) closeModal();
+        }
+    </script>
+</body>
+</html>
+<!-- （注：内容由AI生成） -->
