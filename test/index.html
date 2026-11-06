@@ -15,8 +15,38 @@
         height: 100%;
         overflow: hidden;
         color: #fff;
-        -webkit-tap-highlight-color: transparent; /* 去掉移动端点击高亮 */
+        -webkit-tap-highlight-color: transparent;
     }
+    /* 自定义滚动条 仅用于移动端卡片内部 */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.08);
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.25);
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.4);
+    }
+    /* 打字机光标动画 */
+    @keyframes blink {
+        0%,100% {opacity:1;}
+        50% {opacity:0;}
+    }
+    .typing-cursor{
+        display:inline-block;
+        width:3px;
+        height:1em;
+        background:#fff;
+        margin-left:4px;
+        animation: blink 0.7s infinite;
+        vertical-align:text-bottom;
+    }
+
     .wrap {
         width: 100vw;
         height: 100vh;
@@ -216,14 +246,13 @@
         color: #ccc;
         margin-right: 6px;
     }
-    /* ===== 工作经历：当前卡 + 下方预览卡 ===== */
+    /* ===== 工作经历：当前卡 + 下方预览卡（保持原有露出效果） ===== */
     .work-stack-wrap {
         position: relative;
         width: 100%;
         max-width: 1100px;
-        height: 360px;
         margin-top: 20px;
-        overflow: hidden;
+        overflow: visible;
         cursor: grab;
         display: flex;
         align-items: flex-start;
@@ -270,13 +299,19 @@
         backdrop-filter: blur(6px);
         transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease, width 0.4s ease;
         box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
+    /* 桌面端激活卡片：不设置最大高度，不滚动 */
     .work-item.card-active {
         transform: translateY(0);
         z-index: 10;
         opacity: 1;
         filter: brightness(1);
         width:780px;
+        position: relative;
+        max-height: unset;
+        overflow-y: visible;
     }
     .work-item.card-next {
         transform: translateY(24px);
@@ -284,6 +319,7 @@
         opacity: 0.75;
         filter: brightness(0.75);
         width: calc(780px - 80px);
+        overflow: hidden;
     }
     .work-item.card-hide {
         opacity: 0;
@@ -324,7 +360,7 @@
         display: flex;
         gap: 12px;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 30px;
         z-index: 10;
     }
     .work-dot {
@@ -345,9 +381,8 @@
         position: relative;
         width: 100%;
         max-width: 1100px;
-        height: 480px;
         margin-top: 20px;
-        overflow: hidden;
+        overflow: visible;
         cursor: grab;
         display: flex;
         align-items: flex-start;
@@ -394,20 +429,29 @@
         backdrop-filter: blur(6px);
         transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease, width 0.4s ease;
         box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
+    /* 桌面端项目激活卡片：不滚动 */
     .project-item.card-active {
         transform: translateY(0);
         z-index: 10;
         opacity: 1;
         filter: brightness(1);
         width:780px;
+        position: relative;
+        max-height: unset;
+        overflow-y: visible;
     }
+    /* =========项目待显示卡片：完全隐藏，不再露出========= */
     .project-item.card-next {
-        transform: translateY(24px);
+        transform: translateY(60px);
         z-index: 5;
-        opacity: 0.75;
+        opacity: 0;
+        pointer-events: none;
         filter: brightness(0.75);
         width: calc(780px - 80px);
+        overflow: hidden;
     }
     .project-item.card-hide {
         opacity: 0;
@@ -451,7 +495,7 @@
     .project-text {
         font-size: 15px;
         color: #eee;
-        line-height: 1.7;
+        line-height: 1.75;
     }
     .project-item ul {
         padding-left: 20px;
@@ -480,7 +524,7 @@
         display: flex;
         gap: 12px;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 30px;
         z-index: 10;
     }
     .project-dot {
@@ -530,7 +574,7 @@
         max-height: 75vh;
         border-radius: 8px;
     }
-    /* 底部导航 */
+    /* 底部导航 桌面端 */
     .nav-bar {
         position: fixed;
         bottom: 0;
@@ -608,7 +652,7 @@
     @media (max-width: 768px) {
         .panel {
             padding: 0 5%;
-            padding-bottom: 110px; /* 加大底部边距，防止被导航遮挡 */
+            padding-bottom: 50px;
         }
         .panel h1 {
             font-size: 28px;
@@ -644,19 +688,20 @@
         .home-desc {
             font-size: 14px;
         }
+        /* 移动端按钮：同一行，各占48%宽度 */
         .home-buttons {
-            flex-direction: column;
+            flex-direction: row;
             width: 100%;
         }
         .btn-primary,
         .btn-outline {
-            width: 100%;
+            width: 48%;
         }
         .edu-layout {
             grid-template-columns: 1fr;
         }
         .edu-image {
-            max-height: 220px; /* 限制图片高度，不会撑太高 */
+            max-height: 220px;
         }
         .edu-school {
             font-size: 20px;
@@ -665,28 +710,34 @@
             font-size: 14px;
         }
         .work-stack-wrap {
-            height: auto;
-            min-height: 340px;
+            height: auto !important;
         }
         .work-item {
-            width: calc(100vw - 40px);
+            width: calc(100vw - 20px);
             padding: 20px 18px;
         }
-        .work-item.card-next {
-            transform: translateY(24px);
-            width: calc(100vw - 40px);
-        }
+        /* =========移动端箭头：放在轮播容器左右两侧========= */
         .work-arrow {
             width: 36px;
             height: 36px;
             font-size: 16px;
-            top: 50%;
+            top: 110%;
         }
         .work-arrow.prev {
-            left: 10px;
+            left:12px;
         }
         .work-arrow.next {
-            right: 10px;
+            right:12px;
+        }
+        /* 移动端工作激活卡片开启最大高度+内部滚动 */
+        .work-item.card-active{
+            max-height: 340px;
+            overflow-y: auto;
+        }
+        /* 移动端工作预览卡片：露出20px（工作页面维持原样） */
+        .work-item.card-next {
+            transform: translateY(20px);
+            width: calc(100vw - 40px);
         }
         .work-header {
             flex-direction: column;
@@ -702,27 +753,36 @@
             font-size: 14px;
         }
         .project-stack-wrap {
-            height: auto;
-            min-height: 440px;
+            height: auto !important;
         }
         .project-item {
-            width: calc(100vw - 40px);
+            width: calc(100vw - 20px);
             padding: 20px 18px;
         }
-        .project-item.card-next {
-            width: calc(100vw - 40px);
-        }
+        /* =========移动端箭头：放在轮播容器左右两侧========= */
         .project-arrow {
             width: 36px;
             height: 36px;
             font-size: 16px;
-            top: 50%;
+            top: 107%;
         }
         .project-arrow.prev {
-            left: 10px;
+            left:12px;
         }
         .project-arrow.next {
-            right: 10px;
+            right:12px;
+        }
+        /* ========= 修改：移动端项目卡片最大高度520px，超出滚动 ========= */
+        .project-item.card-active{
+            max-height: 520px;
+            overflow-y: auto;
+        }
+        /* =========移动端【项目】next卡片完全隐藏，不露出========= */
+        .project-item.card-next {
+            transform: translateY(60px);
+            opacity:0;
+            pointer-events:none;
+            width: calc(100vw - 40px);
         }
         .project-header {
             flex-direction: column;
@@ -757,14 +817,17 @@
         .summary-desc{
             font-size:14px;
         }
+        /* =========移动端底部导航：6个按钮平均分配屏幕宽度 ========= */
         .nav-bar {
             height: 72px;
-            gap: 8px;
-            padding: 0 6px;
+            gap: 0;
+            padding: 0;
         }
         .nav-item {
+            flex:1;
             font-size: 11px;
-            padding: 6px 8px;
+            padding: 6px 2px;
+            border-radius:0;
         }
         .nav-item svg {
             width: 22px;
@@ -782,8 +845,22 @@
         .home-title {
             font-size:26px;
         }
+        /* 超小屏幕改回上下堆叠，防止按钮文字挤压换行 */
+        .home-buttons {
+            flex-direction: column;
+        }
+        .btn-primary,
+        .btn-outline {
+            width: 100%;
+        }
         .edu-card, .work-item, .project-item, .summary-card-new {
             padding:16px 14px;
+        }
+        .work-item.card-active{
+            max-height: 300px;
+        }
+        .project-item.card-active{
+            max-height: 420px;
         }
     }
 </style>
@@ -793,7 +870,7 @@
     <!-- 首页 -->
     <div class="panel home-panel active" id="panel-home">
         <div class="home-tag">OPEN TO WORK · B端 SaaS 产品方向</div>
-        <div class="home-title">你好，我是张明1</div>
+        <div class="home-title">你好，我是<span id="typeName"></span><span class="typing-cursor"></span></div>
         <div class="home-job">一名专注 B 端 SaaS 的高级产品经理</div>
         <div class="home-desc">
             5 年产品经验，从 0 到 1 负责过商家经营、智能客服、数据看板等多条产品线。<br />
@@ -801,7 +878,7 @@
         </div>
         <div class="home-buttons">
             <button class="btn-primary" onclick="switchPanel('panel-about')">了解我 →</button>
-            <button class="btn-outline" onclick="switchPanel('panel-project')">看看我的项目</button>
+            <button class="btn-outline" onclick="switchPanel('panel-project')">查看项目</button>
         </div>
     </div>
     <!-- 我的 -->
@@ -1169,6 +1246,21 @@
     </div>
 </div>
 <script>
+    // 打字机效果
+    (function(){
+        const targetStr = "张明";
+        const dom = document.getElementById("typeName");
+        let index = 0;
+        function typing(){
+            if(index < targetStr.length){
+                dom.innerText += targetStr.charAt(index);
+                index++;
+                setTimeout(typing,350);
+            }
+        }
+        setTimeout(typing,600);
+    })();
+
     function switchPanel(targetId) {
         const navItems = document.querySelectorAll('.nav-item');
         const panels = document.querySelectorAll('.panel');
@@ -1281,7 +1373,7 @@
     });
     renderWork();
 
-    /* ===== 项目轮播 垂直上下卡片 ===== */
+    /* ===== 项目轮播 垂直上下堆叠卡片 ===== */
     const projectWrap = document.getElementById('projectWrap');
     const projectCards = document.querySelectorAll('.project-item');
     const projectDots = document.querySelectorAll('.project-dot');
