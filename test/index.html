@@ -17,7 +17,6 @@
         color: #fff;
         -webkit-tap-highlight-color: transparent;
     }
-    /* 自定义滚动条 仅用于移动端卡片内部 */
     ::-webkit-scrollbar {
         width: 6px;
     }
@@ -32,7 +31,6 @@
     ::-webkit-scrollbar-thumb:hover {
         background: rgba(255,255,255,0.4);
     }
-    /* 打字机光标动画 */
     @keyframes blink {
         0%,100% {opacity:1;}
         50% {opacity:0;}
@@ -46,39 +44,57 @@
         animation: blink 0.7s infinite;
         vertical-align:text-bottom;
     }
-
     .wrap {
         width: 100vw;
         height: 100vh;
         position: relative;
     }
+    /* 所有页面默认全屏层叠 */
     .panel {
         position: absolute;
         inset: 0;
         display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 0 4%;
-        text-align: center;
-        overflow-y: auto;
-        padding-bottom: 100px;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
+    /* 遮罩统一放在 panel 下层 */
     .panel::before {
         content: '';
         position: absolute;
         inset: 0;
         background: rgba(0,0,0,0.55);
+        z-index: 1;
     }
-    .panel > * {
+    /* 内容容器：默认垂直居中 */
+    .panel-content {
         position: relative;
         z-index: 2;
-    }
-    .panel.active {
+        width: 100%;
+        height: 100%;
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 4%;
+        padding-bottom: 100px;
+    }
+    /* =========总结页面核心：垂直居中，溢出滚动========= */
+    .panel.is-scroll .panel-content {
+        overflow-y: auto;
+        padding-bottom: 120px;
+        justify-content: center;
+    }
+    /* 总结页面整体包裹容器：水平居中 */
+    .summary-wrap {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .panel.active {
+        display: block;
     }
     .panel h1 {
         font-size: 42px;
@@ -145,8 +161,6 @@
     /* 首页 */
     .home-panel {
         background-image: url('https://picsum.photos/id/1042/1920/1080');
-        background-size: cover;
-        background-position: center;
     }
     .home-panel::before {
         background: rgba(0,0,0,0.45);
@@ -246,7 +260,7 @@
         color: #ccc;
         margin-right: 6px;
     }
-    /* ===== 工作经历：当前卡 + 下方预览卡（保持原有露出效果） ===== */
+    /* 工作经历 */
     .work-stack-wrap {
         position: relative;
         width: 100%;
@@ -298,7 +312,6 @@
         overflow-wrap: anywhere;
         word-break: break-word;
     }
-    /* 桌面端激活卡片：不设置最大高度，不滚动 */
     .work-item.card-active {
         transform: translateY(0);
         z-index: 10;
@@ -372,7 +385,7 @@
         width: 24px;
         border-radius: 5px;
     }
-    /* ========== 项目轮播【改成垂直上下堆叠卡片】 ========== */
+    /* 项目经历 */
     .project-stack-wrap {
         position: relative;
         width: 100%;
@@ -424,7 +437,6 @@
         overflow-wrap: anywhere;
         word-break: break-word;
     }
-    /* 桌面端项目激活卡片：不滚动 */
     .project-item.card-active {
         transform: translateY(0);
         z-index: 10;
@@ -435,7 +447,6 @@
         max-height: unset;
         overflow-y: visible;
     }
-    /* =========项目待显示卡片：完全隐藏，不再露出========= */
     .project-item.card-next {
         transform: translateY(60px);
         z-index: 5;
@@ -566,7 +577,7 @@
         max-height: 75vh;
         border-radius: 8px;
     }
-    /* 底部导航 桌面端 */
+    /* 底部导航 */
     .nav-bar {
         position: fixed;
         bottom: 0;
@@ -600,10 +611,9 @@
         margin-bottom: 6px;
         fill: currentColor;
     }
-    /* ========== 新版个人总结布局 ========== */
+    /* 总结页 */
     .summary-grid{
         width: 100%;
-        max-width: 1000px;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap:20px;
@@ -617,7 +627,6 @@
         backdrop-filter: blur(8px);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    /* 触屏设备不触发上浮hover */
     @media (hover: hover) {
         .summary-card-new:hover{
             transform: translateY(-6px);
@@ -640,11 +649,14 @@
         color:#eee;
         line-height:1.75;
     }
-    /* 移动端适配 */
+    /* 移动端 */
     @media (max-width: 768px) {
-        .panel {
+        .panel-content {
             padding: 0 5%;
-            padding-bottom: 110px;
+            padding-bottom: 120px;
+        }
+        .panel.is-scroll .panel-content {
+            padding-bottom: 120px;
         }
         .panel h1 {
             font-size: 28px;
@@ -680,7 +692,6 @@
         .home-desc {
             font-size: 14px;
         }
-        /* 移动端按钮：同一行，各占48%宽度 */
         .home-buttons {
             flex-direction: row;
             width: 100%;
@@ -708,7 +719,6 @@
             width: calc(100vw - 20px);
             padding: 20px 18px;
         }
-        /* =========移动端箭头：放在轮播容器左右两侧========= */
         .work-arrow {
             width: 36px;
             height: 36px;
@@ -721,12 +731,10 @@
         .work-arrow.next {
             right:12px;
         }
-        /* 移动端工作激活卡片开启最大高度+内部滚动 */
         .work-item.card-active{
             max-height: 340px;
             overflow-y: auto;
         }
-        /* 移动端工作预览卡片：露出20px（工作页面维持原样） */
         .work-item.card-next {
             transform: translateY(20px);
             width: calc(100vw - 40px);
@@ -751,7 +759,6 @@
             width: calc(100vw - 20px);
             padding: 20px 18px;
         }
-        /* =========移动端箭头：放在轮播容器左右两侧========= */
         .project-arrow {
             width: 36px;
             height: 36px;
@@ -764,12 +771,10 @@
         .project-arrow.next {
             right:12px;
         }
-        /* ========= 修改：移动端项目卡片最大高度520px，超出滚动 ========= */
         .project-item.card-active{
             max-height: 520px;
             overflow-y: auto;
         }
-        /* =========移动端【项目】next卡片完全隐藏，不露出========= */
         .project-item.card-next {
             transform: translateY(60px);
             opacity:0;
@@ -798,10 +803,14 @@
         }
         .summary-grid{
             grid-template-columns: 1fr;
-            gap:16px;
+            gap:14px;
+            margin-top:16px;
+            max-width:480px;
+            margin-left:auto;
+            margin-right:auto;
         }
         .summary-card-new{
-            padding:20px 18px;
+            padding:18px 16px;
         }
         .summary-title{
             font-size:18px;
@@ -809,7 +818,6 @@
         .summary-desc{
             font-size:14px;
         }
-        /* =========移动端底部导航：6个按钮平均分配屏幕宽度 ========= */
         .nav-bar {
             height: 72px;
             gap: 0;
@@ -829,7 +837,6 @@
             max-height: 68vh;
         }
     }
-    /* 超小屏 320px 额外兼容 */
     @media (max-width:340px) {
         .panel h1 {
             font-size:24px;
@@ -837,7 +844,6 @@
         .home-title {
             font-size:26px;
         }
-        /* 超小屏幕改回上下堆叠，防止按钮文字挤压换行 */
         .home-buttons {
             flex-direction: column;
         }
@@ -859,346 +865,360 @@
 </head>
 <body>
 <div class="wrap">
-    <!-- 首页 -->
+    <!-- 首页：内容主体垂直居中 -->
     <div class="panel home-panel active" id="panel-home">
-        <div class="home-tag">OPEN TO WORK · B端 SaaS 产品方向</div>
-        <div class="home-title">你好，我是<span id="typeName"></span><span class="typing-cursor"></span></div>
-        <div class="home-job">一名专注 B 端 SaaS 的高级产品经理</div>
-        <div class="home-desc">
-            5 年产品经验，从 0 到 1 负责过商家经营、智能客服、数据看板等多条产品线。<br />
-            相信好的产品来自对用户的真实理解，以及用数据说话的判断力。
-        </div>
-        <div class="home-buttons">
-            <button class="btn-primary" onclick="switchPanel('panel-about')">了解我 →</button>
-            <button class="btn-outline" onclick="switchPanel('panel-project')">查看项目</button>
+        <div class="panel-content">
+            <div class="home-tag">OPEN TO WORK · B端 SaaS 产品方向</div>
+            <div class="home-title">你好，我是<span id="typeName"></span><span class="typing-cursor"></span></div>
+            <div class="home-job">一名专注 B 端 SaaS 的高级产品经理</div>
+            <div class="home-desc">
+                5 年产品经验，从 0 到 1 负责过商家经营、智能客服、数据看板等多条产品线。<br />
+                相信好的产品来自对用户的真实理解，以及用数据说话的判断力。
+            </div>
+            <div class="home-buttons">
+                <button class="btn-primary" onclick="switchPanel('panel-about')">了解我 →</button>
+                <button class="btn-outline" onclick="switchPanel('panel-project')">查看项目</button>
+            </div>
         </div>
     </div>
     <!-- 我的 -->
     <div class="panel" id="panel-about" style="background-image: url('https://picsum.photos/id/180/1920/1080')">
-        <img class="avatar" src="avatar.jpg" alt="avatar" />
-        <h1>张明</h1>
-        <div class="sub-title">B端SaaS高级产品经理</div>
-        <div class="info-grid">
-            <div class="info-item"><span class="icon">📱</span><span class="label">手机</span><span class="value">138-0000-0000</span></div>
-            <div class="info-item"><span class="icon">✉️</span><span class="label">邮箱</span><span class="value">zhangming@example.com</span></div>
-            <div class="info-item"><span class="icon">📍</span><span class="label">城市</span><span class="value">北京·望京</span></div>
-            <div class="info-item"><span class="icon">🎂</span><span class="label">Date</span><span class="value">2000-01-01</span></div>
-            <div class="info-item"><span class="icon">💼</span><span class="label">求职</span><span class="value">B端SaaS产品经理</span></div>
-            <div class="info-item"><span class="icon">🔗</span><span class="label">微信</span><span class="value">zhangming_pm</span></div>
+        <div class="panel-content">
+            <img class="avatar" src="avatar.jpg" alt="avatar" />
+            <h1>张明</h1>
+            <div class="sub-title">B端SaaS高级产品经理</div>
+            <div class="info-grid">
+                <div class="info-item"><span class="icon">📱</span><span class="label">手机</span><span class="value">138-0000-0000</span></div>
+                <div class="info-item"><span class="icon">✉️</span><span class="label">邮箱</span><span class="value">zhangming@example.com</span></div>
+                <div class="info-item"><span class="icon">📍</span><span class="label">城市</span><span class="value">北京·望京</span></div>
+                <div class="info-item"><span class="icon">🎂</span><span class="label">Date</span><span class="value">2000-01-01</span></div>
+                <div class="info-item"><span class="icon">💼</span><span class="label">求职</span><span class="value">B端SaaS产品经理</span></div>
+                <div class="info-item"><span class="icon">🔗</span><span class="label">微信</span><span class="value">zhangming_pm</span></div>
+            </div>
         </div>
     </div>
     <!-- 教育 -->
     <div class="panel" id="panel-edu" style="background-image: url('https://picsum.photos/id/24/1920/1080')">
-        <h1>教育经历</h1>
-        <div class="sub-title">夯实基础，持续学习</div>
-        <div class="edu-layout">
-            <img class="edu-image" src="school.jpg" alt="学校图片" />
-            <div class="edu-card">
-                <div class="edu-school">XX大学 <span style="color:#ccc; font-weight:normal;">| 本科</span></div>
-                <div class="edu-row"><span class="k">专业：</span>计算机应用技术</div>
-                <div class="edu-row"><span class="k">时间：</span>2018.09 - 2022.06</div>
-                <div class="edu-row"><span class="k">主修课程：</span>Web前端、数据结构、计算机网络；在校参与前端兴趣小组。</div>
+        <div class="panel-content">
+            <h1>教育经历</h1>
+            <div class="sub-title">夯实基础，持续学习</div>
+            <div class="edu-layout">
+                <img class="edu-image" src="school.jpg" alt="学校图片" />
+                <div class="edu-card">
+                    <div class="edu-school">XX大学 <span style="color:#ccc; font-weight:normal;">| 本科</span></div>
+                    <div class="edu-row"><span class="k">专业：</span>计算机应用技术</div>
+                    <div class="edu-row"><span class="k">时间：</span>2018.09 - 2022.06</div>
+                    <div class="edu-row"><span class="k">主修课程：</span>Web前端、数据结构、计算机网络；在校参与前端兴趣小组。</div>
+                </div>
             </div>
         </div>
     </div>
     <!-- 工作经历 -->
     <div class="panel" id="panel-work" style="background-image: url('https://picsum.photos/id/48/1920/1080')">
-        <h1>工作经历</h1>
-        <div class="sub-title">实践积累，持续产出</div>
-        <div class="work-stack-wrap" id="workWrap">
-            <button class="work-arrow prev" id="workPrev" disabled>←</button>
-            <button class="work-arrow next" id="workNext">→</button>
-            <div class="work-item" data-index="0">
-                <div class="work-header">
-                    <div class="work-company">ABC科技有限公司</div>
-                    <div class="work-time">2022.07 - 至今</div>
+        <div class="panel-content">
+            <h1>工作经历</h1>
+            <div class="sub-title">实践积累，持续产出</div>
+            <div class="work-stack-wrap" id="workWrap">
+                <button class="work-arrow prev" id="workPrev" disabled>←</button>
+                <button class="work-arrow next" id="workNext">→</button>
+                <div class="work-item" data-index="0">
+                    <div class="work-header">
+                        <div class="work-company">ABC科技有限公司</div>
+                        <div class="work-time">2022.07 - 至今</div>
+                    </div>
+                    <div class="work-position">高级产品经理</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责商家经营SaaS产品线从0到1规划与落地</li>
+                            <li>主导需求调研、PRD撰写与跨团队协作</li>
+                            <li>通过数据驱动优化核心转化率提升30%</li>
+                            <li>带领3人产品小组，建立需求评审机制</li>
+                            <li>搭建产品指标体系，持续跟进业务复盘</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="work-position">高级产品经理</div>
-                <div class="work-desc">
-                    <ul>
-                        <li>负责商家经营SaaS产品线从0到1规划与落地</li>
-                        <li>主导需求调研、PRD撰写与跨团队协作</li>
-                        <li>通过数据驱动优化核心转化率提升30%</li>
-                        <li>带领3人产品小组，建立需求评审机制</li>
-                        <li>搭建产品指标体系，持续跟进业务复盘</li>
-                    </ul>
+                <div class="work-item" data-index="1">
+                    <div class="work-header">
+                        <div class="work-company">XX网络公司</div>
+                        <div class="work-time">2020.06 - 2022.06</div>
+                    </div>
+                    <div class="work-position">产品经理</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责智能客服模块的产品设计与迭代</li>
+                            <li>对接研发、设计、测试，推动版本按时上线</li>
+                            <li>定期输出产品数据报告与用户反馈分析</li>
+                            <li>梳理客服工单流转流程，降低人工成本</li>
+                            <li>优化知识库检索逻辑，提升自助解决率</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-item" data-index="2">
+                    <div class="work-header">
+                        <div class="work-company">云创信息科技</div>
+                        <div class="work-time">2019.03 - 2020.05</div>
+                    </div>
+                    <div class="work-position">产品助理</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>协助产品经理完成需求收集、原型绘制</li>
+                            <li>跟进项目进度，整理需求文档与会议纪要</li>
+                            <li>收集用户反馈，整理成迭代优化清单</li>
+                            <li>参与竞品分析，输出功能对比文档</li>
+                            <li>协助进行产品上线前的验收测试</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-item" data-index="3">
+                    <div class="work-header">
+                        <div class="work-company">新途数字</div>
+                        <div class="work-time">2018.07 - 2019.02</div>
+                    </div>
+                    <div class="work-position">实习生</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>参与后台管理系统需求梳理与原型评审</li>
+                            <li>协助测试人员进行功能回归，记录bug</li>
+                            <li>整理竞品分析文档，输出对比报告</li>
+                            <li>协助整理产品手册，编写操作说明</li>
+                            <li>跟进简单需求，配合UI完成页面走查</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-item" data-index="4">
+                    <div class="work-header">
+                        <div class="work-company">启航互联</div>
+                        <div class="work-time">2017.07 - 2018.06</div>
+                    </div>
+                    <div class="work-position">产品实习</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>协助业务侧收集客户需求，整理台账</li>
+                            <li>绘制简单原型，配合产品沟通方案</li>
+                            <li>跟进线上问题，同步给研发排查</li>
+                            <li>统计日常业务数据，制作简易报表</li>
+                            <li>参与需求评审会议，记录待办事项</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="work-item" data-index="1">
-                <div class="work-header">
-                    <div class="work-company">XX网络公司</div>
-                    <div class="work-time">2020.06 - 2022.06</div>
-                </div>
-                <div class="work-position">产品经理</div>
-                <div class="work-desc">
-                    <ul>
-                        <li>负责智能客服模块的产品设计与迭代</li>
-                        <li>对接研发、设计、测试，推动版本按时上线</li>
-                        <li>定期输出产品数据报告与用户反馈分析</li>
-                        <li>梳理客服工单流转流程，降低人工成本</li>
-                        <li>优化知识库检索逻辑，提升自助解决率</li>
-                    </ul>
-                </div>
+            <div class="work-dots">
+                <div class="work-dot active" data-dot="0"></div>
+                <div class="work-dot" data-dot="1"></div>
+                <div class="work-dot" data-dot="2"></div>
+                <div class="work-dot" data-dot="3"></div>
+                <div class="work-dot" data-dot="4"></div>
             </div>
-            <div class="work-item" data-index="2">
-                <div class="work-header">
-                    <div class="work-company">云创信息科技</div>
-                    <div class="work-time">2019.03 - 2020.05</div>
-                </div>
-                <div class="work-position">产品助理</div>
-                <div class="work-desc">
-                    <ul>
-                        <li>协助产品经理完成需求收集、原型绘制</li>
-                        <li>跟进项目进度，整理需求文档与会议纪要</li>
-                        <li>收集用户反馈，整理成迭代优化清单</li>
-                        <li>参与竞品分析，输出功能对比文档</li>
-                        <li>协助进行产品上线前的验收测试</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="work-item" data-index="3">
-                <div class="work-header">
-                    <div class="work-company">新途数字</div>
-                    <div class="work-time">2018.07 - 2019.02</div>
-                </div>
-                <div class="work-position">实习生</div>
-                <div class="work-desc">
-                    <ul>
-                        <li>参与后台管理系统需求梳理与原型评审</li>
-                        <li>协助测试人员进行功能回归，记录bug</li>
-                        <li>整理竞品分析文档，输出对比报告</li>
-                        <li>协助整理产品手册，编写操作说明</li>
-                        <li>跟进简单需求，配合UI完成页面走查</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="work-item" data-index="4">
-                <div class="work-header">
-                    <div class="work-company">启航互联</div>
-                    <div class="work-time">2017.07 - 2018.06</div>
-                </div>
-                <div class="work-position">产品实习</div>
-                <div class="work-desc">
-                    <ul>
-                        <li>协助业务侧收集客户需求，整理台账</li>
-                        <li>绘制简单原型，配合产品沟通方案</li>
-                        <li>跟进线上问题，同步给研发排查</li>
-                        <li>统计日常业务数据，制作简易报表</li>
-                        <li>参与需求评审会议，记录待办事项</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="work-dots">
-            <div class="work-dot active" data-dot="0"></div>
-            <div class="work-dot" data-dot="1"></div>
-            <div class="work-dot" data-dot="2"></div>
-            <div class="work-dot" data-dot="3"></div>
-            <div class="work-dot" data-dot="4"></div>
         </div>
     </div>
     <!-- 项目经历 -->
     <div class="panel" id="panel-project" style="background-image: url('https://picsum.photos/id/60/1920/1080')">
-        <h1>项目经历</h1>
-        <div class="sub-title">项目实战，落地交付</div>
-        <div class="project-stack-wrap" id="projectWrap">
-            <button class="project-arrow prev" id="projectPrev" disabled>←</button>
-            <button class="project-arrow next" id="projectNext">→</button>
-            <div class="project-item" data-index="0" data-img="https://picsum.photos/id/20/1200/800">
-                <div class="project-header">
-                    <h3 class="project-name">商家经营分析看板</h3>
-                    <span class="project-time">2023.01 - 2023.06</span>
+        <div class="panel-content">
+            <h1>项目经历</h1>
+            <div class="sub-title">项目实战，落地交付</div>
+            <div class="project-stack-wrap" id="projectWrap">
+                <button class="project-arrow prev" id="projectPrev" disabled>←</button>
+                <button class="project-arrow next" id="projectNext">→</button>
+                <div class="project-item" data-index="0" data-img="https://picsum.photos/id/20/1200/800">
+                    <div class="project-header">
+                        <h3 class="project-name">商家经营分析看板</h3>
+                        <span class="project-time">2023.01 - 2023.06</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：产品负责人</span>
+                        <span class="project-tag">所属公司：云商科技</span>
+                        <span class="project-tag">项目周期：6个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">面向平台中小商家的可视化经营数据产品，整合交易、流量、用户、商品等多维度数据，帮助商家快速掌握经营状况，辅助决策。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>深度调研200+商家需求，梳理核心数据指标体系，输出产品规划方案</li>
+                            <li>负责看板全流程设计，包括首页概览、交易分析、流量分析、用户画像等模块</li>
+                            <li>协调数据、研发、设计团队，推动项目按期上线，后续持续迭代优化</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">覆盖商家数8000+，日均使用时长提升45%，商家付费转化率提升18%</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
-                <div class="project-tag-group">
-                    <span class="project-tag">担任职位：产品负责人</span>
-                    <span class="project-tag">所属公司：云商科技</span>
-                    <span class="project-tag">项目周期：6个月</span>
+                <div class="project-item" data-index="1" data-img="https://picsum.photos/id/30/1200/800">
+                    <div class="project-header">
+                        <h3 class="project-name">电商活动H5页面</h3>
+                        <span class="project-time">2022.09 - 2022.11</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：前端开发</span>
+                        <span class="project-tag">所属公司：ABC科技</span>
+                        <span class="project-tag">项目周期：2个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">营销活动移动端页面，包含抽奖、表单提交；</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>页面开发、动画交互、移动端适配</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">活动页面稳定承载峰值流量，活动参与转化率达标</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">项目介绍</div>
-                    <div class="project-text">面向平台中小商家的可视化经营数据产品，整合交易、流量、用户、商品等多维度数据，帮助商家快速掌握经营状况，辅助决策。</div>
+                <div class="project-item" data-index="2" data-img="https://picsum.photos/id/40/1200/800">
+                    <div class="project-header">
+                        <h3 class="project-name">智能客服工单系统</h3>
+                        <span class="project-time">2021.03 - 2021.09</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：产品经理</span>
+                        <span class="project-tag">所属公司：XX网络</span>
+                        <span class="project-tag">项目周期：6个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">面向客服团队的工单流转系统，支持自动分配、SLA预警、工单闭环、满意度评价。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>梳理工单全流程，设计自动分配规则与超时预警机制</li>
+                            <li>搭建后台管理、报表统计、客服工作台模块</li>
+                            <li>对接一线客服收集反馈，持续迭代优化流程</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">工单平均处理时长下降28%，客服人效明显提升</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">工作职责</div>
-                    <ul>
-                        <li>深度调研200+商家需求，梳理核心数据指标体系，输出产品规划方案</li>
-                        <li>负责看板全流程设计，包括首页概览、交易分析、流量分析、用户画像等模块</li>
-                        <li>协调数据、研发、设计团队，推动项目按期上线，后续持续迭代优化</li>
-                    </ul>
+                <div class="project-item" data-index="3" data-img="https://picsum.photos/id/50/1200/800">
+                    <div class="project-header">
+                        <h3 class="project-name">会员积分商城系统</h3>
+                        <span class="project-time">2020.01 - 2020.07</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：产品助理</span>
+                        <span class="project-tag">所属公司：云创信息科技</span>
+                        <span class="project-tag">项目周期：6个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">会员积分发放、消耗、兑换、订单管理的B端后台+C端商城。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>协助完成积分规则、商品上下架、订单核销模块设计</li>
+                            <li>输出原型、需求文档，跟进研发测试上线</li>
+                            <li>整理上线后数据，输出复盘报告</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">上线后会员活跃度提升22%，积分消耗率稳步上涨</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
-                <div>
-                    <div class="project-block-title">项目成果</div>
-                    <div class="project-text">覆盖商家数8000+，日均使用时长提升45%，商家付费转化率提升18%</div>
+                <div class="project-item" data-index="4" data-img="https://picsum.photos/id/65/1200/800">
+                    <div class="project-header">
+                        <h3 class="project-name">后台权限管理平台</h3>
+                        <span class="project-time">2019.06 - 2019.11</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：产品助理</span>
+                        <span class="project-tag">所属公司：新途数字</span>
+                        <span class="project-tag">项目周期：5个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">RBAC权限体系，支持角色、账号、菜单、数据权限配置，多业务系统共用。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>梳理权限模型，设计账号、角色、资源配置页面</li>
+                            <li>配合后端确认权限校验逻辑，编写接口需求</li>
+                            <li>制作操作手册，培训内部管理员使用</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">统一支撑3条业务线，权限管控风险降低，减少重复开发</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
-                <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                <div class="project-item" data-index="5" data-img="https://picsum.photos/id/75/1200/800">
+                    <div class="project-header">
+                        <h3 class="project-name">线上问卷调研工具</h3>
+                        <span class="project-time">2018.08 - 2018.12</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">担任职位：实习产品</span>
+                        <span class="project-tag">所属公司：启航互联</span>
+                        <span class="project-tag">项目周期：4个月</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">可视化问卷编辑器，支持单选、多选、填空、评分，自动统计问卷报表。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>协助整理问卷类型、逻辑跳转、数据导出需求</li>
+                            <li>绘制简单原型，跟进测试，记录bug</li>
+                            <li>收集内部使用反馈，整理优化清单</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="project-block-title">项目成果</div>
+                        <div class="project-text">支持内部业务快速发起调研，替代第三方付费问卷工具</div>
+                    </div>
+                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                </div>
             </div>
-            <div class="project-item" data-index="1" data-img="https://picsum.photos/id/30/1200/800">
-                <div class="project-header">
-                    <h3 class="project-name">电商活动H5页面</h3>
-                    <span class="project-time">2022.09 - 2022.11</span>
-                </div>
-                <div class="project-tag-group">
-                    <span class="project-tag">担任职位：前端开发</span>
-                    <span class="project-tag">所属公司：ABC科技</span>
-                    <span class="project-tag">项目周期：2个月</span>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">项目介绍</div>
-                    <div class="project-text">营销活动移动端页面，包含抽奖、表单提交；</div>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">工作职责</div>
-                    <ul>
-                        <li>页面开发、动画交互、移动端适配</li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="project-block-title">项目成果</div>
-                    <div class="project-text">活动页面稳定承载峰值流量，活动参与转化率达标</div>
-                </div>
-                <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+            <div class="project-dots">
+                <div class="project-dot active" data-dot="0"></div>
+                <div class="project-dot" data-dot="1"></div>
+                <div class="project-dot" data-dot="2"></div>
+                <div class="project-dot" data-dot="3"></div>
+                <div class="project-dot" data-dot="4"></div>
+                <div class="project-dot" data-dot="5"></div>
             </div>
-            <div class="project-item" data-index="2" data-img="https://picsum.photos/id/40/1200/800">
-                <div class="project-header">
-                    <h3 class="project-name">智能客服工单系统</h3>
-                    <span class="project-time">2021.03 - 2021.09</span>
-                </div>
-                <div class="project-tag-group">
-                    <span class="project-tag">担任职位：产品经理</span>
-                    <span class="project-tag">所属公司：XX网络</span>
-                    <span class="project-tag">项目周期：6个月</span>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">项目介绍</div>
-                    <div class="project-text">面向客服团队的工单流转系统，支持自动分配、SLA预警、工单闭环、满意度评价。</div>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">工作职责</div>
-                    <ul>
-                        <li>梳理工单全流程，设计自动分配规则与超时预警机制</li>
-                        <li>搭建后台管理、报表统计、客服工作台模块</li>
-                        <li>对接一线客服收集反馈，持续迭代优化流程</li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="project-block-title">项目成果</div>
-                    <div class="project-text">工单平均处理时长下降28%，客服人效明显提升</div>
-                </div>
-                <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
-            </div>
-            <div class="project-item" data-index="3" data-img="https://picsum.photos/id/50/1200/800">
-                <div class="project-header">
-                    <h3 class="project-name">会员积分商城系统</h3>
-                    <span class="project-time">2020.01 - 2020.07</span>
-                </div>
-                <div class="project-tag-group">
-                    <span class="project-tag">担任职位：产品助理</span>
-                    <span class="project-tag">所属公司：云创信息科技</span>
-                    <span class="project-tag">项目周期：6个月</span>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">项目介绍</div>
-                    <div class="project-text">会员积分发放、消耗、兑换、订单管理的B端后台+C端商城。</div>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">工作职责</div>
-                    <ul>
-                        <li>协助完成积分规则、商品上下架、订单核销模块设计</li>
-                        <li>输出原型、需求文档，跟进研发测试上线</li>
-                        <li>整理上线后数据，输出复盘报告</li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="project-block-title">项目成果</div>
-                    <div class="project-text">上线后会员活跃度提升22%，积分消耗率稳步上涨</div>
-                </div>
-                <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
-            </div>
-            <div class="project-item" data-index="4" data-img="https://picsum.photos/id/65/1200/800">
-                <div class="project-header">
-                    <h3 class="project-name">后台权限管理平台</h3>
-                    <span class="project-time">2019.06 - 2019.11</span>
-                </div>
-                <div class="project-tag-group">
-                    <span class="project-tag">担任职位：产品助理</span>
-                    <span class="project-tag">所属公司：新途数字</span>
-                    <span class="project-tag">项目周期：5个月</span>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">项目介绍</div>
-                    <div class="project-text">RBAC权限体系，支持角色、账号、菜单、数据权限配置，多业务系统共用。</div>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">工作职责</div>
-                    <ul>
-                        <li>梳理权限模型，设计账号、角色、资源配置页面</li>
-                        <li>配合后端确认权限校验逻辑，编写接口需求</li>
-                        <li>制作操作手册，培训内部管理员使用</li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="project-block-title">项目成果</div>
-                    <div class="project-text">统一支撑3条业务线，权限管控风险降低，减少重复开发</div>
-                </div>
-                <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
-            </div>
-            <div class="project-item" data-index="5" data-img="https://picsum.photos/id/75/1200/800">
-                <div class="project-header">
-                    <h3 class="project-name">线上问卷调研工具</h3>
-                    <span class="project-time">2018.08 - 2018.12</span>
-                </div>
-                <div class="project-tag-group">
-                    <span class="project-tag">担任职位：实习产品</span>
-                    <span class="project-tag">所属公司：启航互联</span>
-                    <span class="project-tag">项目周期：4个月</span>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">项目介绍</div>
-                    <div class="project-text">可视化问卷编辑器，支持单选、多选、填空、评分，自动统计问卷报表。</div>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div class="project-block-title">工作职责</div>
-                    <ul>
-                        <li>协助整理问卷类型、逻辑跳转、数据导出需求</li>
-                        <li>绘制简单原型，跟进测试，记录bug</li>
-                        <li>收集内部使用反馈，整理优化清单</li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="project-block-title">项目成果</div>
-                    <div class="project-text">支持内部业务快速发起调研，替代第三方付费问卷工具</div>
-                </div>
-                <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
-            </div>
-        </div>
-        <div class="project-dots">
-            <div class="project-dot active" data-dot="0"></div>
-            <div class="project-dot" data-dot="1"></div>
-            <div class="project-dot" data-dot="2"></div>
-            <div class="project-dot" data-dot="3"></div>
-            <div class="project-dot" data-dot="4"></div>
-            <div class="project-dot" data-dot="5"></div>
         </div>
     </div>
-    <!-- ✅ 新版个人总结页面，背景图已替换为 id=266 -->
-    <div class="panel" id="panel-summary" style="background-image: url('https://picsum.photos/id/266/1920/1080')">
-        <h1>个人总结</h1>
-        <div class="sub-title">持续精进，热爱产品</div>
-        <div class="summary-grid">
-            <div class="summary-card-new">
-                <div class="summary-icon">🧠</div>
-                <div class="summary-title">能力概述</div>
-                <div class="summary-desc">熟悉产品全流程开发，具备需求分析与设计能力，掌握文档撰写及多种原型工具；注重沟通协作，关注用户与市场，以用户体验为核心；通过用户反馈与数据分析持续优化产品，具备产品运营意识。</div>
-            </div>
-            <div class="summary-card-new">
-                <div class="summary-icon">🛠️</div>
-                <div class="summary-title">专业技能</div>
-                <div class="summary-desc">Axure、Figma、Modao、XMind、Office(Word/Excel/PPT）、PS等产品设计工具。</div>
-            </div>
-            <div class="summary-card-new">
-                <div class="summary-icon">✨</div>
-                <div class="summary-title">兴趣爱好</div>
-                <div class="summary-desc">打球运动、视频剪辑</div>
+    <!-- 总结页：新增 .summary-wrap 包裹标题+卡片，实现整体水平+垂直居中 -->
+    <div class="panel is-scroll" id="panel-summary" style="background-image: url('https://picsum.photos/id/266/1920/1080')">
+        <div class="panel-content">
+            <div class="summary-wrap">
+                <h1>个人总结</h1>
+                <div class="sub-title">持续精进，热爱产品</div>
+                <div class="summary-grid">
+                    <div class="summary-card-new">
+                        <div class="summary-icon">🧠</div>
+                        <div class="summary-title">能力概述</div>
+                        <div class="summary-desc">熟悉产品全流程开发，具备需求分析与设计能力，掌握文档撰写及多种原型工具；注重沟通协作，关注用户与市场，以用户体验为核心；通过用户反馈与数据分析持续优化产品，具备产品运营意识。</div>
+                    </div>
+                    <div class="summary-card-new">
+                        <div class="summary-icon">🛠️</div>
+                        <div class="summary-title">专业技能</div>
+                        <div class="summary-desc">Axure、Figma、Modao、XMind、Office(Word/Excel/PPT）、PS等产品设计工具。</div>
+                    </div>
+                    <div class="summary-card-new">
+                        <div class="summary-icon">✨</div>
+                        <div class="summary-title">兴趣爱好</div>
+                        <div class="summary-desc">打球运动、视频剪辑</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1252,7 +1272,6 @@
         }
         setTimeout(typing,600);
     })();
-
     function switchPanel(targetId) {
         const navItems = document.querySelectorAll('.nav-item');
         const panels = document.querySelectorAll('.panel');
@@ -1267,15 +1286,13 @@
             switchPanel(this.dataset.target);
         };
     });
-
-    /* ===== 工作经历：仅保留按钮、圆点点击切换，移除手势、鼠标拖拽 ===== */
+    /* 工作经历 */
     const workCards = document.querySelectorAll('.work-item');
     const workDots = document.querySelectorAll('.work-dot');
     const workPrevBtn = document.getElementById('workPrev');
     const workNextBtn = document.getElementById('workNext');
     let currentWork = 0;
     const totalWork = workCards.length;
-
     function renderWork() {
         workCards.forEach((card, i) => {
             card.classList.remove('card-active', 'card-next', 'card-hide');
@@ -1312,15 +1329,13 @@
         };
     });
     renderWork();
-
-    /* ===== 项目轮播：仅保留按钮、圆点点击切换，移除手势、鼠标拖拽 ===== */
+    /* 项目经历 */
     const projectCards = document.querySelectorAll('.project-item');
     const projectDots = document.querySelectorAll('.project-dot');
     const projectPrevBtn = document.getElementById('projectPrev');
     const projectNextBtn = document.getElementById('projectNext');
     let currentProject = 0;
     const totalProject = projectCards.length;
-
     function renderProject() {
         projectCards.forEach((card, i) => {
             card.classList.remove('card-active', 'card-next', 'card-hide');
@@ -1357,7 +1372,6 @@
         };
     });
     renderProject();
-
     /* 弹窗 */
     const modalMask = document.getElementById('modalMask');
     const modalImg = document.getElementById('modalImg');
