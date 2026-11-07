@@ -620,7 +620,7 @@
         margin-top:24px;
     }
     .summary-card-new{
-        background: rgba(255,255,255,0.12);
+			background: rgba(255,255,255,0.12);
         border-radius:16px;
         padding:28px 24px;
         text-align:left;
@@ -632,11 +632,6 @@
             transform: translateY(-6px);
             box-shadow: 0 12px 30px rgba(0,0,0,0.35);
         }
-    }
-    .summary-icon{
-        font-size:32px;
-        color:#73b8ff;
-        margin-bottom:14px;
     }
     .summary-title{
         font-size:20px;
@@ -653,7 +648,7 @@
     @media (max-width: 768px) {
         .panel-content {
             padding: 0 5%;
-            padding-bottom: 120px;
+            padding-bottom: 20%;
         }
         .panel.is-scroll .panel-content {
             padding-bottom: 120px;
@@ -723,7 +718,7 @@
             width: 36px;
             height: 36px;
             font-size: 16px;
-            top: 50%;
+            top: 110%;
         }
         .work-arrow.prev {
             left:12px;
@@ -732,7 +727,7 @@
             right:12px;
         }
         .work-item.card-active{
-            max-height: 340px;
+            max-height: 430px;
             overflow-y: auto;
         }
         .work-item.card-next {
@@ -763,7 +758,7 @@
             width: 36px;
             height: 36px;
             font-size: 16px;
-            top: 50%;
+            top: 107%;
         }
         .project-arrow.prev {
             left:12px;
@@ -868,11 +863,11 @@
     <!-- 首页：内容主体垂直居中 -->
     <div class="panel home-panel active" id="panel-home">
         <div class="panel-content">
-            <div class="home-tag">OPEN TO WORK · B端 SaaS 产品方向</div>
+            <div class="home-tag">OPEN TO WORK · 产品方向</div>
             <div class="home-title">你好，我是<span id="typeName"></span><span class="typing-cursor"></span></div>
-            <div class="home-job">一名专注 B 端 SaaS 的高级产品经理</div>
+            <div class="home-job">一名专注于互联网行业的产品经理</div>
             <div class="home-desc">
-                5 年产品经验，从 0 到 1 负责过商家经营、智能客服、数据看板等多条产品线。<br />
+                多年产品经验，曾负责过线上商城、智能客服、健康筛查等多条产品线。<br />
                 相信好的产品来自对用户的真实理解，以及用数据说话的判断力。
             </div>
             <div class="home-buttons">
@@ -886,13 +881,13 @@
         <div class="panel-content">
             <img class="avatar" src="avatar.jpg" alt="avatar" />
             <h1>张明</h1>
-            <div class="sub-title">B端SaaS高级产品经理</div>
+            <div class="sub-title">产品经理</div>
             <div class="info-grid">
                 <div class="info-item"><span class="icon">📱</span><span class="label">手机</span><span class="value">138-0000-0000</span></div>
                 <div class="info-item"><span class="icon">✉️</span><span class="label">邮箱</span><span class="value">zhangming@example.com</span></div>
-                <div class="info-item"><span class="icon">📍</span><span class="label">城市</span><span class="value">北京·望京</span></div>
+                <div class="info-item"><span class="icon">📍</span><span class="label">城市</span><span class="value">北京·通州</span></div>
                 <div class="info-item"><span class="icon">🎂</span><span class="label">Date</span><span class="value">2000-01-01</span></div>
-                <div class="info-item"><span class="icon">💼</span><span class="label">求职</span><span class="value">B端SaaS产品经理</span></div>
+                <div class="info-item"><span class="icon">💼</span><span class="label">求职</span><span class="value">B/C产品经理</span></div>
                 <div class="info-item"><span class="icon">🔗</span><span class="label">微信</span><span class="value">zhangming_pm</span></div>
             </div>
         </div>
@@ -905,10 +900,10 @@
             <div class="edu-layout">
                 <img class="edu-image" src="school.jpg" alt="学校图片" />
                 <div class="edu-card">
-                    <div class="edu-school">XX大学 <span style="color:#ccc; font-weight:normal;">| 本科</span></div>
+                    <div class="edu-school">北京经济技术职业学院 <span style="color:#ccc; font-weight:normal;">| 大专</span></div>
                     <div class="edu-row"><span class="k">专业：</span>计算机应用技术</div>
                     <div class="edu-row"><span class="k">时间：</span>2018.09 - 2022.06</div>
-                    <div class="edu-row"><span class="k">主修课程：</span>Web前端、数据结构、计算机网络；在校参与前端兴趣小组。</div>
+                    <div class="edu-row"><span class="k">英语：</span>应用能力A/B级。</div>
                 </div>
             </div>
         </div>
@@ -923,81 +918,65 @@
                 <button class="work-arrow next" id="workNext">→</button>
                 <div class="work-item" data-index="0">
                     <div class="work-header">
-                        <div class="work-company">ABC科技有限公司</div>
-                        <div class="work-time">2022.07 - 至今</div>
+                        <div class="work-company">北京普济华堂健康科技有限公司</div>
+                        <div class="work-time">2025.03 – 2026.04</div>
                     </div>
-                    <div class="work-position">高级产品经理</div>
+                    <div class="work-position">研发产品部</div>
                     <div class="work-desc">
                         <ul>
-                            <li>负责商家经营SaaS产品线从0到1规划与落地</li>
-                            <li>主导需求调研、PRD撰写与跨团队协作</li>
-                            <li>通过数据驱动优化核心转化率提升30%</li>
-                            <li>带领3人产品小组，建立需求评审机制</li>
-                            <li>搭建产品指标体系，持续跟进业务复盘</li>
+                            <li>负责商城系统、健康筛查系统、平台官网等产品设计与迭代优化；</li>
+                            <li>负责智能手表项目市场调研、选品评估及整机性能测试，并输出选品报告；</li>
+                            <li>负责整理产品上线后的用户问题与反馈，开展数据测试与分析，推动产品优化；</li>
+                            <li>完成项目调研、需求分析、功能交互设计及文档输出，持续适配业务发展需求；</li>
+                            <li>配合运营制定推广策略，协同完成品牌宣传与用户转化；</li>
                         </ul>
                     </div>
                 </div>
                 <div class="work-item" data-index="1">
                     <div class="work-header">
-                        <div class="work-company">XX网络公司</div>
-                        <div class="work-time">2020.06 - 2022.06</div>
+                        <div class="work-company">北京铭万智达科技有限公司</div>
+                        <div class="work-time">2024.03 – 2025.01</div>
                     </div>
-                    <div class="work-position">产品经理</div>
+                    <div class="work-position">研发产品部</div>
                     <div class="work-desc">
                         <ul>
-                            <li>负责智能客服模块的产品设计与迭代</li>
-                            <li>对接研发、设计、测试，推动版本按时上线</li>
-                            <li>定期输出产品数据报告与用户反馈分析</li>
-                            <li>梳理客服工单流转流程，降低人工成本</li>
-                            <li>优化知识库检索逻辑，提升自助解决率</li>
+                            <li>负责业务平台维护，依托敏捷开发模式推动产品功能迭代与核心模块升级；</li>
+                            <li>负责输出产品需求文档、产品操作功能说明等各类业务文档；</li>
+                            <li>参与新业务外贸平台搭建，基于产品市场调研并输出相关文档；</li>
+                            <li>建立测试用例并统筹管理测试矩阵账号，组织内部项目测试，闭环跟踪问题；</li>
+                            <li>构建需求评估机制与结构化需求池，阶段性处理分公司及用户反馈的需求；</li>
+							<li>协调研发、设计、运营等资源，组织产品评审会议，标准化管控产品迭代周期；</li>
                         </ul>
                     </div>
                 </div>
                 <div class="work-item" data-index="2">
                     <div class="work-header">
-                        <div class="work-company">云创信息科技</div>
-                        <div class="work-time">2019.03 - 2020.05</div>
+                        <div class="work-company">阿米巴物联(北京)智能科技有限公司</div>
+                        <div class="work-time">2020.12 – 2023.06</div>
                     </div>
-                    <div class="work-position">产品助理</div>
+                    <div class="work-position">研发产品部</div>
                     <div class="work-desc">
                         <ul>
-                            <li>协助产品经理完成需求收集、原型绘制</li>
-                            <li>跟进项目进度，整理需求文档与会议纪要</li>
-                            <li>收集用户反馈，整理成迭代优化清单</li>
-                            <li>参与竞品分析，输出功能对比文档</li>
-                            <li>协助进行产品上线前的验收测试</li>
+                            <li>负责资讯网站产品搭建，输出产品原型文件稿，推动项目上线；</li>
+                            <li>负责产品原型设计交互，完成原型设计及产品结构，协调开发确保功能落地；</li>
+                            <li>负责市场调研与用户需求收集，输出产品报告，参与产品测试，制定测试用例；</li>
+                            <li>建立需求评估机制，形成结构化需求池，实现分类、追踪与版本规划；</li>
+                            <li>整理物联网垂直领域方案、案例库及相关行业资讯，丰富平台内容；</li>
                         </ul>
                     </div>
                 </div>
                 <div class="work-item" data-index="3">
                     <div class="work-header">
-                        <div class="work-company">新途数字</div>
-                        <div class="work-time">2018.07 - 2019.02</div>
+                        <div class="work-company">北京中启百年信息技术有限公司</div>
+                        <div class="work-time">2018.08 – 2020.11</div>
                     </div>
-                    <div class="work-position">实习生</div>
+                    <div class="work-position">运营部</div>
                     <div class="work-desc">
                         <ul>
-                            <li>参与后台管理系统需求梳理与原型评审</li>
-                            <li>协助测试人员进行功能回归，记录bug</li>
-                            <li>整理竞品分析文档，输出对比报告</li>
-                            <li>协助整理产品手册，编写操作说明</li>
-                            <li>跟进简单需求，配合UI完成页面走查</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="work-item" data-index="4">
-                    <div class="work-header">
-                        <div class="work-company">启航互联</div>
-                        <div class="work-time">2017.07 - 2018.06</div>
-                    </div>
-                    <div class="work-position">产品实习</div>
-                    <div class="work-desc">
-                        <ul>
-                            <li>协助业务侧收集客户需求，整理台账</li>
-                            <li>绘制简单原型，配合产品沟通方案</li>
-                            <li>跟进线上问题，同步给研发排查</li>
-                            <li>统计日常业务数据，制作简易报表</li>
-                            <li>参与需求评审会议，记录待办事项</li>
+                            <li>负责客户网站搭建与SEO优化，综合行业特定制定关键词布局与外链建设；</li>
+                            <li>分析网站流量、转化率等核心指标，挖掘高价值长尾关键词；</li>
+                            <li>搭建关键词矩阵，沉淀标准化营销文案库与成功案例库；</li>
+                            <li>培训组内成员，统筹管理数百个客户网站账号的日常运维，稳定搜索引擎排名；</li>
                         </ul>
                     </div>
                 </div>
@@ -1007,7 +986,6 @@
                 <div class="work-dot" data-dot="1"></div>
                 <div class="work-dot" data-dot="2"></div>
                 <div class="work-dot" data-dot="3"></div>
-                <div class="work-dot" data-dot="4"></div>
             </div>
         </div>
     </div>
@@ -1021,168 +999,141 @@
                 <button class="project-arrow next" id="projectNext">→</button>
                 <div class="project-item" data-index="0" data-img="https://picsum.photos/id/20/1200/800">
                     <div class="project-header">
-                        <h3 class="project-name">商家经营分析看板</h3>
-                        <span class="project-time">2023.01 - 2023.06</span>
+                        <h3 class="project-name">健康筛查系统</h3>
+                        <span class="project-time">2025.03 – 2026.04</span>
                     </div>
                     <div class="project-tag-group">
-                        <span class="project-tag">担任职位：产品负责人</span>
-                        <span class="project-tag">所属公司：云商科技</span>
-                        <span class="project-tag">项目周期：6个月</span>
+						<span class="project-tag">公司：普济华堂</span>
+                        <span class="project-tag">职位：产品专员</span>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">项目介绍</div>
-                        <div class="project-text">面向平台中小商家的可视化经营数据产品，整合交易、流量、用户、商品等多维度数据，帮助商家快速掌握经营状况，辅助决策。</div>
+                        <div class="project-text">健康筛查系统面向普通人群、养生群体的健康管理系统。系统整合多维度健康数据记录、个性化健康方案、健康社区、线上商城等核心功能，围绕饮食、运动、睡眠、生理指标、心理情志等维度，为用户定制专属健康管理方案，并基于数据可视化、打卡追踪功能助力用户落地健康目标，通过健康社区促进用户经验交流，联动线上健康商城补齐服务链路，引导用户建立科学健康习惯。</div>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">工作职责</div>
                         <ul>
-                            <li>深度调研200+商家需求，梳理核心数据指标体系，输出产品规划方案</li>
-                            <li>负责看板全流程设计，包括首页概览、交易分析、流量分析、用户画像等模块</li>
-                            <li>协调数据、研发、设计团队，推动项目按期上线，后续持续迭代优化</li>
+                            <li>负责统筹健康筛查系统整体产品功能规划与设计；</li>
+                            <li>负责商城系统需求与功能设计，完成限购、抽奖、竞价、分享、在线客服等模块方案输出；</li>
+                            <li>收集用户反馈，梳理需求优先级，把控版本迭代，对接协调研发、测试团队推进落地；</li>
                         </ul>
-                    </div>
-                    <div>
-                        <div class="project-block-title">项目成果</div>
-                        <div class="project-text">覆盖商家数8000+，日均使用时长提升45%，商家付费转化率提升18%</div>
                     </div>
                     <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
                 <div class="project-item" data-index="1" data-img="https://picsum.photos/id/30/1200/800">
                     <div class="project-header">
-                        <h3 class="project-name">电商活动H5页面</h3>
-                        <span class="project-time">2022.09 - 2022.11</span>
+                        <h3 class="project-name">企业官网</h3>
+                        <span class="project-time">2025.08 – 2026.01</span>
                     </div>
                     <div class="project-tag-group">
-                        <span class="project-tag">担任职位：前端开发</span>
-                        <span class="project-tag">所属公司：ABC科技</span>
-                        <span class="project-tag">项目周期：2个月</span>
+						<span class="project-tag">公司：普济华堂</span>
+                        <span class="project-tag">职位：产品专员</span>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">项目介绍</div>
-                        <div class="project-text">营销活动移动端页面，包含抽奖、表单提交；</div>
+                        <div class="project-text">普济华堂健康科技以普济模式为核心，融合人工智能与中医智慧，业务覆盖智能监测、健康管理等领域，拥有完善产品体系、调理服务及线下门店资源；为补齐品牌线上展示与业务转化能力，搭建官方网站作为宣传窗口，集中展示企业核心优势、产品服务与招商合作价值，拓宽潜在客户与合作伙伴的触达渠道。</div>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">工作职责</div>
                         <ul>
-                            <li>页面开发、动画交互、移动端适配</li>
+                            <li>统筹官网整体信息架构与页面逻辑规划，独立输出完整产品文档及高保真交互原型；</li>
+							<li>组织项目产品评审会议，对接各业务部门需求，全程跟进产品设计落地；</li>
                         </ul>
                     </div>
-                    <div>
-                        <div class="project-block-title">项目成果</div>
-                        <div class="project-text">活动页面稳定承载峰值流量，活动参与转化率达标</div>
-                    </div>
+                   
                     <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
                 <div class="project-item" data-index="2" data-img="https://picsum.photos/id/40/1200/800">
                     <div class="project-header">
-                        <h3 class="project-name">智能客服工单系统</h3>
-                        <span class="project-time">2021.03 - 2021.09</span>
+                        <h3 class="project-name">掌上通矩阵营销平台</h3>
+                        <span class="project-time">2024.03 – 2025.01</span>
                     </div>
                     <div class="project-tag-group">
-                        <span class="project-tag">担任职位：产品经理</span>
-                        <span class="project-tag">所属公司：XX网络</span>
-                        <span class="project-tag">项目周期：6个月</span>
+						<span class="project-tag">公司：铭万智达</span>
+                        <span class="project-tag">职位：产品专员</span>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">项目介绍</div>
-                        <div class="project-text">面向客服团队的工单流转系统，支持自动分配、SLA预警、工单闭环、满意度评价。</div>
+                        <div class="project-text">该平台是全域营销媒体资源整合系统，聚合抖音、快手、小红书、B站、西瓜、百度等全渠道新媒体流量资源。依托智能化营销能力，为企业客户提供跨平台内容策划、智能流量分发、账号代运营托管等一站式营销解决方案。打通全网公域流量，提升品牌全网曝光度，实现公域引流、私域沉淀与精准转化闭环，助力企业精准获客、挖掘商业询盘。</div>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">工作职责</div>
                         <ul>
-                            <li>梳理工单全流程，设计自动分配规则与超时预警机制</li>
-                            <li>搭建后台管理、报表统计、客服工作台模块</li>
-                            <li>对接一线客服收集反馈，持续迭代优化流程</li>
+                            <li>负责业务平台功能设计，涵盖AI智能客服、抖转微引流、消息推送、图文内容发布等模块设计；</li>
+                            <li>搭建结构化需求池，统筹梳理、分级排序需求，规范化需求评估机制；</li>
+                            <li>搭建系统测试用例库，统筹管理测试矩阵账号，组织内测与用户测试；</li>
                         </ul>
                     </div>
-                    <div>
-                        <div class="project-block-title">项目成果</div>
-                        <div class="project-text">工单平均处理时长下降28%，客服人效明显提升</div>
-                    </div>
+                   
                     <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
                 <div class="project-item" data-index="3" data-img="https://picsum.photos/id/50/1200/800">
                     <div class="project-header">
-                        <h3 class="project-name">会员积分商城系统</h3>
-                        <span class="project-time">2020.01 - 2020.07</span>
+                        <h3 class="project-name">外贸赢家全链路营销服务</h3>
+                        <span class="project-time">2024.08 – 2025.01</span>
                     </div>
                     <div class="project-tag-group">
-                        <span class="project-tag">担任职位：产品助理</span>
-                        <span class="project-tag">所属公司：云创信息科技</span>
-                        <span class="project-tag">项目周期：6个月</span>
+                        <span class="project-tag">公司：铭万智达</span>
+                        <span class="project-tag">职位：产品专员</span>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">项目介绍</div>
-                        <div class="project-text">会员积分发放、消耗、兑换、订单管理的B端后台+C端商城。</div>
+                        <div class="project-text">该项目是一站式外贸全流程营销服务产品，依托大数据挖掘、多语言智能建站，整合智慧营销、海外社媒推广、SEM海外广告投放等能力，面向外贸企业提供多语言建站、全球流量曝光、AI精准获客、流量变现等数字服务；叠加海外办事处实地看样、国际展会对接、多语种翻译等本土化配套服务，助力中小外贸企业开拓海外市场。</div>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">工作职责</div>
                         <ul>
-                            <li>协助完成积分规则、商品上下架、订单核销模块设计</li>
-                            <li>输出原型、需求文档，跟进研发测试上线</li>
-                            <li>整理上线后数据，输出复盘报告</li>
+                            <li>负责产品调研，收集用户需求信息，输出产品需求文档与业务流程图；</li>
+                            <li>基于业务需求优化产品功能架构，完成产品功能设计、官网优化及整体产品方案定稿；</li>
                         </ul>
                     </div>
-                    <div>
-                        <div class="project-block-title">项目成果</div>
-                        <div class="project-text">上线后会员活跃度提升22%，积分消耗率稳步上涨</div>
-                    </div>
+                   
                     <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
                 <div class="project-item" data-index="4" data-img="https://picsum.photos/id/65/1200/800">
                     <div class="project-header">
-                        <h3 class="project-name">后台权限管理平台</h3>
-                        <span class="project-time">2019.06 - 2019.11</span>
+                        <h3 class="project-name">物联网资讯平台</h3>
+                        <span class="project-time">2020.12 – 2023.06</span>
                     </div>
                     <div class="project-tag-group">
-                        <span class="project-tag">担任职位：产品助理</span>
-                        <span class="project-tag">所属公司：新途数字</span>
-                        <span class="project-tag">项目周期：5个月</span>
+                        <span class="project-tag">公司：阿米巴物联</span>
+                        <span class="project-tag">职位：产品专员</span>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">项目介绍</div>
-                        <div class="project-text">RBAC权限体系，支持角色、账号、菜单、数据权限配置，多业务系统共用。</div>
+                        <div class="project-text">聚焦物联网垂直资讯与产业生态服务平台，面向物联网从业者及企业决策者，覆盖智慧家居、智慧城市等应用领域。平台聚合行业资讯、解决方案、产品评测、供需资源等全维度产业内容，为行业从业者提供专业学习与参考渠道，助力企业高效完成产品选型、决策参考与商业合作对接，赋能物联网产业高效协同发展。</div>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">工作职责</div>
                         <ul>
-                            <li>梳理权限模型，设计账号、角色、资源配置页面</li>
-                            <li>配合后端确认权限校验逻辑，编写接口需求</li>
-                            <li>制作操作手册，培训内部管理员使用</li>
+                            <li>负责梳理核心业务需求，完成产品整体规划，输出标准化需求文档、产品原型及交互设计方案；</li>
+                            <li>负责平台上线后的常态化运营支撑，持续推进产品功能迭代升级，维护和优化需求池；</li>
                         </ul>
                     </div>
-                    <div>
-                        <div class="project-block-title">项目成果</div>
-                        <div class="project-text">统一支撑3条业务线，权限管控风险降低，减少重复开发</div>
-                    </div>
+                   
                     <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
                 <div class="project-item" data-index="5" data-img="https://picsum.photos/id/75/1200/800">
                     <div class="project-header">
-                        <h3 class="project-name">线上问卷调研工具</h3>
-                        <span class="project-time">2018.08 - 2018.12</span>
+                        <h3 class="project-name">网站运营管理</h3>
+                        <span class="project-time">2018.08 – 2020.11</span>
                     </div>
                     <div class="project-tag-group">
-                        <span class="project-tag">担任职位：实习产品</span>
-                        <span class="project-tag">所属公司：启航互联</span>
-                        <span class="project-tag">项目周期：4个月</span>
+                        <span class="project-tag">公司：中启百年</span>
+                        <span class="project-tag">职位：运营专员</span>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">项目介绍</div>
-                        <div class="project-text">可视化问卷编辑器，支持单选、多选、填空、评分，自动统计问卷报表。</div>
+                        <div class="project-text">本项目面向广大中小企业，提供定制化网站建设与全网营销推广方案。依托智能建站能力为企业搭建专属官方网站，塑造专业线上品牌形象；结合精细化全网运营与精准引流策略，提升企业线上曝光与搜索权重，助力企业实现线上获客与线索转化。</div>
                     </div>
                     <div style="margin-bottom:16px;">
                         <div class="project-block-title">工作职责</div>
                         <ul>
-                            <li>协助整理问卷类型、逻辑跳转、数据导出需求</li>
-                            <li>绘制简单原型，跟进测试，记录bug</li>
-                            <li>收集内部使用反馈，整理优化清单</li>
+                            <li>对接企业客户，梳理业务定位，挖掘并优化行业关键词，规划网站结构布局；</li>
+                            <li>负责客户网站搭建及线上推广全流程，监控网站收录情况、关键词排名及站点流量数据；</li>
                         </ul>
                     </div>
-                    <div>
-                        <div class="project-block-title">项目成果</div>
-                        <div class="project-text">支持内部业务快速发起调研，替代第三方付费问卷工具</div>
-                    </div>
+                   
                     <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
                 </div>
             </div>
@@ -1196,7 +1147,7 @@
             </div>
         </div>
     </div>
-    <!-- 总结页：新增 .summary-wrap 包裹标题+卡片，实现整体水平+垂直居中 -->
+    <!-- 总结页 -->
     <div class="panel is-scroll" id="panel-summary" style="background-image: url('https://picsum.photos/id/266/1920/1080')">
         <div class="panel-content">
             <div class="summary-wrap">
@@ -1204,17 +1155,14 @@
                 <div class="sub-title">持续精进，热爱产品</div>
                 <div class="summary-grid">
                     <div class="summary-card-new">
-                        <div class="summary-icon">🧠</div>
                         <div class="summary-title">能力概述</div>
                         <div class="summary-desc">熟悉产品全流程开发，具备需求分析与设计能力，掌握文档撰写及多种原型工具；注重沟通协作，关注用户与市场，以用户体验为核心；通过用户反馈与数据分析持续优化产品，具备产品运营意识。</div>
                     </div>
                     <div class="summary-card-new">
-                        <div class="summary-icon">🛠️</div>
                         <div class="summary-title">专业技能</div>
                         <div class="summary-desc">Axure、Figma、Modao、XMind、Office(Word/Excel/PPT）、PS等产品设计工具。</div>
                     </div>
                     <div class="summary-card-new">
-                        <div class="summary-icon">✨</div>
                         <div class="summary-title">兴趣爱好</div>
                         <div class="summary-desc">打球运动、视频剪辑</div>
                     </div>
@@ -1388,3 +1336,4 @@
 </script>
 </body>
 </html>
+
