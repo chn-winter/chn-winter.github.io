@@ -374,7 +374,7 @@
         width: 24px;
         border-radius: 5px;
     }
-    /* 项目经历 */
+    /* 项目经历：卡片最大高度530px，超出滚动 */
     .project-stack-wrap {
         position: relative;
         width: 100%;
@@ -426,6 +426,8 @@
         overflow-wrap: anywhere;
         word-break: break-word;
         display:none;
+        max-height:530px;
+        overflow-y:auto;
     }
     .project-item.card-active {
         display:block;
@@ -711,6 +713,14 @@
             width: calc(100vw - 20px);
             padding: 20px 18px;
         }
+        /* 移动端工作页面：日期放到公司名称下面 */
+        .work-header{
+            flex-direction:column;
+        }
+        .work-time{
+            margin-left:0;
+            margin-top:4px;
+        }
         .work-arrow {
             width: 36px;
             height: 36px;
@@ -732,6 +742,8 @@
         .project-item {
             width: calc(100vw - 20px);
             padding: 20px 18px;
+            max-height:530px;
+            overflow-y:auto;
         }
         .project-arrow {
             width: 36px;
