@@ -253,13 +253,9 @@
         max-width: 1100px;
         margin-top: 20px;
         overflow: visible;
-        cursor: grab;
         display: flex;
         align-items: flex-start;
         justify-content: center;
-    }
-    .work-stack-wrap:active {
-        cursor: grabbing;
     }
     .work-arrow {
         position: absolute;
@@ -383,13 +379,9 @@
         max-width: 1100px;
         margin-top: 20px;
         overflow: visible;
-        cursor: grab;
         display: flex;
         align-items: flex-start;
         justify-content: center;
-    }
-    .project-stack-wrap:active {
-        cursor: grabbing;
     }
     .project-arrow {
         position: absolute;
@@ -652,7 +644,7 @@
     @media (max-width: 768px) {
         .panel {
             padding: 0 5%;
-            padding-bottom: 50px;
+            padding-bottom: 110px;
         }
         .panel h1 {
             font-size: 28px;
@@ -721,7 +713,7 @@
             width: 36px;
             height: 36px;
             font-size: 16px;
-            top: 110%;
+            top: 50%;
         }
         .work-arrow.prev {
             left:12px;
@@ -764,7 +756,7 @@
             width: 36px;
             height: 36px;
             font-size: 16px;
-            top: 107%;
+            top: 50%;
         }
         .project-arrow.prev {
             left:12px;
@@ -1275,18 +1267,15 @@
             switchPanel(this.dataset.target);
         };
     });
-    /* ===== 工作经历：当前卡 + 下方预览卡 ===== */
-    const workWrap = document.getElementById('workWrap');
+
+    /* ===== 工作经历：仅保留按钮、圆点点击切换，移除手势、鼠标拖拽 ===== */
     const workCards = document.querySelectorAll('.work-item');
     const workDots = document.querySelectorAll('.work-dot');
     const workPrevBtn = document.getElementById('workPrev');
     const workNextBtn = document.getElementById('workNext');
     let currentWork = 0;
     const totalWork = workCards.length;
-    let isDrag = false;
-    let startY = 0;
-    let moveY = 0;
-    const dragThreshold = 60;
+
     function renderWork() {
         workCards.forEach((card, i) => {
             card.classList.remove('card-active', 'card-next', 'card-hide');
@@ -1322,68 +1311,16 @@
             renderWork();
         };
     });
-    workCards.forEach(card => {
-        card.onclick = function () {
-            if (this.classList.contains('card-next')) {
-                currentWork = parseInt(this.dataset.index);
-                renderWork();
-            }
-        };
-        card.style.cursor = 'pointer';
-    });
-    // 鼠标拖拽
-    workWrap.addEventListener('mousedown', (e) => {
-        isDrag = true;
-        startY = e.clientY;
-        moveY = 0;
-    });
-    document.addEventListener('mousemove', (e) => {
-        if (!isDrag) return;
-        moveY = e.clientY - startY;
-    });
-    document.addEventListener('mouseup', () => {
-        if (!isDrag) return;
-        isDrag = false;
-        if (moveY > dragThreshold && currentWork > 0) {
-            currentWork--;
-        } else if (moveY < -dragThreshold && currentWork < totalWork - 1) {
-            currentWork++;
-        }
-        renderWork();
-    });
-    // 移动端触摸
-    workWrap.addEventListener('touchstart', (e) => {
-        isDrag = true;
-        startY = e.touches[0].clientY;
-        moveY = 0;
-    });
-    workWrap.addEventListener('touchmove', (e) => {
-        if (!isDrag) return;
-        moveY = e.touches[0].clientY - startY;
-    });
-    workWrap.addEventListener('touchend', () => {
-        if (!isDrag) return;
-        isDrag = false;
-        if (moveY > dragThreshold && currentWork > 0) {
-            currentWork--;
-        } else if (moveY < -dragThreshold && currentWork < totalWork - 1) {
-            currentWork++;
-        }
-        renderWork();
-    });
     renderWork();
 
-    /* ===== 项目轮播 垂直上下堆叠卡片 ===== */
-    const projectWrap = document.getElementById('projectWrap');
+    /* ===== 项目轮播：仅保留按钮、圆点点击切换，移除手势、鼠标拖拽 ===== */
     const projectCards = document.querySelectorAll('.project-item');
     const projectDots = document.querySelectorAll('.project-dot');
     const projectPrevBtn = document.getElementById('projectPrev');
     const projectNextBtn = document.getElementById('projectNext');
     let currentProject = 0;
     const totalProject = projectCards.length;
-    let projectDrag = false;
-    let projectStartY = 0;
-    let projectMoveY = 0;
+
     function renderProject() {
         projectCards.forEach((card, i) => {
             card.classList.remove('card-active', 'card-next', 'card-hide');
@@ -1418,55 +1355,6 @@
             currentProject = parseInt(this.dataset.dot);
             renderProject();
         };
-    });
-    projectCards.forEach(card => {
-        card.onclick = function () {
-            if (this.classList.contains('card-next')) {
-                currentProject = parseInt(this.dataset.index);
-                renderProject();
-            }
-        };
-        card.style.cursor = 'pointer';
-    });
-    // 鼠标拖拽
-    projectWrap.addEventListener('mousedown', (e) => {
-        projectDrag = true;
-        projectStartY = e.clientY;
-        projectMoveY = 0;
-    });
-    document.addEventListener('mousemove', (e) => {
-        if (!projectDrag) return;
-        projectMoveY = e.clientY - projectStartY;
-    });
-    document.addEventListener('mouseup', () => {
-        if (!projectDrag) return;
-        projectDrag = false;
-        if (projectMoveY > dragThreshold && currentProject > 0) {
-            currentProject--;
-        } else if (projectMoveY < -dragThreshold && currentProject < totalProject - 1) {
-            currentProject++;
-        }
-        renderProject();
-    });
-    // 触摸滑动
-    projectWrap.addEventListener('touchstart', (e) => {
-        projectDrag = true;
-        projectStartY = e.touches[0].clientY;
-        projectMoveY = 0;
-    });
-    projectWrap.addEventListener('touchmove', (e) => {
-        if (!projectDrag) return;
-        projectMoveY = e.touches[0].clientY - projectStartY;
-    });
-    projectWrap.addEventListener('touchend', () => {
-        if (!projectDrag) return;
-        projectDrag = false;
-        if (projectMoveY > dragThreshold && currentProject > 0) {
-            currentProject--;
-        } else if (projectMoveY < -dragThreshold && currentProject < totalProject - 1) {
-            currentProject++;
-        }
-        renderProject();
     });
     renderProject();
 
