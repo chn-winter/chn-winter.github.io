@@ -92,7 +92,6 @@
         max-width: 1000px;
         margin: 0 auto;
     }
-
     .panel.active {
         display: block;
     }
@@ -147,6 +146,14 @@
     .info-item .value {
         font-size: 20px;
         color: #ffffff;
+    }
+    .info-item .value a{
+        color:#fff;
+        text-decoration:none;
+    }
+    .info-item .value a:hover{
+        color:#73b8ff;
+        text-decoration:underline;
     }
     .resume-card {
         width: 100%;
@@ -260,7 +267,7 @@
         color: #ccc;
         margin-right: 6px;
     }
-    /* 工作经历 */
+    /* 工作经历 自适应卡片，非active完全display:none */
     .work-stack-wrap {
         position: relative;
         width: 100%;
@@ -268,12 +275,13 @@
         margin-top: 20px;
         overflow: visible;
         display: flex;
-        align-items: flex-start;
+        flex-direction:column;
+        align-items: center;
         justify-content: center;
     }
     .work-arrow {
         position: absolute;
-        top: 44%;
+        top: 50%;
         width: 44px;
         height: 44px;
         border-radius: 50%;
@@ -300,40 +308,21 @@
         color: #fff;
     }
     .work-item {
-        position: absolute;
-        width: 780px;
+        width: 100%;
+        max-width:780px;
         background: rgba(255,255,255,0.12);
         border-radius: 16px;
         padding: 30px 36px;
         text-align: left;
         backdrop-filter: blur(6px);
-        transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease, width 0.4s ease;
         box-shadow: 0 8px 24px rgba(0,0,0,0.35);
         overflow-wrap: anywhere;
         word-break: break-word;
+        display:none;
     }
     .work-item.card-active {
-        transform: translateY(0);
-        z-index: 10;
-        opacity: 1;
-        filter: brightness(1);
-        width:780px;
-        position: relative;
-        max-height: unset;
-        overflow-y: visible;
-    }
-    .work-item.card-next {
-        transform: translateY(24px);
-        z-index: 5;
-        opacity: 0.75;
-        filter: brightness(0.75);
-        width: calc(780px - 80px);
-        overflow: hidden;
-    }
-    .work-item.card-hide {
-        opacity: 0;
-        pointer-events: none;
-        z-index: 1;
+        display:block;
+        position:relative;
     }
     .work-header {
         display: flex;
@@ -393,12 +382,13 @@
         margin-top: 20px;
         overflow: visible;
         display: flex;
-        align-items: flex-start;
+        flex-direction:column;
+        align-items: center;
         justify-content: center;
     }
     .project-arrow {
         position: absolute;
-        top: 44%;
+        top: 50%;
         width: 44px;
         height: 44px;
         border-radius: 50%;
@@ -425,41 +415,21 @@
         color: #fff;
     }
     .project-item {
-        position: absolute;
-        width: 780px;
+        width:100%;
+        max-width:780px;
         background: rgba(255,255,255,0.12);
         border-radius: 16px;
         padding: 30px 36px;
         text-align: left;
         backdrop-filter: blur(6px);
-        transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease, width 0.4s ease;
         box-shadow: 0 8px 24px rgba(0,0,0,0.35);
         overflow-wrap: anywhere;
         word-break: break-word;
+        display:none;
     }
     .project-item.card-active {
-        transform: translateY(0);
-        z-index: 10;
-        opacity: 1;
-        filter: brightness(1);
-        width:780px;
-        position: relative;
-        max-height: unset;
-        overflow-y: visible;
-    }
-    .project-item.card-next {
-        transform: translateY(60px);
-        z-index: 5;
-        opacity: 0;
-        pointer-events: none;
-        filter: brightness(0.75);
-        width: calc(780px - 80px);
-        overflow: hidden;
-    }
-    .project-item.card-hide {
-        opacity: 0;
-        pointer-events: none;
-        z-index: 1;
+        display:block;
+        position:relative;
     }
     .project-header {
         display: flex;
@@ -543,11 +513,11 @@
         width: 24px;
         border-radius: 5px;
     }
-    /* 弹窗 */
+    /* 弹窗 支持多张图片切换 */
     .modal-mask {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.75);
+        background: rgba(0,0,0,0.85);
         z-index: 999;
         display: none;
         align-items: center;
@@ -571,11 +541,38 @@
         border: none;
         cursor: pointer;
         font-size: 18px;
+        z-index:10;
     }
     .modal-img {
         max-width: 100%;
         max-height: 75vh;
         border-radius: 8px;
+    }
+    .modal-prev,.modal-next{
+        position:absolute;
+        top:50%;
+        transform:translateY(-50%);
+        width:36px;
+        height:36px;
+        border-radius:50%;
+        border:none;
+        background:#fff;
+        color:#333;
+        font-size:18px;
+        cursor:pointer;
+        z-index:10;
+    }
+    .modal-prev{
+        left:8px;
+    }
+    .modal-next{
+        right:8px;
+    }
+    .modal-page-text{
+        text-align:center;
+        color:#fff;
+        margin-top:10px;
+        font-size:14px;
     }
     /* 底部导航 */
     .nav-bar {
@@ -726,24 +723,6 @@
         .work-arrow.next {
             right:12px;
         }
-        .work-item.card-active{
-            max-height: 430px;
-            overflow-y: auto;
-        }
-        .work-item.card-next {
-            transform: translateY(20px);
-            width: calc(100vw - 40px);
-        }
-        .work-header {
-            flex-direction: column;
-        }
-        .work-time {
-            margin-left: 0;
-            margin-top: 4px;
-        }
-        .work-company {
-            font-size: 18px;
-        }
         .work-desc li {
             font-size: 14px;
         }
@@ -765,16 +744,6 @@
         }
         .project-arrow.next {
             right:12px;
-        }
-        .project-item.card-active{
-            max-height: 520px;
-            overflow-y: auto;
-        }
-        .project-item.card-next {
-            transform: translateY(60px);
-            opacity:0;
-            pointer-events:none;
-            width: calc(100vw - 40px);
         }
         .project-header {
             flex-direction: column;
@@ -828,8 +797,10 @@
             width: 22px;
             height: 22px;
         }
-        .modal-img {
-            max-height: 68vh;
+        .modal-prev,.modal-next{
+            width:28px;
+            height:28px;
+            font-size:14px;
         }
     }
     @media (max-width:340px) {
@@ -848,12 +819,6 @@
         }
         .edu-card, .work-item, .project-item, .summary-card-new {
             padding:16px 14px;
-        }
-        .work-item.card-active{
-            max-height: 300px;
-        }
-        .project-item.card-active{
-            max-height: 420px;
         }
     }
 </style>
@@ -876,15 +841,15 @@
             </div>
         </div>
     </div>
-    <!-- 我的 -->
+    <!-- 我的 页面：a标签 tel 拨号 / mailto 发邮件 -->
     <div class="panel" id="panel-about" style="background-image: url('https://picsum.photos/id/180/1920/1080')">
         <div class="panel-content">
             <img class="avatar" src="avatar.jpg" alt="avatar" />
             <h1>张明</h1>
             <div class="sub-title">产品经理</div>
             <div class="info-grid">
-                <div class="info-item"><span class="icon">📱</span><span class="label">手机</span><span class="value">138-0000-0000</span></div>
-                <div class="info-item"><span class="icon">✉️</span><span class="label">邮箱</span><span class="value">zhangming@example.com</span></div>
+                <div class="info-item"><span class="icon">📱</span><span class="label">手机</span><span class="value"><a href="tel:13800000000">138-0000-0000</a></span></div>
+                <div class="info-item"><span class="icon">✉️</span><span class="label">邮箱</span><span class="value"><a href="mailto:zhangming@example.com">zhangming@example.com</a></span></div>
                 <div class="info-item"><span class="icon">📍</span><span class="label">城市</span><span class="value">北京·通州</span></div>
                 <div class="info-item"><span class="icon">🎂</span><span class="label">Date</span><span class="value">2000-01-01</span></div>
                 <div class="info-item"><span class="icon">💼</span><span class="label">求职</span><span class="value">B/C产品经理</span></div>
@@ -989,7 +954,7 @@
             </div>
         </div>
     </div>
-    <!-- 项目经历 -->
+    <!-- 项目经历 data-images 存放1‑3张案例图片地址 -->
     <div class="panel" id="panel-project" style="background-image: url('https://picsum.photos/id/60/1920/1080')">
         <div class="panel-content">
             <h1>项目经历</h1>
@@ -997,7 +962,7 @@
             <div class="project-stack-wrap" id="projectWrap">
                 <button class="project-arrow prev" id="projectPrev" disabled>←</button>
                 <button class="project-arrow next" id="projectNext">→</button>
-                <div class="project-item" data-index="0" data-img="https://picsum.photos/id/20/1200/800">
+                <div class="project-item" data-index="0" data-images='["https://picsum.photos/id/20/1200/800","https://picsum.photos/id/21/1200/800","https://picsum.photos/id/22/1200/800"]'>
                     <div class="project-header">
                         <h3 class="project-name">健康筛查系统</h3>
                         <span class="project-time">2025.03 – 2026.04</span>
@@ -1018,9 +983,9 @@
                             <li>收集用户反馈，梳理需求优先级，把控版本迭代，对接协调研发、测试团队推进落地；</li>
                         </ul>
                     </div>
-                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
                 </div>
-                <div class="project-item" data-index="1" data-img="https://picsum.photos/id/30/1200/800">
+                <div class="project-item" data-index="1" data-images='["https://picsum.photos/id/30/1200/800","https://picsum.photos/id/31/1200/800"]'>
                     <div class="project-header">
                         <h3 class="project-name">企业官网</h3>
                         <span class="project-time">2025.08 – 2026.01</span>
@@ -1040,10 +1005,9 @@
 							<li>组织项目产品评审会议，对接各业务部门需求，全程跟进产品设计落地；</li>
                         </ul>
                     </div>
-                   
-                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
                 </div>
-                <div class="project-item" data-index="2" data-img="https://picsum.photos/id/40/1200/800">
+                <div class="project-item" data-index="2" data-images='["https://picsum.photos/id/40/1200/800"]'>
                     <div class="project-header">
                         <h3 class="project-name">掌上通矩阵营销平台</h3>
                         <span class="project-time">2024.03 – 2025.01</span>
@@ -1064,10 +1028,9 @@
                             <li>搭建系统测试用例库，统筹管理测试矩阵账号，组织内测与用户测试；</li>
                         </ul>
                     </div>
-                   
-                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
                 </div>
-                <div class="project-item" data-index="3" data-img="https://picsum.photos/id/50/1200/800">
+                <div class="project-item" data-index="3" data-images='["https://picsum.photos/id/50/1200/800","https://picsum.photos/id/51/1200/800"]'>
                     <div class="project-header">
                         <h3 class="project-name">外贸赢家全链路营销服务</h3>
                         <span class="project-time">2024.08 – 2025.01</span>
@@ -1087,10 +1050,9 @@
                             <li>基于业务需求优化产品功能架构，完成产品功能设计、官网优化及整体产品方案定稿；</li>
                         </ul>
                     </div>
-                   
-                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
                 </div>
-                <div class="project-item" data-index="4" data-img="https://picsum.photos/id/65/1200/800">
+                <div class="project-item" data-index="4" data-images='["https://picsum.photos/id/65/1200/800","https://picsum.photos/id/66/1200/800","https://picsum.photos/id/67/1200/800"]'>
                     <div class="project-header">
                         <h3 class="project-name">物联网资讯平台</h3>
                         <span class="project-time">2020.12 – 2023.06</span>
@@ -1110,10 +1072,9 @@
                             <li>负责平台上线后的常态化运营支撑，持续推进产品功能迭代升级，维护和优化需求池；</li>
                         </ul>
                     </div>
-                   
-                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
                 </div>
-                <div class="project-item" data-index="5" data-img="https://picsum.photos/id/75/1200/800">
+                <div class="project-item" data-index="5" data-images='["https://picsum.photos/id/75/1200/800"]'>
                     <div class="project-header">
                         <h3 class="project-name">网站运营管理</h3>
                         <span class="project-time">2018.08 – 2020.11</span>
@@ -1133,8 +1094,7 @@
                             <li>负责客户网站搭建及线上推广全流程，监控网站收录情况、关键词排名及站点流量数据；</li>
                         </ul>
                     </div>
-                   
-                    <button class="btn-case" onclick="openModal(this.parentElement.dataset.img)">查看案例</button>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
                 </div>
             </div>
             <div class="project-dots">
@@ -1170,11 +1130,14 @@
             </div>
         </div>
     </div>
-    <!-- 弹窗 -->
+    <!-- 弹窗（多张图片切换） -->
     <div class="modal-mask" id="modalMask">
         <div class="modal-box">
             <button class="modal-close" onclick="closeModal()">×</button>
+            <button class="modal-prev" id="modalPrev">‹</button>
             <img class="modal-img" id="modalImg" src="" alt="案例截图" />
+            <button class="modal-next" id="modalNext">›</button>
+            <div class="modal-page-text" id="modalPageText"></div>
         </div>
     </div>
     <!-- 底部导航 -->
@@ -1234,7 +1197,8 @@
             switchPanel(this.dataset.target);
         };
     });
-    /* 工作经历 */
+
+    /* =========工作经历 卡片完全隐藏，自适应高度========= */
     const workCards = document.querySelectorAll('.work-item');
     const workDots = document.querySelectorAll('.work-dot');
     const workPrevBtn = document.getElementById('workPrev');
@@ -1243,15 +1207,9 @@
     const totalWork = workCards.length;
     function renderWork() {
         workCards.forEach((card, i) => {
-            card.classList.remove('card-active', 'card-next', 'card-hide');
-            if (i === currentWork) {
-                card.classList.add('card-active');
-            } else if (i === currentWork + 1) {
-                card.classList.add('card-next');
-            } else {
-                card.classList.add('card-hide');
-            }
+            card.classList.remove('card-active');
         });
+        workCards[currentWork].classList.add('card-active');
         workDots.forEach((d, i) => {
             d.classList.toggle('active', i === currentWork);
         });
@@ -1277,7 +1235,8 @@
         };
     });
     renderWork();
-    /* 项目经历 */
+
+    /* =========项目经历 卡片完全隐藏，自适应高度========= */
     const projectCards = document.querySelectorAll('.project-item');
     const projectDots = document.querySelectorAll('.project-dot');
     const projectPrevBtn = document.getElementById('projectPrev');
@@ -1286,15 +1245,9 @@
     const totalProject = projectCards.length;
     function renderProject() {
         projectCards.forEach((card, i) => {
-            card.classList.remove('card-active', 'card-next', 'card-hide');
-            if (i === currentProject) {
-                card.classList.add('card-active');
-            } else if (i === currentProject + 1) {
-                card.classList.add('card-next');
-            } else {
-                card.classList.add('card-hide');
-            }
+            card.classList.remove('card-active');
         });
+        projectCards[currentProject].classList.add('card-active');
         projectDots.forEach((d, i) => {
             d.classList.toggle('active', i === currentProject);
         });
@@ -1320,20 +1273,56 @@
         };
     });
     renderProject();
-    /* 弹窗 */
+
+    /* =========弹窗：支持多张图片切换========= */
     const modalMask = document.getElementById('modalMask');
     const modalImg = document.getElementById('modalImg');
-    function openModal(imgSrc) {
-        modalImg.src = imgSrc;
+    const modalPrev = document.getElementById('modalPrev');
+    const modalNext = document.getElementById('modalNext');
+    const modalPageText = document.getElementById('modalPageText');
+
+    let imgList = [];
+    let imgIndex = 0;
+
+    // 打开多图弹窗，传入json字符串数组
+    function openModalMulti(rawStr){
+        imgList = JSON.parse(rawStr);
+        imgIndex = 0;
+        renderModalImage();
         modalMask.style.display = 'flex';
+    }
+    function renderModalImage(){
+        modalImg.src = imgList[imgIndex];
+        modalPageText.innerText = `${imgIndex+1} / ${imgList.length}`;
+        // 只有一张图，隐藏左右切换按钮
+        if(imgList.length <=1){
+            modalPrev.style.display='none';
+            modalNext.style.display='none';
+        }else{
+            modalPrev.style.display='block';
+            modalNext.style.display='block';
+        }
     }
     function closeModal() {
         modalMask.style.display = 'none';
+        imgList = [];
+        imgIndex = 0;
     }
+    modalPrev.onclick = function(){
+        if(imgIndex > 0){
+            imgIndex--;
+            renderModalImage();
+        }
+    };
+    modalNext.onclick = function(){
+        if(imgIndex < imgList.length -1){
+            imgIndex++;
+            renderModalImage();
+        }
+    };
     modalMask.onclick = function (e) {
         if (e.target === modalMask) closeModal();
     };
 </script>
 </body>
 </html>
-
