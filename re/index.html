@@ -1,515 +1,611 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>姜 · 产品在线简历</title>
-    <!-- 引入 Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 20px; /* 移动端底部导航栏不影响，顶部无需预留过多空间 */
-        }
-        body { background: linear-gradient(145deg, #e9f3e3 0%, #d9e8cf 100%); font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif; line-height: 1.5; color: #2c3e2f; padding: 2rem 1.5rem; }
-        .resume-container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2.1fr; gap: 1.8rem; align-items: start; }
-        .left-col { position: sticky; top: 2rem; align-self: start; }
-        .card { background: #ffffff; border-radius: 0.9rem; padding: 1.6rem 1.8rem; box-shadow: 0 12px 28px -8px rgba(60, 80, 40, 0.12), 0 2px 4px -2px rgba(0, 0, 0, 0.02); transition: transform 0.2s ease, box-shadow 0.2s ease; margin-bottom: 1rem; border: 1px solid rgba(130, 170, 100, 0.2); }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 20px 32px -12px rgba(70, 100, 50, 0.18); border-color: rgba(100, 150, 70, 0.3); }
-        .left-col .card:last-child, .right-col .card:last-child { margin-bottom: 0; }
-        .avatar-section { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
-        .avatar { width: 80px; height: 80px; background: linear-gradient(135deg, #8fbc6e, #5e8d48); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.2rem; font-weight: 600; box-shadow: 0 8px 14px rgba(70, 110, 40, 0.2); flex-shrink: 0; }
-        .name-title { display: flex; flex-direction: column; justify-content: center; line-height: 1.3; }
-        .name-title h1 { font-size: 1.8rem; font-weight: 700; color: #2b4b1e; letter-spacing: -0.3px; margin-bottom: 0.3rem; }
-        .name-title .tagline { font-size: 0.8rem; font-weight: 500; color: #5f7c4a; background: #eef5e6; display: inline-block; padding: 0.4rem 1rem; border-radius: 40px; width: fit-content; }
-        .contact-info { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; border-top: 1px solid #e2efd8; padding-top: 1.2rem; }
-        .contact-item { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; color: #3d5a2c; }
-        .contact-item i { width: 1.6rem; font-size: 1.1rem; color: #6d9e4b; }
-        .contact-item a { text-decoration: none; color: #3d5a2c; transition: color 0.2s; }
-        .contact-item a:hover { color: #3f7842; text-decoration: underline; }
-        .section-title { display: flex; align-items: center; gap: 0.65rem; font-size: 1.2rem; font-weight: 600; color: #2c5e2a; margin-bottom: 1.2rem; border-left: 4px solid #88b868; padding-left: 0.8rem; }
-        .section-title i { font-size: 1.2rem; color: #6f9e4b; }
-        .self-text { color: #2f4427; line-height: 1.6; font-size: 0.95rem; }
-        .self-text p { margin-bottom: 0.5rem; }
-        .self-text p:last-child { margin-bottom: 0; }
-        .edu-item { margin-bottom: 1.2rem; }
-        .edu-item:last-child { margin-bottom: 0; }
-        .edu-degree { font-weight: 700; font-size: 1rem; color: #1e3a14; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; }
-        .edu-major { font-weight: 500; color: #486e36; font-size: 0.9rem; margin: 0.2rem 0 0.3rem; }
-        .edu-date { font-size: 1rem; font-weight: 400; color: #7d9a66; }
-        .edu-desc { font-size: 0.85rem; color: #4e6940; margin-top: 0.3rem; line-height: 1.4; }
-        .skills-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.6rem; }
-        .skill-tag { background: #eff7e8; padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.8rem; font-weight: 500; color: #426d2c; transition: all 0.2s; border: 1px solid #d2e6c2; }
-        .skill-tag:hover { background: #e2f0d6; transform: scale(1.02); }
-        /* 工作经历和项目经历基础样式 */
-        .exp-item, .project-item { 
-            margin-bottom: 1.7rem; 
-            border-bottom: 1px dashed #e2efd6; 
-            padding-bottom: 1.3rem; 
-        }
-
-        .exp-item:last-child, .project-item:last-child { 
-            border-bottom: 1px dashed #e2efd6;  /* 保持下边框显示 */
-            margin-bottom: 0; 
-            padding-bottom: 1.3rem; 
-        }
-
-        .right-col .card .project-item:last-child {
-            margin-bottom: 0;
-        }
-        .exp-header, .project-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; }
-        .exp-title { font-weight: 700; font-size: 1rem; color: #2b5722; }
-
-        .exp-company { font-weight: 500; color: #658c48; font-size: 1rem; }
-
-        .project-org { font-weight: 500; color: #658c48; font-size: 0.8rem; }
-        .exp-date, .project-date { font-size: 1rem; color: #8eae76; background: #f2f9ec; padding: 0.2rem 0.6rem; border-radius: 30px; white-space: nowrap; }
-        .project-header .project-org { display: block; width: 100%; margin-top: 0.3rem; margin-left: 0; }
-        .exp-desc, .project-desc { margin-top: 0.5rem; padding-left: 0.2rem; }
-        .exp-desc ul, .project-desc ul { list-style: none; }
-        .exp-desc li, .project-desc li { font-size: 1rem; color: #3b5532; margin-bottom: 0.5rem; display: flex; align-items: flex-start;/* gap: 0.6rem; */ }
-        .exp-desc li i, .project-desc li i { color: #88b868; font-size: 0.75rem; margin-top: 0.38rem; min-width: 1rem; }
-        .project-tech { margin-top: 0.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem;  margin-left: 1.2rem;}
-        .tech-badge { background: #ecf6e4; border-radius: 20px; font-size: 0.7rem; padding: 0.2rem 0.7rem; color: #557e3a; }
-        .right-col .card { background: #ffffff; }
-        
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 20px;        
-            left: 1.2rem;         
-            right: 1.2rem;
-            width: auto;
-            background: rgba(255, 255, 255, 0%); 
-            backdrop-filter: blur(8px);           
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 32px;                   
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 0.5rem 0.6rem;
-            z-index: 1000;
-            justify-content: space-around;
-            border: 1px solid rgb(231 231 231);
-        }
-        .mobile-nav a {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.2rem;
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #557e3a;
-            transition: all 0.2s;
-            padding: 0.4rem 0;
-            border-radius: 30px;
-            flex: 1;
-            text-align: center;
-        }
-        .mobile-nav a i {
-            font-size: 1.2rem;
-            color: #6d9e4b;
-        }
-        .mobile-nav a:hover, .mobile-nav a:active {
-            /* background: rgba(238, 245, 230, 0.6); */
-            color: #2c5e2a;
-        }
-        
-        @media (max-width: 880px) { 
-            body { padding: 0.4rem 0.4rem 80px 0.4rem; }
-            .resume-container { grid-template-columns: 1fr; gap: 1rem; } 
-            .left-col { position: static; } 
-            .card { padding: 1.2rem 1rem; } 
-            .avatar { width: 70px; height: 70px; font-size: 1.8rem; } 
-            .name-title h1 { font-size: 1.6rem; }
-            .mobile-nav {
-                display: flex;
-            }
-            html {
-                scroll-padding-bottom: 80px;
-            }
-        }
-        .mt-1 { margin-top: 0.5rem; }
-        .text-small { font-size: 0.8rem; }
-        footer { text-align: center; margin-top: 2.5rem; font-size: 0.75rem; color: #6d8e58; }
-        .project-item { background-color: #FFFFFF; border-radius: 18px; padding: 1.2rem 1.3rem; margin-bottom: 1.5rem; border: 1px solid #E6EFDD; transition: all 0.2s ease; }
-        .project-item:hover { background-color: #FBFDF8; border-color: #CBE2B8; box-shadow: 0 6px 14px rgba(70, 100, 40, 0.06); }
-        .project-header .exp-title { font-weight: 750; }
-        .project-desc ul li { font-size: 1rem; line-height: 1.55; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>JWD · 简历</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", sans-serif; }
+html, body { height: 100%; overflow: hidden; color: #fff; -webkit-tap-highlight-color: transparent; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+@keyframes blink { 0%,100% {opacity:1;} 50% {opacity:0;} }
+.typing-cursor { display: inline-block; width: 3px; height: 1em; background: #fff; margin-left: 4px; animation: blink 0.7s infinite; vertical-align: text-bottom; }
+.wrap { width: 100vw; height: 100vh; position: relative; }
+.panel { position: absolute; inset: 0; display: none; background-size: cover; background-position: center; background-repeat: no-repeat; }
+.panel::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.55); z-index: 1; }
+.panel-content { position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 4%; padding-bottom: 100px; }
+.panel.is-scroll .panel-content { overflow-y: auto; padding-bottom: 120px; justify-content: center; }
+.summary-wrap { width: 100%; max-width: 1000px; margin: 0 auto; }
+.panel.active { display: block; }
+.panel h1 { font-size: 42px; margin-bottom: 12px; font-weight: normal; }
+.panel .sub-title { font-size: 18px; margin-bottom: 28px; opacity: 0.9; }
+.avatar { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; border: 3px solid #fff; }
+.info-grid { width: 100%; max-width: 900px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 20px; }
+.info-item { width: 100%; background: rgba(255,255,255,0.12); border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; text-align: left; backdrop-filter: blur(6px); }
+.info-item .icon { color: #73b8ff; font-size: 22px; margin-right: 16px; width: 28px; text-align: center; }
+.info-item .label { font-size: 18px; color: #ccc; width: 80px; }
+.info-item .value { font-size: 20px; color: #ffffff; }
+.info-item .value a { color:#fff; text-decoration:none; }
+.info-item .value a:hover { color:#73b8ff; text-decoration:underline; }
+.resume-card { width: 100%; max-width: 900px; background: rgba(255,255,255,0.12); border-radius: 12px; padding: 30px; margin-top: 20px; text-align: left; backdrop-filter: blur(6px); }
+.home-panel { background-image: url('https://picsum.photos/id/1042/1920/1080'); }
+.home-panel::before { background: rgba(0,0,0,0.45); }
+.home-tag { display: inline-block; padding: 6px 14px; border: 1px solid #73b8ff; border-radius: 999px; color: #73b8ff; font-size: 14px; margin-bottom: 20px; letter-spacing: 1px; }
+.home-title { font-size: 56px; font-weight: 700; margin-bottom: 16px; letter-spacing: 2px; }
+.home-job { font-size: 20px; color: #73b8ff; margin-bottom: 24px; }
+.home-desc { max-width: 760px; font-size: 16px; line-height: 1.8; color: #ddd; margin-bottom: 32px; }
+.home-buttons { display: flex; gap: 16px; }
+.btn-primary { padding: 12px 28px; background: #73b8ff; color: #fff; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+.btn-primary:hover { background: #5a9feb; }
+.btn-outline { padding: 12px 28px; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); border-radius: 6px; font-size: 16px; cursor: pointer; }
+.btn-outline:hover { background: rgba(255,255,255,0.08); }
+.edu-layout { width: 100%; max-width: 1000px; display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; align-items: center; margin-top: 20px; }
+.edu-image { width: 100%; border-radius: 12px; object-fit: cover; border: 3px solid rgba(255,255,255,0.25); content: url('http://chn-winter.github.io/imtu/xx_001.png'); }
+.edu-card { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 30px; text-align: left; backdrop-filter: blur(6px); }
+.edu-school { font-size: 24px; font-weight: bold; margin-bottom: 30px; }
+.edu-row { margin: 22px 0; font-size: 16px; line-height: 1.6; opacity: 0.95; }
+.edu-row .k { color: #ccc; margin-right: 6px; }
+.work-stack-wrap { position: relative; width: 100%; max-width: 1100px; margin-top: 20px; overflow: visible; display: flex; flex-direction:column; align-items: center; justify-content: center; }
+.work-arrow { position: absolute; top: 50%; width: 44px; height: 44px; border-radius: 50%; border: none; background: #ffffff; color: #333; font-size: 20px; z-index: 30; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transform: translateY(-50%); }
+.work-arrow.prev { left: calc(50% - 470px + 16px); }
+.work-arrow.next { right: calc(50% - 470px + 16px); }
+.work-arrow:hover { background: #73b8ff; color: #fff; }
+.work-item { width: 100%; max-width:780px; background: rgba(255,255,255,0.12); border-radius: 16px; padding: 30px 36px; text-align: left; backdrop-filter: blur(6px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); overflow-wrap: anywhere; word-break: break-word; display:none; }
+.work-item.card-active { display:block; position:relative; }
+.work-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.work-company { font-size: 22px; font-weight: bold; }
+.work-time { color: #ccc; font-size: 14px; white-space: nowrap; margin-left: 8px; }
+.work-position { font-size: 15px; color: #73b8ff; margin-bottom: 16px; }
+.work-desc ul { padding-left: 22px; }
+.work-desc li { font-size: 15px; line-height: 1.7; margin-bottom: 10px; color: #eee; }
+.work-dots { display: flex; gap: 12px; justify-content: center; margin-top: 30px; z-index: 10; }
+.work-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; }
+.work-dot.active { background: #73b8ff; width: 24px; border-radius: 5px; }
+.project-stack-wrap { position: relative; width: 100%; max-width: 1100px; margin-top: 20px; overflow: visible; display: flex; flex-direction:column; align-items: center; justify-content: center; }
+.project-arrow { position: absolute; top: 50%; width: 44px; height: 44px; border-radius: 50%; border: none; background: #ffffff; color: #333; font-size: 20px; z-index: 30; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transform: translateY(-50%); }
+.project-arrow.prev { left: calc(50% - 470px + 16px); }
+.project-arrow.next { right: calc(50% - 470px + 16px); }
+.project-arrow:hover { background: #73b8ff; color: #fff; }
+.project-item { width:100%; max-width:780px; background: rgba(255,255,255,0.12); border-radius: 16px; padding: 30px 36px; text-align: left; backdrop-filter: blur(6px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); overflow-wrap: anywhere; word-break: break-word; display:none; max-height:530px; overflow-y:auto; }
+.project-item.card-active { display:block; position:relative; }
+.project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.project-name { font-size: 22px; font-weight: bold; }
+.project-time { color: #ccc; font-size: 15px; white-space: nowrap; }
+.project-tag-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.project-tag { background: rgba(115,184,255,0.2); color: #73b8ff; padding: 4px 12px; border-radius: 999px; font-size: 14px; }
+.project-block-title { font-size: 16px; color: #fff; margin-bottom: 6px; font-weight: bold; }
+.project-text { font-size: 15px; color: #eee; line-height: 1.75; }
+.project-item ul { padding-left: 20px; margin: 0; }
+.project-item li { font-size: 15px; color: #eee; line-height: 1.7; margin-bottom: 8px; }
+.btn-case { margin-top: 18px; padding: 8px 18px; border: 1px solid #73b8ff; color: #73b8ff; background: transparent; border-radius: 6px; cursor: pointer; font-size: 14px; }
+.btn-case:hover { background: rgba(115,184,255,0.15); }
+.project-dots { display: flex; gap: 12px; justify-content: center; margin-top: 30px; z-index: 10; }
+.project-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; }
+.project-dot.active { background: #73b8ff; width: 24px; border-radius: 5px; }
+.modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; display: none; align-items: center; justify-content: center; padding: 16px; }
+.modal-box { position: relative; max-width: 90vw; max-height: 85vh; }
+.modal-close { position: absolute; top: -12px; right: -12px; width: 32px; height: 32px; border-radius: 50%; background: #fff; color: #333; border: none; cursor: pointer; font-size: 18px; z-index:10; }
+.modal-img { max-width: 100%; max-height: 75vh; border-radius: 8px; }
+.modal-prev,.modal-next { position:absolute; top:99%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; border:none; background:#fff; color:#333; font-size:18px; cursor:pointer; z-index:10; }
+.modal-prev { left:8px; }
+.modal-next { right:8px; }
+.modal-page-text { text-align:center; color:#fff; margin-top:10px; font-size:14px; }
+.nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 86px; background: rgba(0,0,0,0.75); display: flex; justify-content: center; gap: 40px; align-items: center; z-index: 100; }
+.nav-item { color: #ccc; cursor: pointer; display: flex; flex-direction: column; align-items: center; font-size: 16px; padding: 8px 12px; border-radius: 10px; }
+.nav-item.active { color: #fff; background: rgba(115,184,255,0.25); }
+.nav-item svg { width: 30px; height: 30px; margin-bottom: 6px; fill: currentColor; }
+.summary-grid { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap:20px; margin-top:24px; }
+.summary-card-new { background: rgba(255,255,255,0.12); border-radius:16px; padding:28px 24px; text-align:left; backdrop-filter: blur(8px); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+@media (hover: hover) { .summary-card-new:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.35); } }
+.summary-title { font-size:20px; color:#fff; font-weight:bold; margin-bottom:12px; }
+.summary-desc { font-size:15px; color:#eee; line-height:1.75; }
+@media (max-width: 768px) { .panel-content { padding: 0 5%; padding-bottom: 20%; } .panel.is-scroll .panel-content { padding-bottom: 120px; } .panel h1 { font-size: 28px; } .panel .sub-title { font-size: 15px; margin-bottom: 16px; } .avatar { width: 100px; height: 100px; content: url('https://picsum.photos/id/1025/400/400'); } .info-grid { grid-template-columns: 1fr; } .info-item { padding: 12px 16px; } .info-item .label { font-size: 15px; width: 60px; } .info-item .value { font-size: 16px; } .home-title { font-size: 32px; } .home-job { font-size: 16px; } .home-desc { font-size: 14px; } .home-buttons { flex-direction: row; width: 100%; } .btn-primary,.btn-outline { width: 48%; } .edu-layout { grid-template-columns: 1fr; } .edu-image { max-height: 220px; } .edu-school { font-size: 20px; } .edu-row { font-size: 14px; } .work-stack-wrap { height: auto !important; } .work-item { width: calc(100vw - 20px); padding: 20px 18px; } .work-header { flex-direction:column; } .work-time { margin-left:0; margin-top:4px; } .work-arrow { width: 36px; height: 36px; font-size: 16px; top: 110%; } .work-arrow.prev { left:12px; } .work-arrow.next { right:12px; } .work-desc li { font-size: 14px; } .project-stack-wrap { height: auto !important; } .project-item { width: calc(100vw - 20px); padding: 20px 18px; max-height:530px; overflow-y:auto; } .project-arrow { width: 36px; height: 36px; font-size: 16px; top: 107%; } .project-arrow.prev { left:12px; } .project-arrow.next { right:12px; } .project-header { flex-direction: column; } .project-name { font-size: 18px; } .project-time { margin-top: 4px; } .project-tag { font-size: 12px; padding: 3px 8px; } .project-block-title { font-size: 15px; } .project-text,.project-item li { font-size: 14px; } .summary-grid { grid-template-columns: 1fr; gap:14px; margin-top:16px; max-width:480px; margin-left:auto; margin-right:auto; } .summary-card-new { padding:18px 16px; } .summary-title { font-size:18px; } .summary-desc { font-size:14px; } .nav-bar { height: 72px; gap: 0; padding: 0; } .nav-item { flex:1; font-size: 11px; padding: 6px 2px; border-radius:0; } .nav-item svg { width: 22px; height: 22px; } .modal-prev,.modal-next { width:28px; height:28px; font-size:14px; } }
+@media (max-width:340px) { .panel h1 { font-size:24px; } .home-title { font-size:26px; } .home-buttons { flex-direction: column; } .btn-primary,.btn-outline { width: 100%; } .edu-card,.work-item,.project-item,.summary-card-new { padding:16px 14px; } }
+</style>
 </head>
 <body>
-<div class="mobile-nav">
-    <a href="#personal-info"><i class="fas fa-user"></i><span>我的</span></a>
-    <a href="#skills-section"><i class="fas fa-tag"></i><span>标签</span></a>
-    <a href="#education"><i class="fas fa-graduation-cap"></i><span>教育</span></a>
-    <a href="#work"><i class="fas fa-briefcase"></i><span>工作</span></a>
-    <a href="#projects"><i class="fas fa-rocket"></i><span>项目</span></a>
-    <a href="#summary"><i class="fas fa-leaf"></i><span>总结</span></a>
-</div>
-
-<div class="resume-container">
-    <!-- 左侧：个人信息 -->
-    <div class="left-col">
-        <!-- 个人信息模块添加id -->
-        <div class="card" id="personal-info">
-            <div class="avatar-section">
-                <div class="avatar"> 
-					<span>D</span>
-                </div>
-                <div class="name-title">
-                    <h1>Winter·J</h1>
-                    <span class="tagline"><i class="fas fa-mars"></i> &nbsp;男</span>
-                </div>
+<div class="wrap">
+    <!-- 首页：内容主体垂直居中 -->
+    <div class="panel home-panel active" id="panel-home">
+        <div class="panel-content">
+            <div class="home-tag">OPEN TO WORK · 产品方向</div>
+            <div class="home-title">你好，我是<span id="typeName"></span><span class="typing-cursor"></span></div>
+            <div class="home-job">一名专注于互联网行业的产品经理</div>
+            <div class="home-desc">
+                曾负责过线上商城、健康筛查等多条产品线。<br />
+                相信好的产品来自对用户的真实理解，以及用数据说话的判断力。
             </div>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-phone-alt"></i>
-                    <a href="tel:17633162962">176-3316-2962</a>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:jwd1996@qq.com">jwd1996@qq.com</a>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>中国 · 北京</span>
-                </div>
-				<div class="contact-item">
-				    <i class="fas fa-briefcase"></i>
-				    <span>产品</span>
-				</div>
-            </div>
-        </div>
-
-        <!-- 技能标签模块添加id -->
-        <div class="card" id="skills-section">
-            <div class="section-title">
-                <i class="fas fa-code-branch"></i>
-                <span>我的标签</span>
-            </div>
-            <div class="skills-list">
-                <span class="skill-tag">Axure</span>
-                <span class="skill-tag">Figma</span>
-				<span class="skill-tag">Calicat</span>
-				<span class="skill-tag">Modao</span>
-                <span class="skill-tag">XMind</span>
-                <span class="skill-tag">Word</span>
-                <span class="skill-tag">Excel</span>
-                <span class="skill-tag">PPT</span>
-				<span class="skill-tag">PRD</span>
-                <span class="skill-tag">Photoshop</span>
-				<span class="skill-tag">AI</span>
-                <span class="skill-tag">UAT</span>
+            <div class="home-buttons">
+                <button class="btn-primary" onclick="switchPanel('panel-about')">了解我 →</button>
+                <button class="btn-outline" onclick="switchPanel('panel-project')">查看项目</button>
             </div>
         </div>
     </div>
-
-    <div class="right-col">
-        <!-- 1. 教育经历 -->
-        <div class="card" id="education">
-            <div class="section-title">
-                <i class="fas fa-graduation-cap"></i>
-                <span>教育经历</span>
-            </div>
-            <div class="edu-item">
-                <div class="edu-degree">
-                    <span>北京经济技术职业学院</span>
-                    <span class="edu-date">2015.09 – 2018.06</span>
-                </div>
-                <div class="edu-major">计算机应用技术</div>
-            </div>
-        </div>
-
-        <!-- 2. 工作经历 -->
-        <div class="card" id="work">
-            <div class="section-title">
-                <i class="fas fa-briefcase"></i>
-                <span>工作经历</span>
-            </div>
-            <div class="exp-item">
-                <div class="exp-header">
-                    <div>
-                        <span class="exp-title">北京普济华堂健康科技有限公司</span>
-                        <span class="exp-company"> - 研发产品部</span>
-                    </div>
-                    <div class="exp-date">2025.03 – 2026.04</div>
-                </div>
-                <div class="exp-desc">
-                    <ul>
-                        <li><i class="fas fa-angle-right"></i> 负责商城系统、健康筛查系统、平台官网等产品设计与迭代优化；</li>
-                        <li><i class="fas fa-angle-right"></i> 负责智能手表项目市场调研、选品评估及整机性能测试，并输出选品报告；</li>
-                        <li><i class="fas fa-angle-right"></i> 负责整理产品上线后的用户问题与反馈，开展数据测试与分析，推动产品优化；</li>
-						<li><i class="fas fa-angle-right"></i> 完成项目调研、需求分析、功能交互设计及文档输出，持续适配业务发展需求；</li>
-						<li><i class="fas fa-angle-right"></i> 配合运营制定推广策略，协同完成品牌宣传与用户转化；</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="exp-item">
-                <div class="exp-header">
-                    <div>
-                        <span class="exp-title">北京铭万智达科技有限公司</span>
-                        <span class="exp-company"> - 研发产品部</span>
-                    </div>
-                    <div class="exp-date">2024.03 – 2025.01</div>
-                </div>
-                <div class="exp-desc">
-                    <ul>
-                        <li><i class="fas fa-angle-right"></i> 负责业务平台维护，依托敏捷开发模式推动产品功能迭代与核心模块升级；</li>
-                        <li><i class="fas fa-angle-right"></i> 负责输出产品需求文档、产品操作功能说明等各类业务文档；</li>
-						<li><i class="fas fa-angle-right"></i> 参与新业务外贸平台搭建，基于产品市场调研并输出相关文档；</li>
-						<li><i class="fas fa-angle-right"></i> 建立测试用例并统筹管理测试矩阵账号，组织内部项目测试，闭环跟踪问题；</li>
-						<li><i class="fas fa-angle-right"></i> 构建需求评估机制与结构化需求池，阶段性处理分公司及用户反馈的需求；</li>
-						<li><i class="fas fa-angle-right"></i> 协调研发、设计、运营等资源，组织产品评审会议，标准化管控产品迭代周期；</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="exp-item">
-                <div class="exp-header">
-                    <div>
-                        <span class="exp-title">阿米巴物联(北京)智能科技有限公司</span>
-                        <span class="exp-company"> - 研发产品部</span>
-                    </div>
-                    <div class="exp-date">2020.12 – 2023.06</div>
-                </div>
-                <div class="exp-desc">
-                    <ul>
-                        <li><i class="fas fa-angle-right"></i> 负责新业务线产品搭建，输出原型与产品结构，推动项目上线；</li>
-						<li><i class="fas fa-angle-right"></i> 负责产品原型设计交互，完成原型设计及产品结构，协调开发确保功能落地；</li>
-						<li><i class="fas fa-angle-right"></i> 负责市场调研与用户需求收集，输出产品报告，参与产品测试，制定测试用例；</li>
-						<li><i class="fas fa-angle-right"></i> 建立需求评估机制，形成结构化需求池，实现分类、追踪与版本规划；</li>
-						<li><i class="fas fa-angle-right"></i> 整理物联网垂直领域方案、案例库及相关行业资讯，丰富平台内容；</li>
-                    </ul>
-                </div>
-            </div>
-			<div class="exp-item">
-			    <div class="exp-header">
-			        <div>
-			            <span class="exp-title">北京中启百年信息技术有限公司</span>
-			            <span class="exp-company"> - 运营部</span>
-			        </div>
-			        <div class="exp-date">2018.08 – 2020.11</div>
-			    </div>
-			    <div class="exp-desc">
-			        <ul>
-			            <li><i class="fas fa-angle-right"></i> 负责客户网站搭建与SEO优化，综合行业特定制定关键词布局与外链建设；</li>
-			            <li><i class="fas fa-angle-right"></i> 分析网站流量、转化率等核心指标，挖掘高价值长尾关键词；</li>
-						<li><i class="fas fa-angle-right"></i> 搭建关键词矩阵，沉淀标准化营销文案库与成功案例库；</li>
-						<li><i class="fas fa-angle-right"></i> 培训组内成员，统筹管理数百个客户网站账号的日常运维，稳定搜索引擎排名；</li>
-			        </ul>
-			    </div>
-			</div>
-        </div>
-
-        <!-- 3. 项目经历 -->
-        <div class="card" id="projects">
-            <div class="section-title">
-                <i class="fas fa-rocket"></i>
-                <span>项目经历</span>
-            </div>
-            <!-- 项目1：华堂管理系统 -->
-            <div class="project-item">
-                <div class="project-header">
-                    <div>
-                        <span class="exp-title">健康筛查系统</span>
-                        <span class="exp-company"> - 产品</span>
-                        <span class="project-org">北京普济华堂健康科技有限公司</span>
-                    </div>
-                    <div class="project-date">2025.03 – 2026.04</div>
-                </div>
-                <div class="project-desc">
-                    <ul>
-                        <li>
-							<i class="fas fa-angle-right"></i>
-							 项目介绍：健康筛查系统面向普通人群、养生群体的健康管理系统。系统整合多维度健康数据记录、个性化健康方案、健康社区、线上商城等核心功能，围绕饮食、运动、睡眠、生理指标、心理情志等维度，为用户定制专属健康管理方案，并基于数据可视化、打卡追踪功能助力用户落地健康目标，通过健康社区促进用户经验交流，联动线上健康商城补齐服务链路，引导用户建立科学健康习惯。
-						</li>
-                        <li><i class="fas fa-angle-right"></i> 岗位职责：<br>
-							• 负责统筹健康筛查系统整体产品功能规划与设计；<br>
-							• 负责商城系统需求与功能设计，完成限购、抽奖、竞价、分享、在线客服等模块方案输出；<br>
-							• 收集用户反馈，梳理需求优先级，把控版本迭代，对接协调研发、测试团队推进落地；
-						</li>
-                    </ul>
-                    <div class="project-tech">
-                        <span class="tech-badge">健康管理</span>
-                        <span class="tech-badge">商城系统</span>
-                        <span class="tech-badge">AI健康</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 项目2：华堂官网 -->
-            <div class="project-item">
-                <div class="project-header">
-                    <div>
-                        <span class="exp-title">企业官网</span>
-                        <span class="exp-company"> - 产品</span>
-                        <span class="project-org">北京普济华堂健康科技有限公司</span>
-                    </div>
-                    <div class="project-date">2025.08 – 2026.01</div>
-                </div>
-                <div class="project-desc">
-                    <ul>
-                        <li>
-							<i class="fas fa-angle-right"></i>
-							 项目介绍：普济华堂健康科技以普济模式为核心，融合人工智能与中医智慧，业务覆盖智能监测、健康管理等领域，拥有完善产品体系、调理服务及线下门店资源；为补齐品牌线上展示与业务转化能力，搭建官方网站作为宣传窗口，集中展示企业核心优势、产品服务与招商合作价值，拓宽潜在客户与合作伙伴的触达渠道。
-						</li>
-                        <li><i class="fas fa-angle-right"></i> 岗位职责：<br>
-							• 统筹官网整体信息架构与页面逻辑规划，独立输出完整产品文档及高保真交互原型；<br>
-							• 组织项目产品评审会议，对接各业务部门需求，全程跟进产品设计落地；
-						</li>                    
-					</ul>
-                    <div class="project-tech">
-						<span class="tech-badge">官网设计</span>
-                        <span class="tech-badge">品牌宣传</span>
-                        <span class="tech-badge">企业官网</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 项目3：铭万营销平台 -->
-            <div class="project-item">
-                <div class="project-header">
-                    <div>
-                        <span class="exp-title">掌上通矩阵营销平台</span>
-                        <span class="exp-company"> - 产品</span>
-                        <span class="project-org">北京铭万智达科技有限公司</span>
-                    </div>
-                    <div class="project-date">2024.03 – 2025.01</div>
-                </div>
-                <div class="project-desc">
-                    <ul>
-                        <li>
-							<i class="fas fa-angle-right"></i>
-							 项目介绍：该平台是全域营销媒体资源整合系统，聚合抖音、快手、小红书、B站、西瓜、百度等全渠道新媒体流量资源。依托智能化营销能力，为企业客户提供跨平台内容策划、智能流量分发、账号代运营托管等一站式营销解决方案。打通全网公域流量，提升品牌全网曝光度，实现公域引流、私域沉淀与精准转化闭环，助力企业精准获客、挖掘商业询盘。
-						 </li>
-                        <li>
-							<i class="fas fa-angle-right"></i>
-							 岗位职责：<br>
-							• 负责平台核心功能规划与现有功能迭代优化，输出产品方案，推动研发敏捷开发；<br>
-							• 搭建结构化需求池，统筹梳理、分级排序需求，规范化需求评估机制；<br>
-							• 搭建系统测试用例库，统筹管理测试矩阵账号，组织内测与用户测试；
-						</li>
-                    </ul>
-                    <div class="project-tech">
-                        <span class="tech-badge">智慧营销</span>
-                        <span class="tech-badge">业务运营</span>
-                        <span class="tech-badge">私域引流</span>
-                    </div>
-                </div>
-            </div>
-			<!-- 项目4：铭万外贸推广平台 -->
-			<div class="project-item">
-			    <div class="project-header">
-			        <div>
-			            <span class="exp-title">外贸赢家全链路营销服务</span>
-                        <span class="exp-company"> - 产品</span>
-                        <span class="project-org">北京铭万智达科技有限公司</span>
-			        </div>
-			        <div class="project-date">2024.08 – 2025.01</div>
-			    </div>
-			    <div class="project-desc">
-			        <ul>
-			            <li>
-							<i class="fas fa-angle-right"></i>
-							项目介绍：该项目是一站式外贸全流程营销服务产品，依托大数据挖掘、多语言智能建站，整合智慧营销、海外社媒推广、SEM海外广告投放等能力，面向外贸企业提供多语言建站、全球流量曝光、AI精准获客、流量变现等数字服务；叠加海外办事处实地看样、国际展会对接、多语种翻译等本土化配套服务，助力中小外贸企业开拓海外市场。
-						</li>
-			            <li>
-							<i class="fas fa-angle-right"></i>
-							 岗位职责：<br>
-							• 进行市场调研，收集用户需求信息，输出产品需求文档与业务流程图；<br />
-							• 基于业务需求优化产品功能架构，完成产品功能设计、官网优化及整体产品方案定稿；
-						</li>
-			        </ul>
-			        <div class="project-tech">
-			            <span class="tech-badge">智能营销</span>
-			            <span class="tech-badge">品牌建设</span>
-			            <span class="tech-badge">私域规划</span>
-			        </div>
-			    </div>
-			</div>
-			
-            <!-- 项目5：阿米巴资讯平台 -->
-            <div class="project-item">
-                <div class="project-header">
-                    <div>
-                        <span class="exp-title">物联网资讯平台</span>
-                        <span class="exp-company"> - 产品</span>
-                        <span class="project-org">阿米巴物联(北京)智能科技有限公司</span>
-                    </div>
-                    <div class="project-date">2020.12 – 2023.06</div>
-                </div>
-                <div class="project-desc">
-                    <ul>
-                        <li>
-							<i class="fas fa-angle-right"></i> 
-							项目介绍：聚焦物联网垂直资讯与产业生态服务平台，面向物联网从业者及企业决策者，覆盖智慧家居、智慧城市等应用领域。平台聚合行业资讯、解决方案、产品评测、供需资源等全维度产业内容，为行业从业者提供专业学习与参考渠道，助力企业高效完成产品选型、决策参考与商业合作对接，赋能物联网产业高效协同发展。
-						</li>
-                        <li>
-                        	<i class="fas fa-angle-right"></i>
-                        	 岗位职责：<br>
-                        	• 负责梳理核心业务需求，完成产品整体规划，输出标准化需求文档、产品原型及交互设计方案；<br>
-                        	• 负责平台上线后的常态化运营支撑，持续推进产品功能迭代升级，维护和优化需求池；
-                        </li>
-                    </ul>
-                    <div class="project-tech">
-                        <span class="tech-badge">资讯平台</span>
-                        <span class="tech-badge">物联网</span>
-						<span class="tech-badge">解决方案</span>
-                    </div>
-                </div>
-            </div>
-			<!-- 项目6：中启网站运营 -->
-			<div class="project-item">
-			    <div class="project-header">
-			        <div>
-			            <span class="exp-title">网站运营管理</span>
-                        <span class="exp-company"> - 运营</span>
-                        <span class="project-org">北京中启百年信息技术有限公司</span>
-			        </div>
-			        <div class="project-date">2018.08 – 2020.11</div>
-			    </div>
-			    <div class="project-desc">
-			        <ul>
-			            <li>
-							<i class="fas fa-angle-right"></i> 
-							项目介绍：本项目面向广大中小企业，提供定制化网站建设与全网营销推广方案。依托智能建站能力为企业搭建专属官方网站，塑造专业线上品牌形象；结合精细化全网运营与精准引流策略，提升企业线上曝光与搜索权重，助力企业实现线上获客与线索转化。
-						</li>
-			            <li>
-			            	<i class="fas fa-angle-right"></i>
-			            	 岗位职责：<br>
-			            	• 对接企业客户，梳理业务定位，挖掘并优化行业关键词，规划网站结构布局；<br>
-			            	• 负责客户网站搭建及线上推广全流程，监控网站收录情况、关键词排名及站点流量数据；
-			            </li>
-			        </ul>
-			        <div class="project-tech">
-			            <span class="tech-badge">网站运营</span>
-			            <span class="tech-badge">品牌建设</span>
-						<span class="tech-badge">私域营销</span>
-			        </div>
-			    </div>
-			</div>
-        </div>
-
-        <!-- 4. 个人总结 -->
-        <div class="card" id="summary">
-            <div class="section-title">
-                <i class="fas fa-leaf"></i>
-                <span>个人总结</span>
-            </div>
-            <div class="self-text">
-                <p>熟悉产品全流程开发，具备需求分析与设计能力，掌握文档撰写及多种原型工具；注重沟通协作，关注用户与市场，以用户体验为核心；通过用户反馈与数据分析持续优化产品，具备产品运营意识。</p>
-                <p>技能：Axure、Figma、Modao、XMind、Office(Word/Excel/PPT）、PS等产品设计工具。</p>
-				<p>其他：打球运动、视频剪辑</p>
+    <!-- 我的 页面：a标签 tel 拨号 / mailto 发邮件 -->
+    <div class="panel" id="panel-about" style="background-image: url('https://picsum.photos/id/180/1920/1080')">
+        <div class="panel-content">
+            <img class="avatar" src="http://chn-winter.github.io/imtu/pmer.jpg" alt="avatar" />
+            <h1>JWD</h1>
+            <div class="sub-title">产品经理</div>
+            <div class="info-grid">
+                <div class="info-item"><span class="icon">📱</span><span class="label">手机</span><span class="value"><a href="tel:17633162962">176-3316-2962</a></span></div>
+                <div class="info-item"><span class="icon">✉️</span><span class="label">邮箱</span><span class="value"><a href="mailto:jwd1996@qq.com">jwd1996@qq.com</a></span></div>
+				<div class="info-item"><span class="icon">🎂</span><span class="label">Date</span><span class="value">1996</span></div>
+				<div class="info-item"><span class="icon">🔗</span><span class="label">微信</span><span class="value">17633162962</span></div>
+				<div class="info-item"><span class="icon">📍</span><span class="label">城市</span><span class="value">北京·通州</span></div>
+				<div class="info-item"><span class="icon">💼</span><span class="label">求职</span><span class="value">B/C产品经理</span></div>
             </div>
         </div>
-
-        <!-- 尾部区域 -->
-        <div class="card" style="background:#f6fef0; text-align:center; padding:0.9rem; border-radius: 2rem">
-            <p style="color:#608a44; font-size:0.75rem;"><i class="fas fa-feather-alt"></i> 保持好奇 · 敏捷创造 · 以用户为中心</p>
+    </div>
+    <!-- 教育 -->
+    <div class="panel" id="panel-edu" style="background-image: url('https://picsum.photos/id/24/1920/1080')">
+        <div class="panel-content">
+            <h1>教育经历</h1>
+            <div class="sub-title">夯实基础，持续学习</div>
+            <div class="edu-layout">
+                <img class="edu-image" src="http://chn-winter.github.io/imtu/xx_001.png" alt="学校图片" />
+                <div class="edu-card">
+                    <div class="edu-school">北京经济技术职业学院 <span style="color:#ccc; font-weight:normal;">| 大专</span></div>
+                    <div class="edu-row"><span class="k">专业：</span>计算机应用技术</div>
+                    <div class="edu-row"><span class="k">时间：</span>2018.09 - 2022.06</div>
+                    <div class="edu-row"><span class="k">语言：</span>高等学校英语应用能力A/B级</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 工作经历 -->
+    <div class="panel" id="panel-work" style="background-image: url('https://picsum.photos/id/48/1920/1080')">
+        <div class="panel-content">
+            <h1>工作经历</h1>
+            <div class="sub-title">实践积累，持续产出</div>
+            <div class="work-stack-wrap" id="workWrap">
+                <button class="work-arrow prev" id="workPrev" disabled>←</button>
+                <button class="work-arrow next" id="workNext">→</button>
+                <div class="work-item" data-index="0">
+                    <div class="work-header">
+                        <div class="work-company">北京普济华堂健康科技有限公司</div>
+                        <div class="work-time">2025.03 – 2026.04</div>
+                    </div>
+                    <div class="work-position">研发产品部</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责商城系统、健康筛查系统、平台官网等产品设计与迭代优化；</li>
+                            <li>负责智能手表项目市场调研、选品评估及整机性能测试，并输出选品报告；</li>
+                            <li>负责整理产品上线后的用户问题与反馈，开展数据测试与分析，推动产品优化；</li>
+                            <li>完成项目调研、需求分析、功能交互设计及文档输出，持续适配业务发展需求；</li>
+                            <li>配合运营制定推广策略，协同完成品牌宣传与用户转化；</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-item" data-index="1">
+                    <div class="work-header">
+                        <div class="work-company">北京铭万智达科技有限公司</div>
+                        <div class="work-time">2024.03 – 2025.01</div>
+                    </div>
+                    <div class="work-position">研发产品部</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责业务平台维护，依托敏捷开发模式推动产品功能迭代与核心模块升级；</li>
+                            <li>负责输出产品需求文档、产品操作功能说明等各类业务文档；</li>
+                            <li>参与新业务外贸平台搭建，基于产品市场调研并输出相关文档；</li>
+                            <li>建立测试用例并统筹管理测试矩阵账号，组织内部项目测试，闭环跟踪问题；</li>
+                            <li>构建需求评估机制与结构化需求池，阶段性处理分公司及用户反馈的需求；</li>
+							<li>协调研发、设计、运营等资源，组织产品评审会议，标准化管控产品迭代周期；</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-item" data-index="2">
+                    <div class="work-header">
+                        <div class="work-company">阿米巴物联(北京)智能科技有限公司</div>
+                        <div class="work-time">2020.12 – 2023.06</div>
+                    </div>
+                    <div class="work-position">研发产品部</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责资讯网站产品搭建，输出产品原型文件稿，推动项目上线；</li>
+                            <li>负责产品原型设计交互，完成原型设计及产品结构，协调开发确保功能落地；</li>
+                            <li>负责市场调研与用户需求收集，输出产品报告，参与产品测试，制定测试用例；</li>
+                            <li>建立需求评估机制，形成结构化需求池，实现分类、追踪与版本规划；</li>
+                            <li>整理物联网垂直领域方案、案例库及相关行业资讯，丰富平台内容；</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-item" data-index="3">
+                    <div class="work-header">
+                        <div class="work-company">北京中启百年信息技术有限公司</div>
+                        <div class="work-time">2018.08 – 2020.11</div>
+                    </div>
+                    <div class="work-position">运营部</div>
+                    <div class="work-desc">
+                        <ul>
+                            <li>负责客户网站搭建与SEO优化，综合行业特定制定关键词布局与外链建设；</li>
+                            <li>分析网站流量、转化率等核心指标，挖掘高价值长尾关键词；</li>
+                            <li>搭建关键词矩阵，沉淀标准化营销文案库与成功案例库；</li>
+                            <li>培训组内成员，统筹管理数百个客户网站账号的日常运维，稳定搜索引擎排名；</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="work-dots">
+                <div class="work-dot active" data-dot="0"></div>
+                <div class="work-dot" data-dot="1"></div>
+                <div class="work-dot" data-dot="2"></div>
+                <div class="work-dot" data-dot="3"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 项目经历 -->
+    <div class="panel" id="panel-project" style="background-image: url('https://picsum.photos/id/60/1920/1080')">
+        <div class="panel-content">
+            <h1>项目经历</h1>
+            <div class="sub-title">项目实战，落地交付</div>
+            <div class="project-stack-wrap" id="projectWrap">
+                <button class="project-arrow prev" id="projectPrev" disabled>←</button>
+                <button class="project-arrow next" id="projectNext">→</button>
+                <div class="project-item" data-index="0" data-images='["https://chn-winter.github.io/imtu/scxt_001.png","https://chn-winter.github.io/imtu/scxt_002.png","https://chn-winter.github.io/imtu/scxt_003.png","https://chn-winter.github.io/imtu/scxt_004.png"]'>
+                    <div class="project-header">
+                        <h3 class="project-name">健康筛查系统</h3>
+                        <span class="project-time">2025.03 – 2026.04</span>
+                    </div>
+                    <div class="project-tag-group">
+						<span class="project-tag">公司：普济华堂</span>
+                        <span class="project-tag">职位：产品专员</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">健康筛查系统面向普通人群、养生群体的健康管理系统。系统整合多维度健康数据记录、个性化健康方案、健康社区、线上商城等核心功能，围绕饮食、运动、睡眠、生理指标、心理情志等维度，为用户定制专属健康管理方案，并基于数据可视化、打卡追踪功能助力用户落地健康目标，通过健康社区促进用户经验交流，联动线上健康商城补齐服务链路，引导用户建立科学健康习惯。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>负责统筹健康筛查系统整体产品功能规划与设计；</li>
+                            <li>负责商城系统需求与功能设计，完成限购、抽奖、竞价、分享、在线客服等模块方案输出；</li>
+                            <li>收集用户反馈，梳理需求优先级，把控版本迭代，对接协调研发、测试团队推进落地；</li>
+                        </ul>
+                    </div>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
+                </div>
+                <div class="project-item" data-index="1" data-images='["https://chn-winter.github.io/imtu/qygw_001.png"]'>
+                    <div class="project-header">
+                        <h3 class="project-name">企业官网</h3>
+                        <span class="project-time">2025.08 – 2026.01</span>
+                    </div>
+                    <div class="project-tag-group">
+						<span class="project-tag">公司：普济华堂</span>
+                        <span class="project-tag">职位：产品专员</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">普济华堂健康科技以普济模式为核心，融合人工智能与中医智慧，业务覆盖智能监测、健康管理等领域，拥有完善产品体系、调理服务及线下门店资源；为补齐品牌线上展示与业务转化能力，搭建官方网站作为宣传窗口，集中展示企业核心优势、产品服务与招商合作价值，拓宽潜在客户与合作伙伴的触达渠道。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>统筹官网整体信息架构与页面逻辑规划，独立输出完整产品文档及高保真交互原型；</li>
+							<li>组织项目产品评审会议，对接各业务部门需求，全程跟进产品设计落地；</li>
+                        </ul>
+                    </div>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
+                </div>
+                <div class="project-item" data-index="2" data-images='["https://chn-winter.github.io/imtu/zst_001.png","https://chn-winter.github.io/imtu/zst_002.png","https://chn-winter.github.io/imtu/zst_003.png"]'>
+                    <div class="project-header">
+                        <h3 class="project-name">掌上通矩阵营销平台</h3>
+                        <span class="project-time">2024.03 – 2025.01</span>
+                    </div>
+                    <div class="project-tag-group">
+						<span class="project-tag">公司：铭万智达</span>
+                        <span class="project-tag">职位：产品专员</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">该平台是全域营销媒体资源整合系统，聚合抖音、快手、小红书、B站、西瓜、百度等全渠道新媒体流量资源。依托智能化营销能力，为企业客户提供跨平台内容策划、智能流量分发、账号代运营托管等一站式营销解决方案。打通全网公域流量，提升品牌全网曝光度，实现公域引流、私域沉淀与精准转化闭环，助力企业精准获客、挖掘商业询盘。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>负责业务平台功能设计，涵盖AI智能客服、抖转微引流、消息推送、图文内容发布等模块设计；</li>
+                            <li>搭建结构化需求池，统筹梳理、分级排序需求，规范化需求评估机制；</li>
+                            <li>搭建系统测试用例库，统筹管理测试矩阵账号，组织内测与用户测试；</li>
+                        </ul>
+                    </div>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
+                </div>
+                <div class="project-item" data-index="3" data-images='["https://picsum.photos/id/50/1200/800","https://picsum.photos/id/51/1200/800"]'>
+                    <div class="project-header">
+                        <h3 class="project-name">外贸赢家全链路营销服务</h3>
+                        <span class="project-time">2024.08 – 2025.01</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">公司：铭万智达</span>
+                        <span class="project-tag">职位：产品专员</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">该项目是一站式外贸全流程营销服务产品，依托大数据挖掘、多语言智能建站，整合智慧营销、海外社媒推广、SEM海外广告投放等能力，面向外贸企业提供多语言建站、全球流量曝光、AI精准获客、流量变现等数字服务；叠加海外办事处实地看样、国际展会对接、多语种翻译等本土化配套服务，助力中小外贸企业开拓海外市场。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>负责产品调研，收集用户需求信息，输出产品需求文档与业务流程图；</li>
+                            <li>基于业务需求优化产品功能架构，完成产品功能设计、官网优化及整体产品方案定稿；</li>
+                        </ul>
+                    </div>
+                    <!-- <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button> -->
+                </div>
+                <div class="project-item" data-index="4" data-images='["https://chn-winter.github.io/imtu/amb_001.png","https://chn-winter.github.io/imtu/amb_002.png"]'>
+                    <div class="project-header">
+                        <h3 class="project-name">物联网资讯平台</h3>
+                        <span class="project-time">2020.12 – 2023.06</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">公司：阿米巴物联</span>
+                        <span class="project-tag">职位：产品专员</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">聚焦物联网垂直资讯与产业生态服务平台，面向物联网从业者及企业决策者，覆盖智慧家居、智慧城市等应用领域。平台聚合行业资讯、解决方案、产品评测、供需资源等全维度产业内容，为行业从业者提供专业学习与参考渠道，助力企业高效完成产品选型、决策参考与商业合作对接，赋能物联网产业高效协同发展。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>负责梳理核心业务需求，完成产品整体规划，输出标准化需求文档、产品原型及交互设计方案；</li>
+                            <li>负责平台上线后的常态化运营支撑，持续推进产品功能迭代升级，维护和优化需求池；</li>
+                        </ul>
+                    </div>
+                    <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button>
+                </div>
+                <div class="project-item" data-index="5" data-images='["https://picsum.photos/id/75/1200/800"]'>
+                    <div class="project-header">
+                        <h3 class="project-name">网站运营管理</h3>
+                        <span class="project-time">2018.08 – 2020.11</span>
+                    </div>
+                    <div class="project-tag-group">
+                        <span class="project-tag">公司：中启百年</span>
+                        <span class="project-tag">职位：运营专员</span>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">项目介绍</div>
+                        <div class="project-text">本项目面向广大中小企业，提供定制化网站建设与全网营销推广方案。依托智能建站能力为企业搭建专属官方网站，塑造专业线上品牌形象；结合精细化全网运营与精准引流策略，提升企业线上曝光与搜索权重，助力企业实现线上获客与线索转化。</div>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <div class="project-block-title">工作职责</div>
+                        <ul>
+                            <li>对接企业客户，梳理业务定位，挖掘并优化行业关键词，规划网站结构布局；</li>
+                            <li>负责客户网站搭建及线上推广全流程，监控网站收录情况、关键词排名及站点流量数据；</li>
+                        </ul>
+                    </div>
+                    <!-- <button class="btn-case" onclick="openModalMulti(this.parentElement.dataset.images)">查看案例</button> -->
+                </div>
+            </div>
+            <div class="project-dots">
+                <div class="project-dot active" data-dot="0"></div>
+                <div class="project-dot" data-dot="1"></div>
+                <div class="project-dot" data-dot="2"></div>
+                <div class="project-dot" data-dot="3"></div>
+                <div class="project-dot" data-dot="4"></div>
+                <div class="project-dot" data-dot="5"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 总结页 -->
+    <div class="panel is-scroll" id="panel-summary" style="background-image: url('https://picsum.photos/id/266/1920/1080')">
+        <div class="panel-content">
+            <div class="summary-wrap">
+                <h1>个人总结</h1>
+                <div class="sub-title">持续精进，热爱产品</div>
+                <div class="summary-grid">
+                    <div class="summary-card-new">
+                        <div class="summary-title">能力概述</div>
+                        <div class="summary-desc">熟悉产品全流程开发，具备需求分析与设计能力，掌握文档撰写及多种原型工具；注重沟通协作，关注用户与市场，以用户体验为核心；通过用户反馈与数据分析持续优化产品，具备产品运营意识。</div>
+                    </div>
+                    <div class="summary-card-new">
+                        <div class="summary-title">专业技能</div>
+                        <div class="summary-desc">Axure、Figma、Modao、XMind、Office(Word/Excel/PPT）、PS等产品设计工具。</div>
+                    </div>
+                    <div class="summary-card-new">
+                        <div class="summary-title">兴趣爱好</div>
+                        <div class="summary-desc">打球运动、视频剪辑</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹窗（多张图片切换） -->
+    <div class="modal-mask" id="modalMask">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <button class="modal-prev" id="modalPrev">‹</button>
+            <img class="modal-img" id="modalImg" src="" alt="案例截图" />
+            <button class="modal-next" id="modalNext">›</button>
+            <div class="modal-page-text" id="modalPageText"></div>
+        </div>
+    </div>
+    <!-- 底部导航 -->
+    <div class="nav-bar">
+        <div class="nav-item active" data-target="panel-home">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <span>首页</span>
+        </div>
+        <div class="nav-item" data-target="panel-about">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
+            <span>我的</span>
+        </div>
+        <div class="nav-item" data-target="panel-edu">
+            <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z" /></svg>
+            <span>教育</span>
+        </div>
+        <div class="nav-item" data-target="panel-work">
+            <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" /></svg>
+            <span>工作</span>
+        </div>
+        <div class="nav-item" data-target="panel-project">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1z" /></svg>
+            <span>项目</span>
+        </div>
+        <div class="nav-item" data-target="panel-summary">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" /></svg>
+            <span>总结</span>
         </div>
     </div>
 </div>
-<footer>
-</footer>
+<script>
+    // 打字机效果
+    (function(){
+        const targetStr = "JWD";
+        const dom = document.getElementById("typeName");
+        let index = 0;
+        function typing(){
+            if(index < targetStr.length){
+                dom.innerText += targetStr.charAt(index);
+                index++;
+                setTimeout(typing,350);
+            }
+        }
+        setTimeout(typing,600);
+    })();
+    function switchPanel(targetId) {
+        const navItems = document.querySelectorAll('.nav-item');
+        const panels = document.querySelectorAll('.panel');
+        navItems.forEach(n => n.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+        const activeNav = document.querySelector('.nav-item[data-target="' + targetId + '"]');
+        if (activeNav) activeNav.classList.add('active');
+    }
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.onclick = function () {
+            switchPanel(this.dataset.target);
+        };
+    });
+
+    /* =========工作经历 卡片完全隐藏，自适应高度========= */
+    const workCards = document.querySelectorAll('.work-item');
+    const workDots = document.querySelectorAll('.work-dot');
+    const workPrevBtn = document.getElementById('workPrev');
+    const workNextBtn = document.getElementById('workNext');
+    let currentWork = 0;
+    const totalWork = workCards.length;
+    function renderWork() {
+        workCards.forEach((card, i) => {
+            card.classList.remove('card-active');
+        });
+        workCards[currentWork].classList.add('card-active');
+        workDots.forEach((d, i) => {
+            d.classList.toggle('active', i === currentWork);
+        });
+        workPrevBtn.disabled = currentWork === 0;
+        workNextBtn.disabled = currentWork === totalWork - 1;
+    }
+    workPrevBtn.onclick = function () {
+        if (currentWork > 0) {
+            currentWork--;
+            renderWork();
+        }
+    };
+    workNextBtn.onclick = function () {
+        if (currentWork < totalWork - 1) {
+            currentWork++;
+            renderWork();
+        }
+    };
+    workDots.forEach(dot => {
+        dot.onclick = function () {
+            currentWork = parseInt(this.dataset.dot);
+            renderWork();
+        };
+    });
+    renderWork();
+
+    /* =========项目经历 卡片完全隐藏，自适应高度========= */
+    const projectCards = document.querySelectorAll('.project-item');
+    const projectDots = document.querySelectorAll('.project-dot');
+    const projectPrevBtn = document.getElementById('projectPrev');
+    const projectNextBtn = document.getElementById('projectNext');
+    let currentProject = 0;
+    const totalProject = projectCards.length;
+    function renderProject() {
+        projectCards.forEach((card, i) => {
+            card.classList.remove('card-active');
+        });
+        projectCards[currentProject].classList.add('card-active');
+        projectDots.forEach((d, i) => {
+            d.classList.toggle('active', i === currentProject);
+        });
+        projectPrevBtn.disabled = currentProject === 0;
+        projectNextBtn.disabled = currentProject === totalProject - 1;
+    }
+    projectPrevBtn.onclick = function () {
+        if (currentProject > 0) {
+            currentProject--;
+            renderProject();
+        }
+    };
+    projectNextBtn.onclick = function () {
+        if (currentProject < totalProject - 1) {
+            currentProject++;
+            renderProject();
+        }
+    };
+    projectDots.forEach(dot => {
+        dot.onclick = function () {
+            currentProject = parseInt(this.dataset.dot);
+            renderProject();
+        };
+    });
+    renderProject();
+
+    /* =========弹窗：支持多张图片切换========= */
+    const modalMask = document.getElementById('modalMask');
+    const modalImg = document.getElementById('modalImg');
+    const modalPrev = document.getElementById('modalPrev');
+    const modalNext = document.getElementById('modalNext');
+    const modalPageText = document.getElementById('modalPageText');
+
+    let imgList = [];
+    let imgIndex = 0;
+
+    // 打开多图弹窗，传入json字符串数组
+    function openModalMulti(rawStr){
+        imgList = JSON.parse(rawStr);
+        imgIndex = 0;
+        renderModalImage();
+        modalMask.style.display = 'flex';
+    }
+    function renderModalImage(){
+        modalImg.src = imgList[imgIndex];
+        modalPageText.innerText = `${imgIndex+1} / ${imgList.length}`;
+        // 只有一张图，隐藏左右切换按钮
+        if(imgList.length <=1){
+            modalPrev.style.display='none';
+            modalNext.style.display='none';
+        }else{
+            modalPrev.style.display='block';
+            modalNext.style.display='block';
+        }
+    }
+    function closeModal() {
+        modalMask.style.display = 'none';
+        imgList = [];
+        imgIndex = 0;
+    }
+    modalPrev.onclick = function(){
+        if(imgIndex > 0){
+            imgIndex--;
+            renderModalImage();
+        }
+    };
+    modalNext.onclick = function(){
+        if(imgIndex < imgList.length -1){
+            imgIndex++;
+            renderModalImage();
+        }
+    };
+    modalMask.onclick = function (e) {
+        if (e.target === modalMask) closeModal();
+    };
+</script>
 </body>
 </html>
