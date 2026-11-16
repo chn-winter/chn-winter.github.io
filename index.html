@@ -2,703 +2,1086 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>功德木鱼 · 禅心敲击</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI趣味测试｜完整版升级</title>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         * {
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-        }
-
-        body {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
-            background: linear-gradient(145deg, #2b2b1f 0%, #1f1e17 100%);
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', '华文楷书', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'STKaiti', serif;
+            justify-content: center;
             padding: 20px;
         }
-
-        /* 主卡片 */
-        .game-container {
-            background: rgba(235, 210, 165, 0.2);
-            backdrop-filter: blur(3px);
-            border-radius: 72px;
-            padding: 24px 20px 32px;
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), inset 0 1px 4px rgba(255, 245, 200, 0.6);
-            border: 1px solid rgba(230, 190, 120, 0.5);
-            transition: all 0.2s ease;
-        }
-
-        /* 功德殿堂 */
-        .merit-shrine {
-            text-align: center;
-            background: #2c2418cc;
-            margin-bottom: 28px;
-            padding: 16px 12px;
-            border-radius: 80px;
-            backdrop-filter: blur(8px);
-            box-shadow: inset 0 1px 3px #dbb87a66, 0 8px 18px rgba(0, 0, 0, 0.2);
-            border-bottom: 2px solid #efcd91;
-        }
-
-        .merit-label {
-            font-size: 1.1rem;
-            letter-spacing: 4px;
-            color: #ffe6b3;
-            text-shadow: 0 2px 3px #3f2a10;
-            font-weight: 300;
-        }
-
-        .merit-value {
-            font-size: 4.2rem;
-            font-weight: 800;
-            color: #ffdd99;
-            text-shadow: 0 4px 12px #8b5a2b, 0 0 8px #ffcf7a;
-            line-height: 1.2;
-            font-family: monospace;
-            letter-spacing: 4px;
-            transition: 0.1s transform;
-        }
-
-        .merit-unit {
-            font-size: 1.6rem;
-            margin-left: 6px;
-            font-weight: 400;
-            color: #fddfae;
-        }
-
-        /* 木鱼舞台 */
-        .mu-yu-stage {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 15px 0 15px;
-            cursor: pointer;
-        }
-
-        canvas {
-            display: block;
-            margin: 0 auto;
-            width: 260px;
-            height: 260px;
-            border-radius: 50%;
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), inset 0 1px 6px rgba(255, 220, 140, 0.6);
-            transition: all 0.05s linear;
-            cursor: pointer;
-            background: #8b6946;
-            background: radial-gradient(circle at 35% 35%, #b87c48, #754c28);
-        }
-
-        /* 敲击动画 - 震动+缩小弹感 */
-        .yu-hit {
-            animation: knockShake 0.12s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
-        }
-
-        @keyframes knockShake {
-            0% {
-                transform: scale(1);
-                filter: brightness(1);
-            }
-            40% {
-                transform: scale(0.92);
-                filter: brightness(1.2);
-            }
-            100% {
-                transform: scale(1);
-                filter: brightness(1);
-            }
-        }
-
-        /* 功德飘字容器 */
-        .float-text-area {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .container {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: visible;
-            z-index: 20;
+            max-width: 760px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 12px 45px rgba(0,0,0,0.2);
         }
-
-        .floating-merit {
-            position: absolute;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #ffecb3;
-            text-shadow: 0 0 8px #fcb43a, 0 2px 6px #a0522d;
-            white-space: nowrap;
-            pointer-events: none;
-            animation: floatUp 0.9s ease-out forwards;
-            font-family: 'KaiTi', '华文楷书', monospace;
-            z-index: 100;
+        .progress-wrap{
+            margin-bottom:28px;
         }
-
-        @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translate(-50%, 0%) scale(0.8);
-            }
-            30% {
-                opacity: 1;
-                transform: translate(-50%, -30%) scale(1.1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -100%) scale(0.9);
-            }
+        .progress-text{
+            text-align:center;
+            color:#555;
+            margin-bottom:8px;
+            font-size:15px;
         }
-
-        /* 辅助功能区 */
-        .tool-bar {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-top: 28px;
-            margin-bottom: 8px;
+        .progress-bar{
+            width:100%;
+            height:10px;
+            background:#e8e8e8;
+            border-radius:99px;
+            overflow:hidden;
         }
-
-        .btn-reset {
-            background: #e9d6af66;
-            backdrop-filter: blur(4px);
-            border: 1px solid #efcd91;
-            padding: 8px 26px;
-            border-radius: 48px;
-            font-size: 1rem;
+        .progress-inner{
+            height:100%;
+            background:#6c5ce7;
+            transition:0.3s ease;
+        }
+        .page{
+            display:none;
+            opacity:0;
+            transform: translateY(10px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .page.active{
+            display:block;
+            opacity:1;
+            transform: translateY(0);
+        }
+        .question-item p {
             font-weight: 500;
-            color: #fff3cf;
-            font-family: inherit;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            letter-spacing: 2px;
+            color: #2d3436;
+            margin-bottom:32px;
+            font-size:20px;
+            text-align:center;
+            line-height:1.6;
         }
-
-        .btn-reset:active {
-            transform: scale(0.95);
-            background: #c2a16b;
+        .option-row{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap:18px;
         }
-
-        .hint-text {
-            font-size: 0.8rem;
-            color: #ddc6a0;
-            text-align: center;
-            margin-top: 16px;
-            background: #2e271e80;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 6px 18px;
-            border-radius: 40px;
-            backdrop-filter: blur(2px);
+        .option {
+            padding:26px 18px;
+            border:1px solid #dfe6e9;
+            border-radius:14px;
+            cursor:pointer;
+            transition: 0.25s;
+            font-size:16px;
+            text-align:center;
         }
-
-        /* 点击波纹扩展 (额外彩蛋效果) */
-        .ripple-effect {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,215,130,0.7) 0%, rgba(255,160,60,0) 80%);
-            transform: translate(-50%, -50%) scale(0);
-            animation: rippleAnim 0.5s ease-out;
-            pointer-events: none;
-            z-index: 15;
+        .option .icon{
+            font-size:24px;
+            margin-bottom:8px;
+            display:block;
         }
-
-        @keyframes rippleAnim {
-            to {
-                transform: translate(-50%, -50%) scale(6);
-                opacity: 0;
+        .option:hover {
+            background-color: #f3f4fc;
+            border-color:#9b89e2;
+        }
+        .option.selected{
+            background:#6c5ce7;
+            color:#fff;
+            border-color:#6c5ce7;
+            box-shadow:0 4px 14px rgba(108,92,231,0.35);
+        }
+        .btn-bottom-wrap{
+            margin-top:32px;
+            display:flex;
+            justify-content:flex-start;
+        }
+        .prev-btn,.preview-confirm-btn{
+            padding:10px 22px;
+            border:1px solid #6c5ce7;
+            background:#fff;
+            color:#6c5ce7;
+            border-radius:30px;
+            cursor:pointer;
+            font-size:15px;
+            transition:.2s;
+        }
+        .prev-btn:disabled{
+            opacity:0.35;
+            cursor:not-allowed;
+        }
+        .preview-confirm-btn{
+            background:#6c5ce7;
+            color:#fff;
+            border:none;
+            margin-left:auto;
+        }
+        .rate-wrap{
+            background:#fff;
+            padding:20px;
+            border-radius:12px;
+            margin-bottom:20px;
+            border:1px solid #eee;
+        }
+        .rate-item{
+            margin:14px 0;
+        }
+        .rate-name{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px;
+            font-size:14px;
+            color:#555;
+        }
+        .rate-bar-wrap{
+            width:100%;
+            height:12px;
+            background:#e8e8e8;
+            border-radius:99px;
+            overflow:hidden;
+            display:flex;
+        }
+        .rate-left{
+            height:100%;
+            background:#74b9ff;
+        }
+        .rate-right{
+            height:100%;
+            background:#fd79a8;
+        }
+        .result-type {
+            font-size:28px;
+            font-weight:bold;
+            margin-bottom:8px;
+            text-align:center;
+        }
+        .slogan{
+            text-align:center;
+            color:#666;
+            font-size:15px;
+            margin-bottom:20px;
+        }
+        .result-text {
+            line-height:1.8;
+            color:#444;
+        }
+        .result-text h4{
+            margin:16px 0 8px;
+            color:#6c5ce7;
+        }
+        .btn-group{
+            display:flex;
+            gap:12px;
+            justify-content:center;
+            margin-top:26px;
+            flex-wrap:wrap;
+        }
+        .restart,.copyBtn,.saveImgBtn,.historyBtn {
+            padding:11px 22px;
+            border:none;
+            border-radius:32px;
+            cursor:pointer;
+            font-size:15px;
+            transition:.2s;
+        }
+        .restart{
+            background:#00b894;
+            color:#fff;
+        }
+        .copyBtn{
+            background:#0984e3;
+            color:#fff;
+        }
+        .saveImgBtn{
+            background:#fd79a8;
+            color:#fff;
+        }
+        .historyBtn{
+            background:#f39c12;
+            color:#fff;
+        }
+        .toast{
+            position:fixed;
+            bottom:40px;
+            left:50%;
+            transform:translateX(-50%);
+            background:rgba(0,0,0,.75);
+            color:#fff;
+            padding:10px 20px;
+            border-radius:8px;
+            display:none;
+            z-index:999;
+        }
+        .copy-fallback-box{
+            display:none;
+            position:fixed;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            background:#fff;
+            padding:24px;
+            border-radius:14px;
+            box-shadow:0 8px 30px rgba(0,0,0,0.25);
+            z-index:9999;
+            width:90%;
+            max-width:500px;
+        }
+        .copy-fallback-box textarea{
+            width:100%;
+            height:160px;
+            padding:10px;
+            border:1px solid #ddd;
+            border-radius:8px;
+            margin:12px 0;
+        }
+        .history-panel{
+            display:none;
+            position:fixed;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            background:#fff;
+            padding:24px;
+            border-radius:14px;
+            box-shadow:0 8px 30px rgba(0,0,0,0.25);
+            z-index:9999;
+            width:90%;
+            max-width:540px;
+            max-height:70vh;
+            overflow:auto;
+        }
+        .preview-list{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:8px;
+        }
+        .preview-item{
+            padding:8px;
+            border:1px solid #ddd;
+            text-align:center;
+            border-radius:6px;
+            font-size:14px;
+        }
+        .SJ{ --main:#27ae60; }
+        .SP{ --main:#e67e22; }
+        .NF{ --main:#9b59b6; }
+        .NT{ --main:#2980b9; }
+        .SJ .result-type{ color:var(--main); }
+        .SP .result-type{ color:var(--main); }
+        .NF .result-type{ color:var(--main); }
+        .NT .result-type{ color:var(--main); }
+        @media (max-width:540px){
+            .option-row{
+                grid-template-columns:1fr;
             }
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #ac9f7e;
-            margin-top: 18px;
-        }
-
-        @media (max-width: 500px) {
-            .merit-value {
-                font-size: 3rem;
-            }
-            canvas {
-                width: 220px;
-                height: 220px;
-            }
-            .floating-merit {
-                font-size: 1.5rem;
+            .preview-list{
+                grid-template-columns:repeat(3,1fr);
             }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="progress-wrap">
+            <div class="progress-text" id="progressText">第 1 / 24 题</div>
+            <div class="progress-bar">
+                <div class="progress-inner" id="progressInner" style="width:0%"></div>
+            </div>
+        </div>
 
-<div class="game-container">
-    <div class="merit-shrine">
-        <div class="merit-label">✦ 累 积 功 德 ✦</div>
-        <div class="merit-value">
-            <span id="meritCount">0</span><span class="merit-unit">功德</span>
+        <!-- Q1 -->
+        <div class="page active" data-index="0">
+            <div class="question-item">
+                <p>1. 忙碌一天之后，你更愿意？</p>
+                <div class="option-row">
+                    <div class="option" data-val="E"><span class="icon">👥</span>找朋友聊天或者出门走走</div>
+                    <div class="option" data-val="I"><span class="icon">☕</span>独自安静休息恢复精力</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q2 -->
+        <div class="page" data-index="1">
+            <div class="question-item">
+                <p>2. 在聚会场合，你通常？</p>
+                <div class="option-row">
+                    <div class="option" data-val="E"><span class="icon">🗣️</span>主动与人交谈，享受热闹</div>
+                    <div class="option" data-val="I"><span class="icon">👂</span>安静倾听，不喜欢成为焦点</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q3 -->
+        <div class="page" data-index="2">
+            <div class="question-item">
+                <p>3. 学习新知识时，你更喜欢？</p>
+                <div class="option-row">
+                    <div class="option" data-val="S"><span class="icon">📋</span>看实例、细节、一步步操作</div>
+                    <div class="option" data-val="N"><span class="icon">💡</span>先理解框架、联想可能性</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q4 -->
+        <div class="page" data-index="3">
+            <div class="question-item">
+                <p>4. 听别人讲故事，你更在意？</p>
+                <div class="option-row">
+                    <div class="option" data-val="S"><span class="icon">🔍</span>真实发生的事实细节</div>
+                    <div class="option" data-val="N"><span class="icon">✨</span>背后的寓意与想象空间</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q5 -->
+        <div class="page" data-index="4">
+            <div class="question-item">
+                <p>5. 和别人产生分歧，你优先？</p>
+                <div class="option-row">
+                    <div class="option" data-val="T"><span class="icon">⚖️</span>讲道理，看重客观对错</div>
+                    <div class="option" data-val="F"><span class="icon">🤍</span>照顾对方感受，维持和睦</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q6 -->
+        <div class="page" data-index="5">
+            <div class="question-item">
+                <p>6. 判断一件事好不好，优先看？</p>
+                <div class="option-row">
+                    <div class="option" data-val="T"><span class="icon">✅</span>是否公平高效、逻辑通顺</div>
+                    <div class="option" data-val="F"><span class="icon">💛</span>是否让人舒服、温暖善意</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q7 -->
+        <div class="page" data-index="6">
+            <div class="question-item">
+                <p>7. 假期安排你倾向？</p>
+                <div class="option-row">
+                    <div class="option" data-val="J"><span class="icon">🗓️</span>提前做好计划，按计划执行</div>
+                    <div class="option" data-val="P"><span class="icon">🎲</span>随性安排，灵活随机应变</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q8 -->
+        <div class="page" data-index="7">
+            <div class="question-item">
+                <p>8. 面对任务截止日期，习惯？</p>
+                <div class="option-row">
+                    <div class="option" data-val="J"><span class="icon">📌</span>尽早完成，心里踏实</div>
+                    <div class="option" data-val="P"><span class="icon">🔥</span>临近截止冲刺，灵感更好</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q9 -->
+        <div class="page" data-index="8">
+            <div class="question-item">
+                <p>9. 描述一件事情的时候，你偏向？</p>
+                <div class="option-row">
+                    <div class="option" data-val="S"><span class="icon">📝</span>直白写实，讲清楚现状</div>
+                    <div class="option" data-val="N"><span class="icon">🌌</span>喜欢比喻、畅想未来</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q10 -->
+        <div class="page" data-index="9">
+            <div class="question-item">
+                <p>10. 做重大决定更容易被什么影响？</p>
+                <div class="option-row">
+                    <div class="option" data-val="T"><span class="icon">📊</span>利弊数据、客观规则</div>
+                    <div class="option" data-val="F"><span class="icon">❤️</span>人情感受、价值偏好</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q11 -->
+        <div class="page" data-index="10">
+            <div class="question-item">
+                <p>11. 来到陌生场合，你一般？</p>
+                <div class="option-row">
+                    <div class="option" data-val="E"><span class="icon">🤝</span>主动破冰，快速熟悉别人</div>
+                    <div class="option" data-val="I"><span class="icon">🧍</span>等别人主动找你，慢慢熟悉</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q12 -->
+        <div class="page" data-index="11">
+            <div class="question-item">
+                <p>12. 房间、待办清单，你偏好？</p>
+                <div class="option-row">
+                    <div class="option" data-val="J"><span class="icon">🗂️</span>整齐有序，一切有条理</div>
+                    <div class="option" data-val="P"><span class="icon">🌀</span>随性自在，不喜欢被约束</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q13 -->
+        <div class="page" data-index="12">
+            <div class="question-item">
+                <p>13. 休息的时候，你更偏向？</p>
+                <div class="option-row">
+                    <div class="option" data-val="E"><span class="icon">🎉</span>约朋友出门游玩</div>
+                    <div class="option" data-val="I"><span class="icon">🛋️</span>一个人宅家放空</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q14 -->
+        <div class="page" data-index="13">
+            <div class="question-item">
+                <p>14. 别人给你方案，你首先关注？</p>
+                <div class="option-row">
+                    <div class="option" data-val="S"><span class="icon">✅</span>能不能落地、现实可行性</div>
+                    <div class="option" data-val="N"><span class="icon">🚀</span>有没有想象空间、长远潜力</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q15 -->
+        <div class="page" data-index="14">
+            <div class="question-item">
+                <p>15. 朋友难过找你倾诉，你下意识？</p>
+                <div class="option-row">
+                    <div class="option" data-val="T"><span class="icon">🔧</span>帮他分析问题，给解决方案</div>
+                    <div class="option" data-val="F"><span class="icon">🫂</span>先共情安抚情绪，陪伴为主</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q16 -->
+        <div class="page" data-index="15">
+            <div class="question-item">
+                <p>16. 收到临时变动通知，你的感受？</p>
+                <div class="option-row">
+                    <div class="option" data-val="J"><span class="icon">😣</span>烦躁，计划被打乱很不舒服</div>
+                    <div class="option" data-val="P"><span class="icon">😌</span>无所谓，可以灵活调整</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q17 -->
+        <div class="page" data-index="16">
+            <div class="question-item">
+                <p>17. 想到周末，你更期待？</p>
+                <div class="option-row">
+                    <div class="option" data-val="E"><span class="icon">🏙️</span>外出社交、探店、聚会</div>
+                    <div class="option" data-val="I"><span class="icon">📖</span>安静独处，做自己喜欢的小事</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q18 -->
+        <div class="page" data-index="17">
+            <div class="question-item">
+                <p>18. 看书看文章，你偏爱？</p>
+                <div class="option-row">
+                    <div class="option" data-val="S"><span class="icon">📰</span>纪实、科普、真实故事</div>
+                    <div class="option" data-val="N"><span class="icon">📜</span>幻想、哲理、隐喻故事</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q19 -->
+        <div class="page" data-index="18">
+            <div class="question-item">
+                <p>19. 团队吵架，你更希望？</p>
+                <div class="option-row">
+                    <div class="option" data-val="T"><span class="icon">🧠</span>就事论事，分清对错</div>
+                    <div class="option" data-val="F"><span class="icon">🤝</span>大家和好，氛围优先</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q20 -->
+        <div class="page" data-index="19">
+            <div class="question-item">
+                <p>20. 出门旅行，你喜欢？</p>
+                <div class="option-row">
+                    <div class="option" data-val="J"><span class="icon">📍</span>行程表精确到时间段</div>
+                    <div class="option" data-val="P"><span class="icon">🗺️</span>只定大致方向，随缘逛</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q21 -->
+        <div class="page" data-index="20">
+            <div class="question-item">
+                <p>21. 别人夸你，你更认同哪一句？</p>
+                <div class="option-row">
+                    <div class="option" data-val="S"><span class="icon">🛠️</span>务实靠谱，落地能力强</div>
+                    <div class="option" data-val="N"><span class="icon">🌟</span>脑洞大，想法很有远见</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q22 -->
+        <div class="page" data-index="21">
+            <div class="question-item">
+                <p>22. 做选择时，你更容易？</p>
+                <div class="option-row">
+                    <div class="option" data-val="T"><span class="icon">📐</span>理性权衡利弊</div>
+                    <div class="option" data-val="F"><span class="icon">💖</span>跟着内心感受走</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q23 -->
+        <div class="page" data-index="22">
+            <div class="question-item">
+                <p>23. 工作结束，你喜欢？</p>
+                <div class="option-row">
+                    <div class="option" data-val="J"><span class="icon">✅</span>事情收尾干净，不留尾巴</div>
+                    <div class="option" data-val="P"><span class="icon">⏳</span>可以留到下次继续完善</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- Q24 -->
+        <div class="page" data-index="23">
+            <div class="question-item">
+                <p>24. 新认识一个人，你首先好奇？</p>
+                <div class="option-row">
+                    <div class="option" data-val="E"><span class="icon">💬</span>多聊天，快速熟悉他</div>
+                    <div class="option" data-val="I"><span class="icon">👀</span>慢慢观察，不急着靠近</div>
+                </div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+            </div>
+        </div>
+        <!-- 预览汇总页 -->
+        <div class="page" data-index="24">
+            <div class="question-item">
+                <p>✅答题完成！请核对你的答案，可返回修改</p>
+                <div class="preview-list" id="previewList"></div>
+            </div>
+            <div class="btn-bottom-wrap">
+                <button class="prev-btn">上一题</button>
+                <button class="preview-confirm-btn">确认查看结果</button>
+            </div>
+        </div>
+        <!-- 结果页 -->
+        <div class="page" data-index="25">
+            <h2 style="text-align:center;color:#6c5ce7;margin-bottom:14px;font-size:24px;">你的人格类型</h2>
+            <div class="result-type" id="resultType"></div>
+            <div class="slogan" id="slogan"></div>
+            <div class="rate-wrap" id="rateWrap">
+                <div class="rate-item">
+                    <div class="rate-name"><span>E 外向</span><span id="eiText">0% / I 0%</span></div>
+                    <div class="rate-bar-wrap">
+                        <div class="rate-left" id="eBar"></div>
+                        <div class="rate-right" id="iBar"></div>
+                    </div>
+                </div>
+                <div class="rate-item">
+                    <div class="rate-name"><span>S 实感</span><span id="snText">0% / N 0%</span></div>
+                    <div class="rate-bar-wrap">
+                        <div class="rate-left" id="sBar"></div>
+                        <div class="rate-right" id="nBar"></div>
+                    </div>
+                </div>
+                <div class="rate-item">
+                    <div class="rate-name"><span>T 思考</span><span id="tfText">0% / F 0%</span></div>
+                    <div class="rate-bar-wrap">
+                        <div class="rate-left" id="tBar"></div>
+                        <div class="rate-right" id="fBar"></div>
+                    </div>
+                </div>
+                <div class="rate-item">
+                    <div class="rate-name"><span>J 判断</span><span id="jpText">0% / P 0%</span></div>
+                    <div class="rate-bar-wrap">
+                        <div class="rate-left" id="jBar"></div>
+                        <div class="rate-right" id="pBar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="result-text" id="resultContent"></div>
+            <div class="btn-group">
+                <button class="copyBtn" id="copyBtn">复制结果分享</button>
+                <button class="saveImgBtn" id="saveImgBtn">保存为图片</button>
+                <button class="historyBtn" id="historyBtn">历史记录</button>
+                <button class="restart" id="restartBtn">重新测试</button>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <div class="copy-fallback-box" id="copyFallback">
+        <h3>复制失败，请手动复制</h3>
+        <textarea id="fallbackText"></textarea>
+        <button onclick="document.getElementById('copyFallback').style.display='none'">关闭</button>
+    </div>
+    <div class="history-panel" id="historyPanel">
+        <h3>历史测试记录</h3>
+        <div id="historyList"></div>
+        <div style="margin-top:16px;display:flex;gap:10px;">
+            <button onclick="clearHistory()">清空记录</button>
+            <button onclick="document.getElementById('historyPanel').style.display='none'">关闭</button>
         </div>
     </div>
 
-    <div class="mu-yu-stage" id="muYuStage">
-        <canvas id="muYuCanvas" width="300" height="300" style="width: 100%; max-width: 300px; height: auto; aspect-ratio: 1/1;"></canvas>
-        <div class="float-text-area" id="floatContainer"></div>
-    </div>
+    <script>
+        const totalQuestion = 24;
+        let current = 0;
+        let answers = [];
+        let lastShareText = "";
 
-    <div class="tool-bar">
-        <button class="btn-reset" id="resetBtn">🪷 重 置 功 德 🪷</button>
-    </div>
-    <div class="hint-text">
-        🥁 点击木鱼 · 敲击增功德 · 空格键亦可敲 🥁
-    </div>
-    <footer>一敲一菩提 · 功德无量</footer>
-</div>
+        const mbtiData = {
+            "ISTJ":{
+                name:"物流师 ISTJ",
+                slogan:"恪尽职守，可靠务实的守护者",
+                group:"SJ",
+                good:"✅优点：踏实稳重、责任心极强，遵守规则，细心严谨，执行力强，信守承诺，靠谱稳定，擅长梳理繁杂事务。",
+                bad:"⚠️短板：比较保守，抗拒突如其来的变化，不擅长表达情感，容易过度较真，对新想法包容度偏低。",
+                job:"💼适合职业：会计、审计、档案管理、行政、质检、法务、工程技术、仓储管理、公务员。",
+                adviceWork:"职场建议：适合稳定有序的环境，尽量避免频繁变动的项目；学会适当变通，不必死守规则。",
+                adviceLove:"相处建议：重视承诺，讨厌敷衍；和他们相处，说到做到比甜言蜜语更重要。"
+            },
+            "ISFJ":{
+                name:"守卫者 ISFJ",
+                slogan:"温柔守护，默默付出的暖心人",
+                group:"SJ",
+                good:"✅优点：温柔细心、共情力强，乐于默默付出，体贴照顾他人，忠诚可靠，有耐心，擅长记住别人的需求。",
+                bad:"⚠️短板：容易委屈自己讨好别人，不懂拒绝，害怕冲突，不擅长表达自身诉求，容易积累压力。",
+                job:"💼适合职业：护士、幼师、社工、人事、客服、医护助理、家政管理、社区服务、行政助理。",
+                adviceWork:"职场建议：不要包揽所有事情，学会合理分配任务，给自己留出休息时间。",
+                adviceLove:"相处建议：他们很在意细节，你的小关心都会被记在心里；不要忽视他们的情绪。"
+            },
+            "INFJ":{
+                name:"提倡者 INFJ",
+                slogan:"洞察人心，追寻意义的理想者",
+                group:"NF",
+                good:"✅优点：洞察力惊人，共情深刻，理想主义，有使命感，善于看透人心，追求价值与意义，自律且有远见。",
+                bad:"⚠️短板：内心敏感，容易精神内耗，对自己和他人标准很高，很难接纳肤浅的社交，习惯独自扛下情绪。",
+                job:"💼适合职业：心理咨询师、作家、策划、人文教育、心理辅导、艺术创作、社科研究。",
+                adviceWork:"职场建议：远离勾心斗角的环境，优先选择有价值感、价值观契合的团队。",
+                adviceLove:"相处建议：渴望深度灵魂共鸣，讨厌流于表面的客套；真诚是打动他们的关键。"
+            },
+            "INTJ":{
+                name:"建筑师 INTJ",
+                slogan:"运筹帷幄，构建长远蓝图的战略家",
+                group:"NT",
+                good:"✅优点：战略思维强大，独立冷静，擅长长远规划，喜欢挖掘底层逻辑，目标感强，善于预判问题，理智果断。",
+                bad:"⚠️短板：容易高冷疏离，不太在意人情世故，耐心不足，对低效行为缺乏包容，容易低估情绪的作用。",
+                job:"💼适合职业：战略分析师、程序员、科研、金融风控、架构师、投资顾问、工程研发。",
+                adviceWork:"职场建议：适当照顾团队情绪，不要只盯着结果；接纳过程里不完美的中间方案。",
+                adviceLove:"相处建议：尊重他们的独立空间，不要强行情绪绑架；逻辑同频会让他们很欣赏你。"
+            },
+            "ISTP":{
+                name:"鉴赏家 ISTP",
+                slogan:"冷静灵巧，擅长实操的手艺人",
+                group:"SP",
+                good:"✅优点：动手能力强，冷静灵活，临场应变一流，擅长解决实操难题，务实，不喜空谈，享受挑战。",
+                bad:"⚠️短板：讨厌繁琐长期计划，缺乏持续耐心，不爱倾诉情绪，有时随性散漫，容易忽视长远后果。",
+                job:"💼适合职业：机械维修、汽修、工程师、程序员、电竞、法医、测绘、手工匠人。",
+                adviceWork:"职场建议：适合需要临场发挥、动手解决问题的岗位；长期重复枯燥工作容易消耗你。",
+                adviceLove:"相处建议：不要过度管束，给他们自由；行动陪伴比长篇大论更合适。"
+            },
+            "ISFP":{
+                name:"探险家 ISFP",
+                slogan:"感受当下，温柔浪漫的艺术家",
+                group:"SP",
+                good:"✅优点：温和浪漫，审美出众，活在当下，感受力强，待人柔软，不喜争执，忠于内心感受，擅长艺术表达。",
+                bad:"⚠️短板：不喜欢长远规划，害怕宏大压力，不擅长抽象辩论，容易回避矛盾，不太擅长主动争取。",
+                job:"💼适合职业：插画师、设计师、摄影师、花艺师、音乐人、手工、美妆、舞蹈。",
+                adviceWork:"职场建议：选择可以自由发挥审美、创意的岗位；减少繁杂死板的流程束缚。",
+                adviceLove:"相处建议：用感官和浪漫打动他们，一起体验新鲜美好的小事。"
+            },
+            "INFP":{
+                name:"调停者 INFP",
+                slogan:"内心丰盈，温柔纯粹的梦想家",
+                group:"NF",
+                good:"✅优点：内心丰盈，共情力拉满，真诚善良，忠于价值观，想象力丰富，向往纯粹的关系，包容温柔。",
+                bad:"⚠️短板：极易内耗，理想和现实落差容易打击自己，拖延，不擅长强硬竞争，害怕世俗功利。",
+                job:"💼适合职业：作家、诗人、插画、编辑、心理助理、文创、音乐、人文老师。",
+                adviceWork:"职场建议：避开充满内卷、功利竞争的环境；找到一件你认同价值的事坚持下去。",
+                adviceLove:"相处建议：保护他们柔软的内心，不要嘲讽他们的理想；真诚接纳最重要。"
+            },
+            "INTP":{
+                name:"逻辑学家 INTP",
+                slogan:"好奇思辨，沉迷理论的思考者",
+                group:"NT",
+                good:"✅优点：好奇心旺盛，热爱思辨，脑洞大，喜欢拆解理论，思维发散，乐于怀疑和探索，享受动脑的乐趣。",
+                bad:"⚠️短板：执行力弱，容易想得多做得少，拖延，不擅长人情社交，容易沉迷思考忽略现实事务。",
+                job:"💼适合职业：理论研究、程序员、算法、哲学、数学、科研、技术开发。",
+                adviceWork:"职场建议：给自己设置简单硬性截止时间，把想法拆成小步骤落地。",
+                adviceLove:"相处建议：陪他们讨论脑洞和观点，尊重他们的独处思考时间。"
+            },
+            "ESTP":{
+                name:"企业家 ESTP",
+                slogan:"果敢现实，把握机会的行动派",
+                group:"SP",
+                good:"✅优点：精力充沛，现实果敢，临场反应快，擅长社交，敢于尝试新鲜事物，适应力强，擅长抓住机会。",
+                bad:"⚠️短板：容易冲动，缺乏长期规划，耐心差，容易厌倦重复枯燥工作，有时忽视长远风险。",
+                job:"💼适合职业：销售、谈判、经纪人、市场拓展、创业、赛事、公关、现场管理。",
+                adviceWork:"职场建议：发挥临场应变优势，同时养成复盘习惯，规避冲动带来的风险。",
+                adviceLove:"相处建议：一起体验新鲜刺激的活动，不要沉闷死板。"
+            },
+            "ESFP":{
+                name:"表演者 ESFP",
+                slogan:"热情鲜活，点亮氛围的快乐者",
+                group:"SP",
+                good:"✅优点：热情活泼感染力强，乐观爱笑，擅长带动气氛，热爱生活，擅长感知他人情绪，亲和力高。",
+                bad:"⚠️短板：讨厌枯燥理论和长期规划，容易三分钟热度，回避负面沉重话题，很难长时间独处。",
+                job:"💼适合职业：演员、主持人、主播、幼教、文旅、活动策划、美妆、模特。",
+                adviceWork:"职场建议：适合与人打交道、充满变化的工作；枯燥文书工作会快速消耗热情。",
+                adviceLove:"相处建议：多陪伴、一起玩乐，分享当下快乐；不要一直讲沉重道理。"
+            },
+            "ENFP":{
+                name:"竞选者 ENFP",
+                slogan:"热忱浪漫，永远好奇的追梦人",
+                group:"NF",
+                good:"✅优点：热情开朗，脑洞丰富，共情强，善于鼓舞他人，热爱可能性，讨厌死板，富有创意，真诚有趣。",
+                bad:"⚠️短板：容易兴趣泛滥，三分钟热度，执行力不稳定，害怕枯燥重复，情绪起伏比较明显。",
+                job:"💼适合职业：广告策划、新媒体、教育、培训、编剧、创意设计、市场、自媒体。",
+                adviceWork:"职场建议：保留创意热情，建立简单的待办清单防止想法烂尾。",
+                adviceLove:"相处建议：陪他们畅想未来，支持他们的新爱好；不要强行把他们框死。"
+            },
+            "ENTP":{
+                name:"辩论家 ENTP",
+                slogan:"思维跳脱，乐于挑战的创新者",
+                group:"NT",
+                good:"✅优点：思维敏捷，创意源源不断，喜欢思想碰撞，善于发现漏洞，口才好，乐于挑战固有观点。",
+                bad:"⚠️短板：享受抬杠辩论，容易忽略他人感受，耐心不足，想法多落地少，容易虎头蛇尾。",
+                job:"💼适合职业：律师、创投、策划、营销、咨询、产品、辩论、自媒体。",
+                adviceWork:"职场建议：收敛抬杠习惯，把创意聚焦在可落地项目上，善始善终。",
+                adviceLove:"相处建议：能和他们轻松辩论、脑洞碰撞会很加分；不要玻璃心。"
+            },
+            "ESTJ":{
+                name:"总经理 ESTJ",
+                slogan:"秩序担当，高效统筹的管理者",
+                group:"SJ",
+                good:"✅优点：果断干练，重视秩序与效率，组织能力强，执行力强，公平务实，擅长统筹管理，说到做到。",
+                bad:"⚠️短板：强势直接，不太擅长柔软共情，比较强势，偏爱规则，不容易接纳天马行空的想法。",
+                job:"💼适合职业：管理岗、运营主管、项目经理、行政主管、供应链、金融管理、军警。",
+                adviceWork:"职场建议：适当倾听不同意见，规则之外保留一点弹性。",
+                adviceLove:"相处建议：尊重他们的责任感，做事靠谱守时；他们欣赏靠谱稳定的人。"
+            },
+            "ESFJ":{
+                name:"执政官 ESFJ",
+                slogan:"热心友善，维系温暖的粘合剂",
+                group:"SJ",
+                good:"✅优点：热心友善，擅长维系人际关系，照顾身边人，重视和睦，乐于帮忙，责任心强，人缘很好。",
+                bad:"⚠️短板：非常在意别人评价，害怕被孤立，容易过度操心别人，不喜欢冲突，难接受离经叛道想法。",
+                job:"💼适合职业：HR、公关、班主任、客服主管、活动统筹、社区管理、门店管理。",
+                adviceWork:"职场建议：不要把所有人情绪责任扛在自己身上，学会课题分离。",
+                adviceLove:"相处建议：重视仪式感、礼貌和陪伴；他们很看重你是否在意他。"
+            },
+            "ENFJ":{
+                name:"主人公 ENFJ",
+                slogan:"温暖引领，鼓舞他人的导师",
+                group:"NF",
+                good:"✅优点：富有感染力，善于读懂人心，乐于带领他人成长，共情强，理想正向，擅长引导和鼓舞别人。",
+                bad:"⚠️短板：习惯照顾所有人，容易透支自己，对关系期待很高，遇到冷漠会失落，容易说教。",
+                job:"💼适合职业：培训师、教师、心理咨询、领导力教练、公关、公益负责人、主播。",
+                adviceWork:"职场建议：不要强行拯救所有人，允许别人按照自己节奏成长。",
+                adviceLove:"相处建议：真诚沟通，愿意一起成长；不要敷衍、隐藏真实想法。"
+            },
+            "ENTJ":{
+                name:"指挥官 ENTJ",
+                slogan:"天生领袖，果断破局的统帅",
+                group:"NT",
+                good:"✅优点：天生领导者，自信果断，目标导向，统筹力强，不惧挑战，逻辑清晰，擅长破局，执行力强悍。",
+                bad:"⚠️短板：强势直接，容易压迫别人，缺乏耐心，容易只看结果忽略情绪，很难接受低效。",
+                job:"💼适合职业：企业高管、创业、投资、战略管理、项目总、律所合伙人、商业顾问。",
+                adviceWork:"职场建议：看见团队成员的情绪价值，给成长型伙伴一点容错空间。",
+                adviceLove:"相处建议：和他们同频上进，有自己独立想法；依附讨好很难吸引他们。"
+            }
+        };
 
-<script>
-    (function(){
-        // ---------- 功德计数器 ----------
-        let totalMerit = 0;
-        const meritSpan = document.getElementById('meritCount');
-        
-        // DOM 元素
-        const canvas = document.getElementById('muYuCanvas');
-        const ctx = canvas.getContext('2d');
-        const stage = document.getElementById('muYuStage');
-        const floatContainer = document.getElementById('floatContainer');
-        const resetBtn = document.getElementById('resetBtn');
+        const pages = document.querySelectorAll('.page');
+        const progressText = document.getElementById('progressText');
+        const progressInner = document.getElementById('progressInner');
+        const resultType = document.getElementById('resultType');
+        const sloganDom = document.getElementById('slogan');
+        const resultContent = document.getElementById('resultContent');
+        const previewList = document.getElementById('previewList');
+        const copyBtn = document.getElementById('copyBtn');
+        const saveImgBtn = document.getElementById('saveImgBtn');
+        const historyBtn = document.getElementById('historyBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const toast = document.getElementById('toast');
+        const copyFallback = document.getElementById('copyFallback');
+        const fallbackText = document.getElementById('fallbackText');
+        const historyPanel = document.getElementById('historyPanel');
+        const historyList = document.getElementById('historyList');
 
-        // 尺寸设置 (保证高清绘制)
-        function setCanvasSize() {
-            const size = 300;  // 固定逻辑像素300x300，通过css保持比例
-            canvas.width = 300;
-            canvas.height = 300;
-            drawMuyu();       // 重绘木鱼
+        function getHistory(){
+            const raw = localStorage.getItem("mbtiHistory");
+            return raw ? JSON.parse(raw) : [];
+        }
+        function saveHistory(item){
+            const arr = getHistory();
+            arr.push({...item,time:new Date().toLocaleString()});
+            if(arr.length>8) arr.shift();
+            localStorage.setItem("mbtiHistory",JSON.stringify(arr));
+        }
+        function renderHistory(){
+            const arr = getHistory();
+            if(!arr.length){
+                historyList.innerHTML="<p>暂无历史记录</p>";
+                return;
+            }
+            historyList.innerHTML = arr.map(x=>`<div style="padding:8px 0;border-bottom:1px solid #eee">${x.type}｜${x.time}</div>`).join("");
+        }
+        function clearHistory(){
+            localStorage.removeItem("mbtiHistory");
+            renderHistory();
+            showToast("✅已清空历史");
         }
 
-        // 绘制精致木鱼 (古典风格)
-        function drawMuyu() {
-            const w = canvas.width;
-            const h = canvas.height;
-            ctx.clearRect(0, 0, w, h);
-            
-            // 木鱼主体：上胖下收的椭圆+特殊造型
-            ctx.save();
-            // 主阴影
-            ctx.shadowColor = "rgba(0,0,0,0.5)";
-            ctx.shadowBlur = 8;
-            ctx.shadowOffsetX = 4;
-            ctx.shadowOffsetY = 4;
-            
-            // 身体渐变 (实心)
-            const gradient = ctx.createLinearGradient(w*0.3, h*0.2, w*0.7, h*0.8);
-            gradient.addColorStop(0, '#c9863b');
-            gradient.addColorStop(0.5, '#b5622a');
-            gradient.addColorStop(1, '#82441c');
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            // 椭圆为主 像馒头
-            ctx.ellipse(w/2, h/2 + 8, w*0.38, h*0.4, 0, 0, Math.PI*2);
-            ctx.fill();
-            
-            // 木鱼嘴部 (弧形开光)
-            ctx.beginPath();
-            ctx.strokeStyle = '#e0b068';
-            ctx.lineWidth = 4;
-            ctx.shadowBlur = 2;
-            ctx.arc(w/2 - 10, h/2 + 20, 28, 0.15, Math.PI - 0.15);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(w/2 - 10, h/2 + 20, 24, 0.1, Math.PI - 0.1);
-            ctx.strokeStyle = '#ffdd99';
-            ctx.lineWidth = 2.2;
-            ctx.stroke();
-            
-            // 眼睛 (禅意小点)
-            ctx.fillStyle = '#fff3cf';
-            ctx.shadowBlur = 0;
-            ctx.beginPath();
-            ctx.arc(w/2 - 38, h/2 - 5, 8, 0, 2*Math.PI);
-            ctx.fill();
-            ctx.fillStyle = '#3a2819';
-            ctx.beginPath();
-            ctx.arc(w/2 - 38, h/2 - 7, 3.6, 0, 2*Math.PI);
-            ctx.fill();
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.arc(w/2 - 41, h/2 - 10, 1.5, 0, 2*Math.PI);
-            ctx.fill();
-            
-            // 木鱼柄 (头顶莲花台)
-            ctx.fillStyle = '#b47c48';
-            ctx.shadowBlur = 3;
-            ctx.beginPath();
-            ctx.rect(w/2 - 12, h/2 - 52, 24, 28);
-            ctx.fill();
-            ctx.fillStyle = '#e3a15f';
-            ctx.beginPath();
-            ctx.ellipse(w/2, h/2 - 52, 14, 8, 0, 0, Math.PI*2);
-            ctx.fill();
-            ctx.fillStyle = '#f5c286';
-            ctx.beginPath();
-            ctx.ellipse(w/2, h/2 - 56, 8, 5, 0, 0, Math.PI*2);
-            ctx.fill();
-            
-            // 鱼身纹理 (祥云纹)
-            ctx.beginPath();
-            ctx.strokeStyle = '#dcb072';
-            ctx.lineWidth = 1.8;
-            ctx.shadowBlur = 0;
-            for(let i = 0; i < 3; i++) {
-                let offX = w/2 - 25 + i*22;
-                ctx.beginPath();
-                ctx.moveTo(offX, h/2 + 28);
-                ctx.quadraticCurveTo(offX+8, h/2+38, offX+18, h/2+26);
-                ctx.stroke();
+        function showPage(index){
+            pages.forEach(p=>p.classList.remove('active'));
+            pages[index].classList.add('active');
+            const percent = (index / totalQuestion)*100;
+            progressInner.style.width = percent + "%";
+            if(index < totalQuestion){
+                progressText.innerText = `第 ${index+1} / ${totalQuestion} 题`;
+            }else if(index === totalQuestion){
+                progressText.innerText = "📋答案核对";
+                previewList.innerHTML = "";
+                answers.forEach((v,i)=>{
+                    const d = document.createElement("div");
+                    d.className="preview-item";
+                    d.innerText=`${i+1}:${v}`;
+                    previewList.appendChild(d);
+                })
+            }else{
+                progressText.innerText = "✅测试完成";
             }
-            // 底部祥云
-            ctx.beginPath();
-            ctx.moveTo(w/2-38, h/2+48);
-            ctx.quadraticCurveTo(w/2-20, h/2+62, w/2, h/2+48);
-            ctx.moveTo(w/2+8, h/2+48);
-            ctx.quadraticCurveTo(w/2+28, h/2+62, w/2+48, h/2+48);
-            ctx.stroke();
-            
-            // 高光亮点
-            ctx.fillStyle = '#ffefb9cc';
-            ctx.beginPath();
-            ctx.ellipse(w/2 - 15, h/2 - 20, 6, 4, 0, 0, Math.PI*2);
-            ctx.fill();
-            ctx.restore();
-            
-            // 小木鱼嘴衔珠 (装饰)
-            ctx.beginPath();
-            ctx.fillStyle = '#f4bc6e';
-            ctx.arc(w/2 - 12, h/2 + 32, 6, 0, Math.PI*2);
-            ctx.fill();
-            ctx.fillStyle = '#aa6e32';
-            ctx.beginPath();
-            ctx.arc(w/2 - 12, h/2 + 32, 2.5, 0, Math.PI*2);
-            ctx.fill();
+            const prevBtn = pages[index].querySelector('.prev-btn');
+            if(prevBtn){
+                prevBtn.disabled = index <= 0;
+                prevBtn.onclick = function(){
+                    if(current > 0){
+                        current--;
+                        showPage(current);
+                    }
+                }
+            }
+            const confirmBtn = pages[index].querySelector('.preview-confirm-btn');
+            if(confirmBtn){
+                confirmBtn.onclick = function(){
+                    calcResult();
+                    current++;
+                    showPage(current);
+                }
+            }
+            const opts = pages[index].querySelectorAll('.option');
+            opts.forEach(opt=>{
+                opt.classList.remove("selected");
+                if(answers[current] === opt.dataset.val){
+                    opt.classList.add("selected");
+                }
+            })
         }
-        
-        // ---------- 🎵 声音合成模块 (纯Web Audio, 木鱼咚声) ----------
-        let audioCtx = null;
-        
-        // 初始化音频上下文 (惰性)
-        function initAudioContext() {
-            if (audioCtx) return audioCtx;
-            try {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                // 挂起状态，等待用户首次交互后恢复
-                return audioCtx;
-            } catch(e) {
-                console.warn("Web Audio API 不支持", e);
-                return null;
+
+        document.querySelectorAll('.option').forEach(opt=>{
+            opt.onclick = function(){
+                const val = this.dataset.val;
+                answers[current] = val;
+                pages[current].querySelectorAll('.option').forEach(o=>o.classList.remove("selected"));
+                this.classList.add("selected");
+                setTimeout(()=>{
+                    current++;
+                    showPage(current);
+                },180);
             }
-        }
-        
-        // 播放木鱼声音 (模拟清脆敲击感 + 余韵)
-        async function playMuyuSound() {
-            if (!audioCtx) {
-                initAudioContext();
-            }
-            if (!audioCtx) return;
-            
-            // 恢复音频上下文 (确保用户手势后播放)
-            if (audioCtx.state === 'suspended') {
-                await audioCtx.resume();
-            }
-            if (audioCtx.state !== 'running') return;
-            
-            const now = audioCtx.currentTime;
-            // 主音色: 短促中低频 + 泛音
-            const osc1 = audioCtx.createOscillator();
-            const osc2 = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            const gainHarmonic = audioCtx.createGain();
-            
-            osc1.type = 'sine';
-            osc1.frequency.value = 320;  // 类似木鱼基频
-            
-            osc2.type = 'triangle';
-            osc2.frequency.value = 680;   // 清脆泛音
-            
-            gainNode.gain.value = 0.45;
-            gainHarmonic.gain.value = 0.22;
-            
-            osc1.connect(gainNode);
-            osc2.connect(gainHarmonic);
-            gainNode.connect(audioCtx.destination);
-            gainHarmonic.connect(audioCtx.destination);
-            
-            // 快速包络衰减 (木鱼瞬态)
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
-            gainHarmonic.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
-            
-            // 微弱的混响感: 添加一个短促delay? 简单加一点点时间偏移超短回声(内置不好加，直接包络自然)
-            // 额外增加一个极短噪声瞬态提高敲击质感 (白噪声刷)
-            const bufferSize = 4096;
-            const noiseNode = audioCtx.createScriptProcessor(bufferSize, 1, 1);
-            // 为了简洁且不引起性能，使用简单短时噪声包络 (更好木鱼感)
-            const noiseGain = audioCtx.createGain();
-            noiseGain.gain.value = 0.18;
-            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
-            
-            // 创建短暂噪声振荡器 (白噪声用Buffer)
-            const sampleRate = audioCtx.sampleRate;
-            const noiseLength = 0.08; // 80ms噪声
-            const frameCount = sampleRate * noiseLength;
-            const noiseBuffer = audioCtx.createBuffer(1, frameCount, sampleRate);
-            const channelData = noiseBuffer.getChannelData(0);
-            for (let i = 0; i < frameCount; i++) {
-                channelData[i] = (Math.random() * 2 - 1) * 0.7;
-            }
-            const noiseSource = audioCtx.createBufferSource();
-            noiseSource.buffer = noiseBuffer;
-            noiseSource.connect(noiseGain);
-            noiseGain.connect(audioCtx.destination);
-            noiseSource.start();
-            noiseSource.stop(now + 0.12);
-            
-            osc1.start();
-            osc1.stop(now + 0.32);
-            osc2.start();
-            osc2.stop(now + 0.3);
-            
-            // 清理脚本处理器 (为了优雅，但无碍)
-            if (noiseNode) {
-                noiseNode.disconnect();
-            }
-        }
-        
-        // ---------- 功德增加核心逻辑 ----------
-        function incrementMerit(event, clientX, clientY) {
-            // 功德+1
-            totalMerit++;
-            meritSpan.innerText = totalMerit;
-            
-            // 播放木鱼音 (异步不影响体验)
-            playMuyuSound().catch(e => console.log("audio play skipped:", e));
-            
-            // 木鱼震动动画
-            const canvasElem = canvas;
-            canvasElem.classList.remove('yu-hit');
-            void canvasElem.offsetWidth; // 强制重绘
-            canvasElem.classList.add('yu-hit');
-            setTimeout(() => {
-                canvasElem.classList.remove('yu-hit');
-            }, 130);
-            
-            // 显示功德+1 飘字 (根据点击坐标生成，若没坐标则居中)
-            let posX, posY;
-            if (clientX && clientY && stage) {
-                const rect = stage.getBoundingClientRect();
-                const relativeX = clientX - rect.left;
-                const relativeY = clientY - rect.top;
-                // 限制范围避免溢出
-                posX = Math.min(Math.max(relativeX, 20), rect.width - 20);
-                posY = Math.min(Math.max(relativeY, 20), rect.height - 20);
-            } else {
-                // 默认中心区域
-                const rect = stage.getBoundingClientRect();
-                posX = rect.width / 2;
-                posY = rect.height / 2.5;
-            }
-            createFloatText(posX, posY);
-            
-            // 额外涟漪效果 (点击波纹)
-            addRippleEffect(clientX, clientY);
-        }
-        
-        // 创建飘浮功德文字
-        function createFloatText(x, y) {
-            const div = document.createElement('div');
-            div.className = 'floating-merit';
-            div.innerText = '功德 +1';
-            // 随机微偏移，更自然
-            const offsetX = (Math.random() - 0.5) * 16;
-            div.style.left = (x + offsetX) + 'px';
-            div.style.top = y + 'px';
-            div.style.transform = 'translate(-50%, -50%)';
-            floatContainer.appendChild(div);
-            // 动画结束后移除
-            div.addEventListener('animationend', () => {
-                if (div.parentNode) div.parentNode.removeChild(div);
-            });
-            // 保险1.2s后移除
-            setTimeout(() => {
-                if (div.parentNode) div.parentNode.removeChild(div);
-            }, 1000);
-        }
-        
-        // 波纹特效（随点击位置产生光圈）
-        function addRippleEffect(clientX, clientY) {
-            if (!clientX || !clientY) return;
-            const rect = stage.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
-            const ripple = document.createElement('div');
-            ripple.classList.add('ripple-effect');
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.style.position = 'absolute';
-            ripple.style.width = '12px';
-            ripple.style.height = '12px';
-            stage.style.position = 'relative';
-            stage.appendChild(ripple);
-            ripple.addEventListener('animationend', () => {
-                if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
-            });
-            setTimeout(() => {
-                if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
-            }, 550);
-        }
-        
-        // 敲击统一入口 (支持事件)
-        function knockHandler(event) {
-            // 获取点击坐标用于飘字和特效
-            let clientX, clientY;
-            if (event.touches) {
-                // 触摸事件
-                clientX = event.touches[0].clientX;
-                clientY = event.touches[0].clientY;
-                event.preventDefault();
-            } else if (event.clientX !== undefined) {
-                clientX = event.clientX;
-                clientY = event.clientY;
-            } else {
-                // 键盘触发无坐标，使用木鱼中心区域坐标
-                const rect = stage.getBoundingClientRect();
-                clientX = rect.left + rect.width/2;
-                clientY = rect.top + rect.height/2;
-            }
-            incrementMerit(event, clientX, clientY);
-        }
-        
-        // 重置功德
-        function resetMerit() {
-            if (totalMerit !== 0) {
-                totalMerit = 0;
-                meritSpan.innerText = "0";
-                // 轻微反馈：显示重置提示飘字
-                const rect = stage.getBoundingClientRect();
-                const resetMsg = document.createElement('div');
-                resetMsg.className = 'floating-merit';
-                resetMsg.innerText = '功德归零 · 心净';
-                resetMsg.style.left = (rect.width/2) + 'px';
-                resetMsg.style.top = (rect.height/2) + 'px';
-                resetMsg.style.fontSize = '1.2rem';
-                resetMsg.style.color = '#ffe3aa';
-                floatContainer.appendChild(resetMsg);
-                setTimeout(() => resetMsg.remove(), 900);
-                // 可选 不播放声音，仅仅视觉
-            }
-        }
-        
-        // ---------- 键盘支持 (空格敲木鱼) ----------
-        function onKeyPress(e) {
-            if (e.code === 'Space') {
+        })
+
+        document.addEventListener("keydown",e=>{
+            if(current >= totalQuestion) return;
+            const pageDom = pages[current];
+            const opts = pageDom.querySelectorAll(".option");
+            if(e.key === "ArrowLeft"){
                 e.preventDefault();
-                // 键盘触发的功德，没有真实点击坐标，取屏幕中央偏上
-                if (stage) {
-                    const rect = stage.getBoundingClientRect();
-                    const fakeX = rect.left + rect.width/2;
-                    const fakeY = rect.top + rect.height/2;
-                    incrementMerit(e, fakeX, fakeY);
-                } else {
-                    incrementMerit(e, null, null);
+                if(current>0){
+                    current--;
+                    showPage(current);
                 }
             }
-        }
-        
-        // ---------- 触摸/鼠标事件绑定 保证PC与移动端 ----------
-        function bindEvents() {
-            const canvasWrap = stage; // 整个木鱼区域可点，canvas区域也是触发区
-            // 鼠标事件
-            canvas.addEventListener('click', (e) => {
-                e.stopPropagation();
-                knockHandler(e);
-            });
-            // 触摸事件移动端
-            canvas.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                knockHandler(e);
-            });
-            // 空格监听
-            window.addEventListener('keydown', onKeyPress);
-            // 重置按钮
-            resetBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                resetMerit();
-            });
-            // 避免canvas上的事件冒泡重复 (无碍)
-        }
-        
-        // 在页面加载时准备好音频上下文但不启动 (首次敲击自动启动声音)
-        // 优雅预初始化audioCtx但不播放, 以方便后续用户手势后及时出声
-        function preInitAudio() {
-            // 仅创建对象，但不resume (等待用户点击)
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx && audioCtx.state === 'running') {
-                    // 极少数浏览器自动运行，保持，但一般suspended
+            if(e.key === "1") opts[0].click();
+            if(e.key === "2") opts[1].click();
+        })
+
+        function calcResult(){
+            let e=0,i=0,s=0,n=0,t=0,f=0,j=0,p=0;
+            answers.forEach(v=>{
+                switch(v){
+                    case "E": e++;break;
+                    case "I": i++;break;
+                    case "S": s++;break;
+                    case "N": n++;break;
+                    case "T": t++;break;
+                    case "F": f++;break;
+                    case "J": j++;break;
+                    case "P": p++;break;
                 }
+            })
+            const totalEI = e+i;
+            const totalSN = s+n;
+            const totalTF = t+f;
+            const totalJP = j+p;
+            const ePercent = Math.round(e / totalEI *100);
+            const iPercent = 100 - ePercent;
+            const sPercent = Math.round(s / totalSN *100);
+            const nPercent = 100 - sPercent;
+            const tPercent = Math.round(t / totalTF *100);
+            const fPercent = 100 - tPercent;
+            const jPercent = Math.round(j / totalJP *100);
+            const pPercent = 100 - jPercent;
+
+            document.getElementById("eiText").innerText = `${ePercent}% / I ${iPercent}%`;
+            document.getElementById("eBar").style.width = ePercent+"%";
+            document.getElementById("iBar").style.width = iPercent+"%";
+
+            document.getElementById("snText").innerText = `${sPercent}% / N ${nPercent}%`;
+            document.getElementById("sBar").style.width = sPercent+"%";
+            document.getElementById("nBar").style.width = nPercent+"%";
+
+            document.getElementById("tfText").innerText = `${tPercent}% / F ${fPercent}%`;
+            document.getElementById("tBar").style.width = tPercent+"%";
+            document.getElementById("fBar").style.width = fPercent+"%";
+
+            document.getElementById("jpText").innerText = `${jPercent}% / P ${pPercent}%`;
+            document.getElementById("jBar").style.width = jPercent+"%";
+            document.getElementById("pBar").style.width = pPercent+"%";
+
+            let type = "";
+            type += e >= i ? "E":"I";
+            type += s >= n ? "S":"N";
+            type += t >= f ? "T":"F";
+            type += j >= p ? "J":"P";
+            const info = mbtiData[type];
+            const resultWrap = document.querySelector('[data-index="25"]');
+            resultWrap.className = "page " + info.group;
+            resultType.innerText = info.name;
+            sloganDom.innerText = info.slogan;
+            resultContent.innerHTML = `
+<h4>✨性格解读</h4>
+${info.good}<br><br>
+${info.bad}<br><br>
+${info.job}<br><br>
+<h4>💼职场建议</h4>
+${info.adviceWork}<br><br>
+<h4>🤍相处建议</h4>
+${info.adviceLove}
+            `;
+            lastShareText = `【我的MBTI测试结果】
+类型：${info.name}
+一句话标签：${info.slogan}
+E外向：${ePercent}%｜I内向：${iPercent}%
+S实感：${sPercent}%｜N直觉：${nPercent}%
+T思考：${tPercent}%｜F情感：${fPercent}%
+J判断：${jPercent}%｜P感知：${pPercent}%
+${info.good}
+${info.bad}
+快来一起测测你的MBTI！`;
+            saveHistory({type:info.name});
+        }
+
+        copyBtn.onclick = async function(){
+            try{
+                await navigator.clipboard.writeText(lastShareText);
+                showToast("✅复制成功");
+            }catch(err){
+                fallbackText.value = lastShareText;
+                copyFallback.style.display="block";
             }
         }
-        
-        // 为了增强iOS体验，在任意body首次触摸时提前激活音频上下文，但同时不影响游戏流程(可选)
-        let audioActivated = false;
-        function activeAudioOnFirstTouch() {
-            if (audioActivated) return;
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume().then(() => {
-                    audioActivated = true;
-                }).catch(e=>{});
-            } else if (!audioCtx) {
-                initAudioContext();
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                audioActivated = true;
-            } else {
-                audioActivated = true;
+
+        saveImgBtn.onclick = async function(){
+            try{
+                const target = document.querySelector('[data-index="25"]');
+                const canvas = await html2canvas(target,{
+                    useCORS:true,
+                    scale:2
+                });
+                const link = document.createElement("a");
+                link.download = "MBTI结果.png";
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                showToast("✅图片已保存");
+            }catch(e){
+                showToast("❌生成图片失败，请检查网络");
             }
         }
-        // 当页面任意用户点击木鱼时会自动激活音频，但为了提前激活，绑定舞台的第一次触摸/鼠标down?但会影响到首次声音延迟略高，不过无伤大雅
-        // 最佳：首次点击木鱼时内部playSound会执行resume，确保可以。
-        // 但为了保险，全局温柔监听一次任何触摸点击就尝试激活音频（不干扰计数）
-        function warmAudio() {
-            const warmup = () => {
-                if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume().catch(()=>{});
-                }
-                document.removeEventListener('touchstart', warmup);
-                document.removeEventListener('mousedown', warmup);
-            };
-            document.addEventListener('touchstart', warmup);
-            document.addEventListener('mousedown', warmup);
+
+        historyBtn.onclick = function(){
+            renderHistory();
+            historyPanel.style.display="block";
         }
-        
-        // 初始化所有
-        function init() {
-            setCanvasSize();
-            bindEvents();
-            preInitAudio();
-            warmAudio();        // 轻唤醒音频，让第一次敲击声音更快
-            // 窗口尺寸调整无需重绘canvas内容 (固定分辨率)
-            window.addEventListener('resize', () => {
-                // canvas绘制不变，无需操作
-            });
-            // 附加额外点击canvas波纹优化
+
+        restartBtn.onclick = function(){
+            current = 0;
+            answers = [];
+            showPage(current);
         }
-        
-        init();
-    })();
-</script>
+
+        function showToast(msg){
+            toast.innerText = msg;
+            toast.style.display="block";
+            setTimeout(()=>toast.style.display="none",2000);
+        }
+
+        showPage(current);
+    </script>
 </body>
 </html>
